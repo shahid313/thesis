@@ -1,0 +1,70 @@
+\chapter{Introduction}\label{ch:intro}
+
+Human cognition relies on the ability to sense, process, and understand the surrounding environment and its sounds.
+Although the skill of listening and understanding their origin is so natural for living beings, it still results in a very challenging task for computers. In recent years several novel methods have been proposed to analyze this information automatically, and several new applications have emerged \cite{virtanen2018computational}. However, the creation of ``machine listening'' algorithms that can mimic this cognitive feature by means of artificial systems remains a very challenging task. 
+
+In recent years, the automatic recognition of sound events and scenes have received the interest from the computational auditory scene analysis community, due to their potential in several engineering applications. Indeed, these technologies can have a considerable impact in a wide range of applications where sound or sound sensing is advantageous with respect to other modalities. 
+
+%TODO: citare audio analytics and extend
+
+This is the case of acoustic surveillance \cite{crocco2016audio}, healthcare monitoring \cite{peng2009healthcare, foggia2015reliable} or urban sound analysis \cite{salamon2017deep}, where the short duration of certain events (i.e., a human fall, a gunshot or a glass breaking) or the personal privacy motivate the exploitation of the audio information rather than, e.g., the image processing. 
+In addition, audio processing is often less computationally demanding compared to other multimedia domains, %for a content-based indexing and retrieval, 
+thus embedded devices can be easily equipped with microphones and sufficient computational capacity to locally process the signal captured. 
+These could be smart home devices for home automation purposes or sensors for wildlife and biodiversity monitoring (i.e., bird calls detection \cite{grill2017two}).
+
+
+The type of information to be extracted with these algorithms depends on the application. In particular, we can sort the sound analysis tasks explored in this work into two high-level categories: sound event \textit{detection} and sound event \textit{classification}.
+In sound event detection (SED), or acoustic event detection, the goal is to detect the onset and offset times for a variety of sound events captured in an audio recording.
+has the aim to. Basically, a SED algorithm is designed and  for each of these events.
+In sound event classification, the goal is to categorize an audio recording into one of a set of predefined categories by associating a textual descriptor.
+
+
+
+
+In controlled laboratory conditions where the data used to develop computational
+sound scene and event analysis methods matches well with the test data, it is possible
+to achieve relatively high accuracies in the detection and classification of sounds. There also exist commercial products that can recognize certain specific sound
+categories in realistic environments [10]. However, current technologies are not able
+to recognize a large variety of different types of sounds in realistic environments.
+There are several challenges in computational sound analysis.
+SED algorithms in a real-life scenario face many challenges, mainly related to the acoustics of sound scenes and events.
+%TODO; integrare ed estendere
+These challenges include simultaneous events, environmental noise and events of the same class produced by different sources \cite{stowell2015acoustic}. Since multiple events are very likely to overlap, a \textit{polyphonic} SED algorithm, i.e., an algorithm able to detect multiple simultaneous events, needs to be designed.
+Finally, the effects of noise and intra-class variability represent further challenges for SED in real-life situations. 
+
+\subsection{State of the Art}
+Most of the computational analysis systems dealing with realistic sounds are
+based on the supervised machine learning approach, where the system is trained
+using labeled examples of sounds from each of target sound type.
+Traditionally, the polyphonic acoustic event analysis has been approached with statistical modelling methods, including Hidden Markov Models (HMM) \cite{degara2011onset}, Gaussian Mixture Models (GMM) \cite{heittola2010audio}, Non-negative Matrix Factorization (NMF) \cite{carabias2011musical} and support vector machines (SVM) \cite{guo2003content}. In the recent era of the ``Deep Learning'', different neural network architectures have been successfully used for sound event detection and classification tasks, including feed-forward neural networks (FNN) \cite{mcloughlin2015robust}, deep belief networks \cite{mohamed2012acoustic}, convolutional neural networks (CNNs) \cite{piczak2015environmental} and Recurrent Neural Networks (RNNs) \cite{graves2013speech}. In addition, these architectures laid the foundation for end-to-end systems \cite{trigeorgis2016adieu, wu2017end}, in which the feature representation of the audio input is automatically learnt from the raw audio signal waveforms. 
+
+\section{The Deep Learning Approach for Sound Event Detection and Classification}
+The use of deep learning models has been motivated by the increased availability of datasets and computational resources and resulted in significant performance improvements. %, outperforming in most of the cases the human accuracy \cite{sailor2017unsupervised}.
+The methods based on CNNs and RNNs have established the new state-of-the-art performance on the SED task, thanks to the capabilities to learn the non-linear relationship between time-frequency features of the audio signal and a target vector representing sound events. In \cite{espi2015}, the authors show how ``local'' patterns can be learned by a CNN and can be exploited to improve the performance of detection and classification of non-speech acoustic events occurring in conversation scenes, in particular compared to a FNN-based system which processes multiple resolution spectrograms in parallel. 
+
+The combination of the CNN structure with recurrent units has increased the detection performance by taking advantage of the characteristics of each architecture. This is the case of convolutional recurrent neural networks (CRNNs) \cite{cakir2017convolutional}, which provided state-of-the-art performance especially in the case of polyphonic SED. CRNNs consolidate the CNN property of local shift invariance with the capability to model short and long term temporal dependencies provided by the RNN layers. This architecture has been also employed in almost all of the most performing algorithms proposed in the recent editions of research challenges such as the IEEE Audio and Acoustic Signal Processing (AASP) Challenge on  Detection and Classification of Acoustic Scenes and Events (DCASE) \cite{DCASE2017Workshop}. On the other hand, if the datasets are not sufficiently large, problems such as overfitting can be encountered with these models, which typically are composed of a considerable number of free-parameters (i.e., more than 1M). 
+
+Encouraging polyphonic SED performance have been obtained using CapsNets in preliminary experiments conducted on the Bird Audio Detection task in occasion of the DCASE 2018 challenge \cite{vesperini2018capsule}, confirmed by the results reported in \cite{iqbal2018capsule}.
+The CapsNet \cite{sabour2017dynamic} is a recently proposed architecture for image classification and it is based on the grouping of activation units into novel structures introduced in \cite{hinton2011transforming}, named \textit{capsules}, along with a procedure called dynamic routing. The capsule has been designed to represent a set of properties for an entity of interest, while dynamic routing is included to allow the network to implicitly learn global coherence and to identify part-whole relationships between capsules.
+% thereby improving the performance in 
+
+The authors of \cite{sabour2017dynamic} show that CapsNets outperform state-of-the-art approaches based on CNNs for digit recognition in the MNIST dataset case study.
+They designed the CapsNet to learn how to assign the suited partial information to the entities that the neural network has to predict in the final classification. This property should overcome the limitations of solutions such as max-pooling, currently employed in CNNs to provide local translation invariance, but often reported to cause an excessive information loss. Theoretically, the introduction of the dynamic routing can supply invariances for any property captured by a capsule, allowing also to adequately train the model without requiring extensive data augmentation or dedicated domain adaptation procedures.
+
+
+\subsection{Problem statement}
+The whole system is composed of a feature extraction stage and a detection stage. The feature extraction stage transforms the audio signal into acoustic spectral features, while the second stage processes these features to detect the onset and offset times of specific sound events.
+In this latter stage we include the capsule units. The network parameters are obtained by supervised learning using annotations of sound events activity as target vectors. We have evaluated the proposed method against three datasets of real-life recordings and we have compared its performance both with the results of experiments with a traditional CNN architecture, and with the performance of well-established algorithms which have been assessed on the same datasets.
+
+The aim of polyphonic SED is to find and classify any sound event present in an audio signal. The algorithm we propose is composed of two main stages: sound representation and polyphonic detection. In the sound representation stage, the audio signal is transformed in a two-dimensional time-frequency representation to obtain, for each frame $t$ of the audio signal, a feature vector $\mathbf{x}_t \in \mathbb{R}^F$, where $F$ represents the number of frequency bands. 
+
+Sound events possess temporal characteristics that can be exploited for SED, thus certain events can be efficiently distinguished by their time evolution. Impulsive sounds are extremely compact in time (e.g., gunshot, object impact), while other sound events have indefinite length (i.e., wind blowing, people walking). Other events can be distinguished from their spectral evolution (e.g., bird singing, car passing by). Long-term time domain information is very beneficial for SED and motivates for the use of a temporal \textit{context} allowing the algorithm to extract information from a chronological sequence of input features. Consequently, these are presented as a context window matrix $\mathbf{X}_{t:t+T-1} \in \mathbb{R}^{T \times F \times C}$, where $T\in \mathbb{N}$ is the number of frames that defines the sequence length of the temporal context, $F\in \mathbb{N}$ is the number of frequency bands and $C$ is the number of audio channels. Differently, the target output matrix is defined as $\mathbf{Y}_{t:t+T-1} \in \mathbb{N}^{T \times K}$, where $K$ is the number of sound event classes.
+
+In the SED stage, the task is to estimate the probabilities $p(\mathbf{Y}_{t:t+T-1}| \mathbf{X}_{t:t+T-1},  \boldsymbol{\theta}) \in \mathbb{R}^{T \times K}$, % for the $K$ event classes, %$k = 1,2,\dots,K$
+where $ \boldsymbol{\theta}$ denotes the parameters of the neural network.
+The network outputs, i.e., the event activity probabilities, are then compared with a threshold in order to obtain event activity predictions $\mathbf{\hat{Y}}_{t:t+T-1}  \in \mathbb{N}^{T \times K}$.
+The parameters $ \boldsymbol{\theta}$  are trained by supervised learning, using the frame-based annotation of the sound event class as target output, thus, if class $k$ is active during frame $t$, $Y(t,k)$ is equal to 1, and is set to 0 otherwise. The case of polyphonic SED implies that this target output matrix can have multiple non-zero elements $K$ in the same frame $t$, since several classes can be simultaneously present. 
+
+Indeed, polyphonic SED can be formulated as a multi-label classification problem in which the sound event classes are detected by multi-label annotations over consecutive time frames. The onset and offset time for each sound event are obtained by combining the classification results over consequent time frames. The trained model will then be used to predict the activity of the sound event classes in an audio stream without any further post-processing operations and prior knowledge on the events locations.
+
+

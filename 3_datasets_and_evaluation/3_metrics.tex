@@ -1,0 +1,23 @@
+\section{Evaluation Metrics}
+
+In this work we used the Error Rate (ER) as primary evaluation metric to ensure comparability with the reference systems. In particular, for the evaluations on the TUT-SED 2016 and 2017 datasets we consider a segment-based ER with a one-second segment length, while for the TUT-Rare 2017 the evaluation metric is event-based error rate calculated using onset-only condition with a collar of 500 ms. 
+In the segment-based ER the ground truth and system output are compared in a fixed time grid, thus sound events are marked as active or inactive in each segment. For the event-based ER the ground truth and system output are compared at event instance level.
+
+ER score is calculated in a single time frame of one second length from intermediate statistics, i.e., the number of substitutions ($S(t_1)$), insertions ($I(t_1)$), deletions ($D(t_1)$) and active sound events from annotations ($N(t_1)$) for a segment $t_1$. Specifically:
+\begin{enumerate}
+	
+	\item Substitutions $S(t_1)$ are the number of ground truth events for which we have a false positive and one false negative in the same segment; %, thus: $S(t_1) = \min(FN(t_1),FP(t_1))$;
+	
+	\item Insertions $I(t_1)$ are events in system output that are not present in the ground truth, thus the false positives which cannot be counted as substitutions;%: $I(t_1) = \max(0,FN(t_1)-FP(t_1))$;
+	
+	\item Deletions $D(t_1)$ are events in ground truth that are not correctly detected by the system, thus the false negatives which cannot be counted as substitutions;%: $D(t_1)= \max(0,FP(t_1)-FN(t_1))$.
+	
+\end{enumerate}
+These intermediate statistics are accumulated over the segments of the whole test set to compute the evaluation metric ER. Thus, the total error rate is calculated as:
+\begin{equation}
+ER = \frac{\sum_{t_1=1}^{T} S(t_1) + \sum_{t_1=1}^{T} I(t_1) + \sum_{t_1=1}^{T} D(t_1)}{\sum_{t_1=1}^{T} N(t_1)},
+\end{equation}
+where $T$ is the total number of segments $t_1$.
+
+If there are multiple scenes in the dataset, such as in the TUT-SED 2016, evaluation metrics are calculated for each scene separately and then the results are presented as the average across the scenes.
+A detailed and visualized explanation of segment-based ER score in multi label setting can be found in \cite{mesaros2016metrics}.
