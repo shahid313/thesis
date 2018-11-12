@@ -1,64 +1,55 @@
-\subsection{Deep Neural Network architectures for for Analysis of Sound Scenes and Events}
+\section{The Artificial Neural Networks}
 
-%\textbf{ndRob} to complete, 3 pages with figures
-%\begin{itemize}
-%\item formula (notazione matriciale) del calcolo output di ogni rete
-%\end{itemize}
+The human brain is composed of a big set of specialized cells (\textit{neurons}) connected among them, which memorize and process information, thus controlling the body activities they belong to as depicted in \figref{fig:brain}. The human brain is probably the most remarkable result of evolution for its ability to elaborate information. 
+The Artificial Neural Networks are mathematical models that represent the interconnection between elements defined "Artificial Neurons", mathematical constructs that somehow imitate the properties of biological neurons, going to reproduce the functioning of the human nervous system.
 
-A \textit{biological Neural Networks} is a big set of specialized cells (\textit{neurons}) connected among them, which memorize and process information, thus controlling the body activities they belong to.
+\subsection{The Human Nervous System} 
 
 \begin{figure}[t]
 \centering
 \includegraphics[width=0.65\linewidth]{img/Brain}
 \caption{The human brain.}
-%\label{vv}
+\label{fig:brain}
 \end{figure}
 
-The \textit{neuron} model is composed of:
-\begin{itemize}
-\item DENDRITE: input terminal
-\item CELL BODY (Nucleus): processing core
-\item AXON: output way-out
-\item SYNAPSES: output terminal (with weight)
-\end{itemize}
-
-%The Biological neurons are electro-chemical devices, operating at low rates ($\approx mses$).
-%Digital circuits operate at very high rates ($\approx nsec$).
+The biological neuron is composed of three main parts: the cell body is named \textit{Soma}, which is the calculation unit, the \textit{Axon}, that acts as a transmission line output and the \textit{Dendrites}, that are receptive areas and that receive input signals from other axons via the syurons. The cell body performs a weighted sum (integration) of the input signals. If the result exceeds a certain threshold value then the neuron is active and the \textit{action potential}  is produced and transmitted through the Axon. If the result does not exceed the threshold valuem, the napses. 
+Synapses are the functional units of the elementary structure that manages the iterations between neneuron remains in a state of rest. 
+The Biological neurons (\figref{fig:neuron}) are electro-chemical devices, operating at low rates (approximately in the order of milliseconds), while digital circuits operate at very high rates (nanoseconds).
 
 \begin{figure}[t]
 \centering
 \includegraphics[width=0.4\linewidth]{img/neuron_model}
 \caption{The neuron model.}
-%\label{aa}
+\label{fig:neuron}
 \end{figure}
 
 The \textit{neuron} properties can be described in:
 \begin{itemize}
-\item LOCAL SIMPLICITY: the neuron receives stimuli (excitation or inhibition) from dendrites and produces an impulse to the axon which is proportional to the weighted sum of the inputs;
-\item GLOBAL COMPLEXITY: the human brain possess 
+\item \textit{local simplicity}: the neuron receives stimuli (excitation or inhibition) from dendrites and produces an impulse to the axon which is proportional to the weighted sum of the inputs;
+\item \textit{global complexity}: the human brain possess 
 $\mathcal{O}(10^{10})$ 
 neurons, with more than 10K connections each;
-\item LEARNING: even though the network topology is relatively fixed, the strength of connections (synaptic weights) can change when the network is exposed to external stimuli;
-\item DISTRIBUTED CONTROL: no centralized control, each neuron reacts only to its own stimuli;
-\item TOLERANCE TO FAILURES: performance slowly decrease with the increase of failures.
+\item \textit{learning}: even though the network topology is relatively fixed, the strength of connections (synaptic weights) can change when the network is exposed to external stimuli;
+\item \textit{distributed control}: no centralized control, each neuron reacts only to its own stimuli;
+\item \textit{tolerance to failures}: performance slowly decrease with the increase of failures.
 \end{itemize}
 
 The biological Neural Networks are able to solve very complex tasks in few time instants (like memorization, recognition, association, and so on.)
 
+\subsection{Fundamentals of the Artificial Neural Networks} 
+
+An artificial neural network (ANN), is a mathematical/informatical model calculation based on biological neural networks.
+This model is constituted by a group of interconnections of information consisting of artificial neurons and processes using a connectionist approach to computation. In most cases, an artificial neural network is an adaptive system that changes its structure, which is based on external or internal information that flows through the network during the learning phase. 
+In practical terms neural networks are non-linear structures of statistical data organized as modeling tools.
+They can be used to simulate the complex relationships between inputs and outputs that other analytic functions fail to represent.
+An artificial neural network receives external signals on a layer of nodes (processing unit) input, each of which is connected with a number of internal nodes, organized in several levels. Each node processes the received signals performing a very simple task  and transmits the result to subsequent nodes. 
+
 \begin{figure}[t]
-\centering
-\includegraphics[width=0.4\textwidth]{img/ANN}
-\caption{The Artificial Neural Network.}
-%\label{aa}
+	\centering
+	\includegraphics[width=0.4\textwidth]{img/ANN}
+	\caption{The Artificial Neural Network.}
+	\label{fig:ANN}
 \end{figure}
-
-The \textit{Artificial Neural Networks} (ANNs) are defined as \textit{Massively parallel distributed processors made up of simple processing units having a natural propensity for storing experiential knowledge and making it available for use} (Haykin, 2008).
-
-An ANN resembles the brain in two aspects:
-\begin{enumerate}
-\item Knowledge is acquired by the network from its environment through a learning process;
-\item Synaptic weights are used to store the acquired knowledge.
-\end{enumerate}
 
 A \textit{neuron} is an information-processing unit that is fundamental to the operation of a neural network.
 The model of a neuron is composed of three basic elements of the neural model:
@@ -211,6 +202,7 @@ The types of \textit{activation non-linear functions} $\varphi(x)$ are:
 %\end{itemize}
 
 % *********************************************************+
+\subsection{Deep Neural Network architectures for for Analysis of Sound Scenes and Events}
 
 The manner in which the neurons of a neural network are structured is intimately linked with the learning algorithm used to train the network. % Therefore, the learning algorithms (rules) used in the design of neural networks as being structured.
 There, the \textit{network architectures} (structures) is defined.
