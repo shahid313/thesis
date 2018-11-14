@@ -125,12 +125,12 @@ network architecture may be used in each of these tasks:
 \end{itemize}
 
 % *********************************************************+
-\subsection{Deep Neural Network architectures for Analysis of Sound Events}
+\section{Deep Neural Network architectures for Analysis of Sound Events}
 
 The manner in which the neurons of a neural network are structured is intimately linked with the task they are designed for. Hereafter, a brief description of the neural network architectures employed in this work for the analysis of sound events is provided.
 
 
-\subsubsection{Multi Layer Perceptron (MLP)}
+\subsection{Multi Layer Perceptron (MLP)}
 
 \begin{figure}[h]
 	\centering
@@ -164,7 +164,7 @@ Regarding the computational complexity, considering additions and multiplication
 \end{equation}
 where $P$ is the number of layers, and $Q_i$ denotes the number of units of layer $i$. The first term, considers the number of operations for a linear unit, while the second term considers the operations required by the ReLU activation function (i.e., the maximum operation).
 
-\subsubsection{Convolutional Neural Networks (CNN)}
+\subsection{Convolutional Neural Networks (CNN)}
 \begin{figure}[h]
 	 \centering
 	 \label{fig:cnn}
@@ -217,7 +217,7 @@ where the first term of the sum considers the number of operations required for 
 The total number of operations per layer can be calculated by multiplying the expressions in \eqref{eq:cost_fmap} and \eqref{eq:cost_mp} by the number of kernels and summing the contributions. Finally, the total number of operations of the CNN can be obtained by summing the individual contributions of the convolutional layers and of the fully connected layers.
 
 
-\subsubsection{Siamese Neural Networks}
+\subsection{Siamese Neural Networks}
 
 The Siamese Neural Network is an architecture able to learn a latent representation of a given input. In particular, a SNN is composed of two twin networks with binded weights. A pair of inputs is provided to the system, one to each twin network. Downstream, the network maps these inputs into two different representation vectors. Then, a certain type of distance between those two representations is computed. The euclidean distance is typically used. 
 
@@ -232,37 +232,42 @@ Loss = (1 - Y)\frac{1}{2}(E_w)^2 + (Y)\frac{1}{2}\{(max(0, m - E_w)\}^2 .
 \end{equation}\\
 Here the parameter $m > 0$ is the \textit{margin} that allows only negative examples whose distance is less than the radius defined by $m$ itself, to contribute to the loss function.
 In this way the system should be able to learn embedded features allowing classification even of the unseen rare sound event such as human fall.
-%TODO Cite paper Diego
-%Dire che questo tipo di approccio, dovendo combinare in ingesso gli esempi a disposizione, permette un aumento del trainset, vantaggioso nel caso in cui si opera con dataset piccoli.
-%Our Siamese network has been trained on a corpus of labelled object fall events and not including any human fall. Pairs of events belonging to the same class correspond to the positive examples while pairs of events belonging to the different class a negative one as explained in section \ref{sec:dataselection}. In particular, the term few-shot comes from the fact that although, in this case study, human falls have not been used for training, some of them are used in the optimization phase, before the final test.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.7\textwidth]{img/Siamese_approach}
+	\caption[Siamese DNN]{Siamese Neural Networks used for sound event analysis}
+	\label{fig:siamese}
+\end{figure}
 
 
-\subsubsection{Recurrent Neural Networks (RNN)}
 
-RNNs are a particular neural architecture designed to make use of the information obtained from prior network states, therefore giving the network the capability to ``remember'' past context information. This feature is obtained by adding a set of recursive connections going from and to each hidden neuron. Due this characteristic, the output is now computed only after a batch of input frames are forwarded into the network so that the final decision will rely on the correlation between different adjacent frames.
+\subsection{Recurrent Neural Networks (RNN)}
 
-LE più usate in ambito audio sono le LSTM e le GRU
+The Recurrent Neural Networks (RNN)s are a particular neural architecture designed to make use of the information obtained from prior network states, therefore giving the network the capability to ``remember'' past context information. This feature is obtained by adding a set of recursive connections going from and to each hidden neuron. Due this characteristic, the output is now computed only after a batch of input frames are forwarded into the network so that the final decision will rely on the correlation between different adjacent frames. Indeed, these characteristics place the RNNs in close connection with the audio processing, due to the sequential nature of the signal, which depends of its temporal evolution.
+In practice, two are the typologies which have been highly employed in addition to the ``standard'' RNNs: the network based on the Long Short Term Memory (LSTM) units and on the Gated Recurrent Unit (GRU). Both of these architectures rely on computational units which act as memory blocks, thus they are able to encapsulate mid-long term characteristics of the audio signal.
+In addition to the memory blocks, the bidirectional RNNs~\cite{schuster1997bidirectional} are also common architectures.
+A bidirectional RNN can access context from both temporal directions, which makes it suitable i.e. for speech recognition, where whole utterances are decoded. This is achieved by processing the input data in both directions with two separate hidden layers.
+Both hidden layers are then fed to the output layer.
 
-The second neural network type we employed is the LSTM RNN \cite{Hochreiter97-LST}.
-Compared to a conventional RNN, the hidden units are replaced by so-called memory blocks.
+\subsubsection{LSTM} Compared to a conventional RNN, in the LSTM RNN \cite{Hochreiter97-LST} the hidden units are replaced by so-called memory blocks.
 These memory blocks can store information in the `cell variable' $\boldsymbol{c}_t$.
 In this way, the network can exploit long-range temporal context.
-Each memory block consists of a memory cell and three gates: the input gate, output gate, and forget gate, as depicted in Fig.\ \ref{fig:lstm}.
+Each memory block consists of a memory cell and three gates: the input gate, output gate, and forget gate, as depicted in \figref{fig:lstm}.
 
-%\begin{figure}[h]
-%	\centerline{\includegraphics[scale=0.4]{images/lstm}}
-%	\caption{Long Short-Term Memory block, containing a memory cell and the input, output, and forget gates}
-%	\label{fig:lstm}
-%\end{figure}
-%\vspace{0.5cm}
-
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.7\textwidth]{img/lstm}
+	\caption[LSTM]{Long Short-Term Memory block, containing a memory cell and the input, output, and forget gates}
+	\label{fig:lstm}
+\end{figure}
 
 These gates control the behaviour of the memory block.
-%The activation vector of each gate is computed as, for example for the input gate,
-%\begin{equation}
-%\boldsymbol{i}_t = \tanh(\boldsymbol{W}_{xi}\boldsymbol{x}_t + \boldsymbol{W}_{hi}\boldsymbol{h}_{t-1} + \boldsymbol{W}_{ci}\boldsymbol{c}_{t-1} + \boldsymbol{b}_i).
-%\label{eq:lstmgate}
-%\end{equation}
+The activation vector of each gate is computed as, for example for the input gate,
+\begin{equation}
+\boldsymbol{i}_t = \tanh(\boldsymbol{W}_{xi}\boldsymbol{x}_t + \boldsymbol{W}_{hi}\boldsymbol{h}_{t-1} + \boldsymbol{W}_{ci}\boldsymbol{c}_{t-1} + \boldsymbol{b}_i).
+\label{eq:lstmgate}
+\end{equation}
 The forget gate can reset the cell variable which leads to `forgetting' the stored input $\boldsymbol{c}_t$,
 while the input and output gates are responsible for reading input from $\boldsymbol{x}_t$ and writing output to $\boldsymbol{h}_t$, respectively:
 \begin{equation}
@@ -273,36 +278,33 @@ while the input and output gates are responsible for reading input from $\boldsy
 \boldsymbol{h}_t = \boldsymbol{o}_t \otimes \tanh (\boldsymbol{c}_t)
 \label{eq:lstmoutput}
 \end{equation}
-where $\otimes$ denotes element-wise multiplication and $\tanh$ is also applied in an element-wise fashion.
-The variables $\boldsymbol{i}_t$, $\boldsymbol{o}_t$, and $\boldsymbol{f}_t$ are the output of the input gates, output gates and forget gates, respectively, 
-$\boldsymbol{b}_c$ is a bias term, and $\boldsymbol{W}$ is a weight matrix.
+where $\otimes$ denotes element-wise multiplication and the activation function (here the $\tanh$) is also applied in an element-wise fashion.
+The variables $\boldsymbol{i}_t$, $\boldsymbol{o}_t$, and $\boldsymbol{f}_t$ are the output of the input gates, output gates and forget gates, respectively, $\boldsymbol{b}_c$ is a bias term, and $\boldsymbol{W}$ is a weight matrix.
 Each memory block can be regarded as a separate, independent unit.
-Therefore, the activation vectors $\boldsymbol{i}_t$, $\boldsymbol{o}_t$, $\boldsymbol{f}_t$, and $\boldsymbol{c}_t$ are all of the same size as $\boldsymbol{h}_t$, i.\,e., 
-the number of memory blocks in the hidden layer.
+Therefore, the activation vectors $\boldsymbol{i}_t$, $\boldsymbol{o}_t$, $\boldsymbol{f}_t$, and $\boldsymbol{c}_t$ are all of the same size as $\boldsymbol{h}_t$, i.\,e., the number of memory blocks in the hidden layer.
 Furthermore, the weight matrices from the cells to the gates are diagonal, which means that each gate depends only on the cell within the same memory block.
 
 
-In addition to LSTM memory blocks, we use bidirectional RNNs~\cite{schuster1997bidirectional}.
-A bidirectional RNN can access context from both temporal directions.
-%, which makes it suitable for speech recognition, where whole utterances are decoded.
-This is achieved by processing the input data in both directions with two separate hidden layers.
-Both hidden layers are then fed to the output layer.
-The combination of bidirectional RNNs and LSTM memory blocks leads to bidirectional LSTM RNNs \cite{Graves05-FPC},
-where context from both temporal directions is exploited.
-It has to be noted that, using bidirectional LSTM networks makes it impossible to use the system for on-line processing as a short look-ahead buffer is needed.
-
-In the recurrent block, the stacked features resulting from the last pooling layer are fed to layers composed of GRUs \cite{chung2014empirical}, where tanh and hard sigmoid activation functions are used for update and reset gates, respectively.
+\subsubsection{GRU} Gated recurrent units (GRUs) are a gating mechanism in recurrent neural networks, introduced in 2014 \cite{chung2014empirical}. Their performance on polyphonic music modeling and speech signal modeling was found to be similar to that of LSTMs. However, GRUs have been shown to exhibit better performance on smaller datasets. 
 GRU layers control the information flow through a gated unit structure, which depends on the layer input, on the activation at the previous frame and on the reset gate.
-%For frame t, the total activation of GRU layer is a linear
-%interpolation of previous activation h t−1 and the candidate activation ĥ t as
-%%$h t = u t · h t−1 + (1 − u t ) · ĥ tù$ where u t denotes the update gate. 
-%Candidate activation ĥ t is a function of h t−1 , the GRU layer’s input x t and the reset gate r t . 
-% gRU activation is mainly controlled by reset gate when the GRU layer’s input x t is significantly different than in previous frames. When
-%reset gate is closed (r t = 0), the candidate activation does not include any contribution from h t−1 . 
-Fast response to the changes in the input and the previous activation information is fundamental for high performance in the proposed algorithm, where the task is to detect a small chunk of consecutive time frames where the target event is present. In addition, a previous work \cite{valenti2017neural} demonstrates improvements provided by recurrent architectures in the sound event detection in real-life audio.
+For frame $t$, the total activation of GRU layer is a linear interpolation of previous activation $h_{t-1}$ and the candidate activation $h_t$ as:
+\begin{equation}
+\boldsymbol{h}_t  = \boldsymbol{u}_t  \cdot \boldsymbol{h}_{t-1}  + (1 - \boldsymbol{u}_t ) \cdot \boldsymbol{h}_t ,
+\end{equation}
+where $\boldsymbol{u}_t$ denotes the update gate. 
+Candidate activation $\boldsymbol{h}_t$ is a function of $ \boldsymbol{h}_{t-1}$, the GRU layer’s input  $\boldsymbol{x}_{t}$ and the reset gate ${r}_{t}$. $tanh$ and $hard sigmoid$ activation functions are used for update and reset gates, respectively.
+GRU's activation is mainly controlled by reset gate when the GRU layer’s input $\boldsymbol{x}_{t}$ is significantly different than in previous frames. When reset gate is closed $r_{t} = 0$, the candidate activation does not include any contribution from $\boldsymbol{h}_{t-1}$. 
+Fast response to the changes in the input and the previous activation information is fundamental for high performance in the proposed algorithm, where the task is to detect a small chunk of consecutive time frames where the target event is present. 
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.6\textwidth]{img/GRU.png}
+	\caption[GRU]{The Gated Recurrent Unit, containing the input, output, and forget gates}
+	\label{fig:lstm}
+\end{figure}
 
 
-\subsubsection{Capsule Neural Networks (CapsNet)}
+\subsection{Capsule Neural Networks (CapsNet)}
 
 The CapsNet architecture relies on the CNN architecture and includes its computational units in the first layers of the network as invariant features extractor from the input hereafter referred as $\mathbf{X}$.
 Following Hinton's preliminary works \cite{hinton2011transforming}, in the CapsNet presented in \cite{sabour2017dynamic} two layers are divided into many small groups of neurons called \textit{capsules}. In those layers, the scalar-output feature detectors of CNNs are replaced with vector-output capsules and the dynamic routing, or \textit{routing-by-agreement} algorithm is used in place of max-pooling, in order to replicate learned knowledge across space. 
@@ -328,7 +330,7 @@ Capsules in the higher layers should comprehend capsules in the layer below in t
 In this work, we employ two layers composed of capsule units, and we denote them as Primary Capsules for the lower layer and Detection Capsules for the output layer throughout the rest of the paper.
 
 
-\paragraph{Dynamic Routing}
+\subsubsection{Dynamic Routing}
 \label{ssec:routing}
 
 After giving a qualitative description of routing, we describe the method used in \cite{sabour2017dynamic} to compute the coupling coefficients.
@@ -375,8 +377,7 @@ Thus, $\alpha_{ij}$ can be seen as the probability that the entity represented b
 %	\caption{The routing algorithm. Source taken from \cite{sabour2017dynamic}.}
 %\end{figure}
 
-\paragraph{Margin loss function}
-
+\subsubsection{Margin loss function}
 The length of the vector $\mathbf{v}_j$ is used to represent the probability that the entity represented by the capsule $j$
 exists.
 The CapsNet have to be trained to produce long instantiation vector at the corresponding $k_{th}$ capsule if the event that it represents is present in the input audio sequence.
@@ -393,170 +394,76 @@ The total loss is simply the sum of the losses of all the Detection Capsules.
 
 
 
-\subsection{Stochastic gradient descent (SGD)}
+\section{Optimization Algorithms}
 
-\subsection{Generalization techniques}
-%
-%Most deep learning training algorithms involve optimization of some sort.
-%The most widely used is the gradient based optimization, which belongs to the first order type.
-%
-%\textit{Optimization} is the task of either minimizing some function $f(x)$ by altering $x$:
-%$f(x)$ is called \textit{objective function}, but in the case when it has to be minimized, it is also call the \textit{cost function}, \textit{loss function}, or \textit{error function}.
-%The aim of the optimization is reached doing small change $\epsilon$ in the input $x$, to obtain the corresponding change in the output $f(x)$:
-%\begin{equation}
-%f(x+\epsilon) \approx f(x)+\epsilon\,f'(x).
-%\end{equation}
-%This formulation is based on the calculation of the derivative $f'(x)$.
-%The \textit{gradient descent} is the technique based on the reduction of $f(x)$ by moving $x$ in small steps with the opposite sign of the derivative.
-%The aim is to find the minimum of the cost function: when $f'(x)=0$, the derivative provides no information about which direction to move, therefore this point is defined as stationary points.
-%A local minimum is a point where $f(x)$ is lower than at all neighbouring and it is no longer possible to decrease $f(x)$ by making infinitesimal steps.
-%The absolute lowest value of $f(x)$ is a \textit{global minimum}.
-%
-%For the concept of minimization to make sense, there must still be only one (scalar) output.
-%For functions that have multiple inputs $f: \R^n \rightarrow \R$, the concept of \textit{partial derivatives} is introduced.
-%The gradient $\nabla_{\mathbf{x}}f(\mathbf{x})$ is the vector containing all the partial derivatives.
-%
-%The method of \textit{steepest descent} or \textit{gradient descent} states that decrease $f$ by moving in the direction of the negative gradient.
-%\begin{equation}
-%\textbf{x'} = \textbf{x} - \epsilon\,\nabla_{\mathbf{x}}f(\mathbf{x}),
-%\end{equation}
-%where $\epsilon$ is the \textit{learning rate}, a positive scalar determining the size of the step.
-%
-%Large training sets are necessary for good generalization, but large training sets are also more computationally expensive.
-%The cost function decomposes as a sum over training example of per-example loss function:
-%i.e., the negative conditional log-likelihood of the training data is defined as:
-%\begin{equation}
-%J(\mathbf{\theta}) = \mathbb{E}(L(\textbf{x}, y, \mathbf{\theta})) = \frac{1}{m} \sum\limits_{i=1}^{m} L(\textbf{x}^{(i)}, y^{(i)}, \mathbf{\theta}),
-%\end{equation}
-%where $L$ is the per-example loss $L(\textbf{x}, y, \mathbf{\theta}) = - \log p(y|\textbf{x};\mathbf{\theta})$.
-%The gradient descent requires computing:
-%\begin{equation}
-%\nabla_{\theta} J(\mathbf{\theta}) = \frac{1}{m} \sum\limits_{i=1}^{m} \nabla_{\theta} L(\textbf{x}^{(i)}, y^{(i)}, \mathbf{\theta}).
-%\end{equation}
-%The computational cost of this operation is proportional to the number of example $m$, therefore as the training set size grows the time to take a single gradient step becomes prohibitively long.
-%
-%\textit{Stochastic gradient descent} (SGD) is an extension of the gradient descent algorithm: the insight is that the gradient is an expectation estimated using a small set of samples.
-%On each step of the algorithm, a sample of example $\mathbb{B} = \{ \textbf{x}^{(1)}, \ldots, \textbf{x}^{(m')}\}$, called \textit{minibatch}, is drawn uniformly from the training set.
-%The minibatch size $m'$ is typically chosen to be a relatively small number of examples.
-%The estimate of the gradient is:
-%$\textbf{g} = \frac{1}{m'} \nabla_{\theta} \sum\limits_{i=1}^{m'} L(\textbf{x}^{(i)}, y^{(i)}, \mathbf{\theta})$
-%using examples from the minibatch $\mathbb{B}$.
-%The SGD algorithm then follows the estimated gradient downhill:
-%\begin{equation}
-%\theta \leftarrow \theta - \epsilon\,\textbf{g}
-%\end{equation}
-%where $\epsilon$ is the learning rate.
-%
-%%\textbf{ndRob} to be inserted: tipo di loss function MSE, come si calcola su uscita 
-%
-%%\textbf{ndRob} to complete, learning for FF e CNN (in slides)
-%
-%
-%
-%
-%\subsection{Autoencoder}
-%
-%%\textbf{ndRob} to complete, 1-2 pages with figures
-%%
-%%\begin{itemize}
-%%\item definition
-%%\item notazione matriciale
-%%\item denoising Auto Encoder (dAE)
-%%\end{itemize}
-%
-%
-%
-%An Autoencoder is a kind of neural network typically consisting of only one hidden layer, trained to set the target values to be equal to the inputs.
-%\begin{equation} %\label{eq:layer2}
-%  \tilde{x} = f(W_{2}h(x) +b_{2})
-%\end{equation}
-% 
-%%\begin{figure}
-%%\centering
-%%\includegraphics[width=0.65\textwidth]{img/basic_AE}
-%%%\label{ee}
-%%\caption{rr}
-%%\end{figure}
-%
-%
-%Given an input set of examples $\mathcal{X}$, autoencoder training consists
-%in finding parameters $\theta=\{W_{1},W_{2},b_{1},b_{2}\}$ that
-%minimize the Reconstruction Error:
-%\begin{equation}\label{eq:obAE}
-%  \mathcal{J}(\theta)=\sum_{x\in{\mathcal{X}}}\left\| x - \tilde{x}\right\|^{2}
-%\end{equation}
-%
-%Defining $M$ the number of hidden units, and $N$ the number of input units, output units, features size:
-%
-%\begin{figure}
-%\centering
-%\includegraphics[width=\columnwidth]{img/autoencoders}
-%\caption{The different types of Autoencoders.}
-%\label{fig:backg:dnn:AE}
-%\end{figure}
-%
-%\begin{itemize}
-%\item (a):  $M=N \rightarrow$ Basic Autoencoder (AE);
-%\item (b):  $M<N \rightarrow$ Compression Autoencoder (CAE);
-%\item (c):  $M>N$ and Gaussian Noise $\rightarrow$ Denoising Autoencoder (DAE);
-%\end{itemize}
-%
-%
-%%This section introduces the concepts of autoencoders and describes the basic autoencoder, compression autoencoder, de-noising autoencoder, and non-linear predictive autoencoder.
-%
-%
-%\subsubsection{Basic Autoencoder}
-%A basic AE -- a kind of neural network typically consisting of only one hidden layer --, sets the target values to be equal to the input. It is used to find common data representation from the input \cite{Goodfellow2009-MII,Bengio2007-GLT}. Formally, in response to an input example $x\in \mathbf{R}^{n}$, the hidden representation
-%$h(x) \in \mathbf{R}^{m}$ is 
-%\begin{equation} %\label{eq:layer1}
-%  h(x) = f(W_{1}x +b_{1}), 
-%\end{equation}
-%where $f(z)$ is a non-linear activation function, typically a logistic
-%sigmoid function $f(z) = 1/(1+\exp(-z)) $ applied component-wisely,
-%$W_{1} \in \mathbf{R}^{m \times n}$ is a weight matrix, and $b_{1} \in
-%\mathbf{R}^{m}$ is a bias vector.
-%
-%The network output maps the hidden representation $h$ back to a
-%reconstruction $\tilde{x} \in \mathbf{R}^{n}$:
-%\begin{equation} %\label{eq:layer2}
-%  \tilde{x} = f(W_{2}h(x) +b_{2}), 
-%\end{equation}
-%where $W_{2} \in \mathbf{R}^{n \times m}$ is a weight matrix, and $b_{2} \in
-%\mathbf{R}^{n}$ is a bias vector.
-%
-%Given an input set of examples $\mathcal{X}$, AE training consists
-%in finding parameters $\theta=\{W_{1},W_{2},b_{1},b_{2}\}$ that
-%minimise the reconstruction error, which corresponds to minimising
-%the following objective function:
-%\begin{equation} %\label{eq:obAE}
-%  \mathcal{J}(\theta)=\sum_{x\in{\mathcal{X}}}\left\| x -
-%    \tilde{x}\right\|^{2}.
-%\end{equation}
-%The minimisation is usually realised by stochastic gradient descent as
-%in the training of neural networks. The structure of the AE is given in \figref{fig:backg:dnn:AE}a.   
-%
-%\subsubsection{Compression Autoencoder}
-%In the case of having the number of hidden units $m$ smaller than the number of input units $n$, the network is forced to
-%learn a compressed representation of the input. For example, if some of the input features are correlated, then this compression autoencoder (CAE) is able to learn those correlations and reconstruct the input data from a compressed representation. The structure of the CAE is given in \figref{fig:backg:dnn:AE}b.
-%
-%\subsubsection{De-noising Autoencoder}\label{sssec:backg:dnn:dAE}
-%The de-noising AE (DAE) \cite{Vincent10-SDA} forces the hidden layer to retrieve more robust features and prevent it from simply learning the identity. In such a configuration the AE is trained to reconstruct the original input from a corrupted version of it. Formally, the initial input $x$ is corrupted by means of additive isotropic Gaussian noise in order to obtain: $x'|x \sim N(x,\sigma^2I)$. The corrupted input $x'$ is then mapped, as with the AE, to a hidden representation
-%\begin{equation} %\label{eq:layer11}
-%  h(x') = f(W'_{1}x' +b'_{1}), 
-%\end{equation}
-%from which the original signal is reconstructed as follows:
-%\begin{equation} %\label{eq:layer12}
-%  \tilde{x}' = f(W'_{2}x +b'_{2}). 
-%\end{equation}
-%The parameters $\theta'=\{W'_{1},W'_{2},b'_{1},b'_{2}\}$ are trained to minimise the average reconstruction error over the training set, to have $\tilde{x}'$ reach as close as possible to the uncorrupted input $x$, which corresponds to minimising the objective function in Equation \ref{eq:obAE}.
-%%%%%%%%%%%%%%%%%%%%%%%%%%
-%The structure of the de-noising autoencoder is shown in \figref{fig:backg:dnn:AE}c.
-%
-%
-%
-%
-%
-%%\textbf{ndRob} descrizione teorica dAE 1D, from paper Neural NILM, 
+Most deep learning training algorithms involve optimization of some sort.
+The most widely used is the gradient based optimization, which belongs to the first order type.
+\textit{Optimization} is the task of either minimizing some function $f(x)$ by altering $x$:
+$f(x)$ is called \textit{objective function}, but in the case when it has to be minimized, it is also call the \textit{cost function}, \textit{loss function}, or \textit{error function}.
+The aim of the optimization is reached doing small change $\epsilon$ in the input $x$, to obtain the corresponding change in the output $f(x)$:
+\begin{equation}
+f(x+\epsilon) \approx f(x)+\epsilon\,f'(x).
+\end{equation}
+This formulation is based on the calculation of the derivative $f'(x)$.
+The \textit{gradient descent} is the technique based on the reduction of $f(x)$ by moving $x$ in small steps with the opposite sign of the derivative.
+The aim is to find the minimum of the cost function: when $f'(x)=0$, the derivative provides no information about which direction to move, therefore this point is defined as stationary points.
+A local minimum is a point where $f(x)$ is lower than at all neighbouring and it is no longer possible to decrease $f(x)$ by making infinitesimal steps.
+The absolute lowest value of $f(x)$ is a \textit{global minimum}.
+For the concept of minimization to make sense, there must still be only one (scalar) output.
+For functions that have multiple inputs $f: \R^n \rightarrow \R$, the concept of \textit{partial derivatives} is introduced.
+The gradient $\nabla_{\mathbf{x}}f(\mathbf{x})$ is the vector containing all the partial derivatives.
+
+
+The method of \textit{steepest descent} or \textit{gradient descent} states that decrease $f$ by moving in the direction of the negative gradient.
+\begin{equation}
+\textbf{x'} = \textbf{x} - \epsilon\,\nabla_{\mathbf{x}}f(\mathbf{x}),
+\end{equation}
+where $\epsilon$ is the \textit{learning rate}, a positive scalar determining the size of the step.
+Large training sets are necessary for good generalization, but large training sets are also more computationally expensive.
+The cost function decomposes as a sum over training example of per-example loss function:
+i.e., the negative conditional log-likelihood of the training data is defined as:
+\begin{equation}
+J(\mathbf{\theta}) = \mathbb{E}(L(\textbf{x}, y, \mathbf{\theta})) = \frac{1}{m} \sum\limits_{i=1}^{m} L(\textbf{x}^{(i)}, y^{(i)}, \mathbf{\theta}),
+\end{equation}
+where $L$ is the per-example loss $L(\textbf{x}, y, \mathbf{\theta}) = - \log p(y|\textbf{x};\mathbf{\theta})$.
+The gradient descent requires computing:
+\begin{equation}
+\nabla_{\theta} J(\mathbf{\theta}) = \frac{1}{m} \sum\limits_{i=1}^{m} \nabla_{\theta} L(\textbf{x}^{(i)}, y^{(i)}, \mathbf{\theta}).
+\end{equation}
+The computational cost of this operation is proportional to the number of example $m$, therefore as the training set size grows the time to take a single gradient step becomes prohibitively long.
+
+
+\subsection{Stochastic Gradient Descent (SGD)}
+
+\textit{Stochastic gradient descent} (SGD) is an extension of the gradient descent algorithm: the insight is that the gradient is an expectation estimated using a small set of samples.
+On each step of the algorithm, a sample of example $\mathbb{B} = \{ \textbf{x}^{(1)}, \ldots, \textbf{x}^{(m')}\}$, called \textit{minibatch}, is drawn uniformly from the training set.
+The minibatch size $m'$ is typically chosen to be a relatively small number of examples.
+The estimate of the gradient is:
+$\textbf{g} = \frac{1}{m'} \nabla_{\theta} \sum\limits_{i=1}^{m'} L(\textbf{x}^{(i)}, y^{(i)}, \mathbf{\theta})$
+using examples from the minibatch $\mathbb{B}$.
+The SGD algorithm then follows the estimated gradient downhill:
+\begin{equation}
+\theta \leftarrow \theta - \epsilon\,\textbf{g}
+\end{equation}
+where $\epsilon$ is the learning rate.
+
+
+\section{Generalization techniques}
+
+In order to obtain more robust models, different techniques have been proposed to \textit{regularize} the weight update during the neural networks training. They have the aim to improve the generalization proprieties of the model, i.e., the ability to perform on newly unseen data as well as (in a reasonable manner) on the training set. A brief description of the most common techniques is given in the following paragraphs.
+
+\subsection{Dropout}
+
+Dropout is a regularization technique for reducing overfitting in neural networks by preventing complex co-adaptations on training data. It is a very efficient way of performing model averaging with neural networks. The term ``dropout'' refers to dropping out units (both hidden and visible) in a neural network.
+
+
+\subsection{Batch Normalization}
+To reduce this problem of internal covariate shift, Batch Normalization adds Normalization “layer” between each layers. An important thing to note here is that normalization has to be done separately for each dimension (input neuron), over the ‘mini-batches’, and not altogether with all dimensions. Hence the name ‘batch’ normalization.
+Due to this normalization “layers” between each fully connected layers, the range of input distribution of each layer stays the same, no matter the changes in the previous layer. Given x inputs from k-th neuron.
+
+
+Normalization brings all the inputs centered around 0. This way, there is not much change in each layer input. So, layers in the network can learn from the back-propagation simultaneously, without waiting for the previous layer to learn. This fastens up the training of networks.
+
 
 
 
