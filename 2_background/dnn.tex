@@ -135,7 +135,7 @@ The manner in which the neurons of a neural network are structured is intimately
 \begin{figure}[h]
 	\centering
 	\label{fig:ANN}
-	\includegraphics[width=0.4\textwidth]{img/ANN}
+	\includegraphics[width=0.9\textwidth]{img/mlp}
 	\caption{The MLP Neural Network.}
 \end{figure}
 
@@ -454,15 +454,24 @@ In order to obtain more robust models, different techniques have been proposed t
 
 \subsection{Dropout}
 
-Dropout is a regularization technique for reducing overfitting in neural networks by preventing complex co-adaptations on training data. It is a very efficient way of performing model averaging with neural networks. The term ``dropout'' refers to dropping out units (both hidden and visible) in a neural network.
+Dropout is a regularization technique for reducing overfitting in neural networks by preventing complex co-adaptations on training data. It is a very efficient way of performing model averaging with neural networks. The term ``dropout'' refers to the operation of randomly cutting off units during the training of a neural network.
 
-
+Pratically, during a training iteration, a percentage (drop-rate) of units for each layer where the the dropout is employed not are not updated. They are selected randomly at each new step, therefore it is like we were training a network with a different layout. This allows to prevent overfitting on the training data, making  the single units more robust to the conditions changing.
+ 
 \subsection{Batch Normalization}
-To reduce this problem of internal covariate shift, Batch Normalization adds Normalization “layer” between each layers. An important thing to note here is that normalization has to be done separately for each dimension (input neuron), over the ‘mini-batches’, and not altogether with all dimensions. Hence the name ‘batch’ normalization.
-Due to this normalization “layers” between each fully connected layers, the range of input distribution of each layer stays the same, no matter the changes in the previous layer. Given x inputs from k-th neuron.
+Batch Normalization is a technique which consists to add a normalization “layer” between each layers, in order to reduce the problem of internal covariate shift. In the case that the input distribution of a learning system, such as a neural network, changes, one speaks of a so-called covariate shift. If this change happens on the input of internal nodes of (deep) neural networks, it is called an internal covariate shift
+
+An important thing to note is that normalization has to be done separately for each dimension (input neuron), over the ‘mini-batches’, and not altogether with all dimensions. Hence the name ‘batch’ normalization.
+Due to this normalization “layers” between each fully connected layers, the range of input distribution of each layer stays the same, no matter the changes in the previous layer. 
+
+Formally, given $\mathbf{x}$ inputs from the $k^{th}$ neuron, the \textit{Batch Normalization} is computed as follows:
+
+\begin{equation}
+	\hat{\mathbf{x}} = \frac{\mathbf{x}^k-\text{E}(\mathbf{x}^k)}{\sqrt{\text{Var}[\mathbf{x}^k]}}
+\end{equation}
 
 
-Normalization brings all the inputs centered around 0. This way, there is not much change in each layer input. So, layers in the network can learn from the back-propagation simultaneously, without waiting for the previous layer to learn. This fastens up the training of networks.
+Normalization brings all the inputs centered around 0. This way, there is not much change in each layer input. So, layers in the network can learn from the back-propagation simultaneously, without waiting for the previous layer to learn. This fastens up the training of networks, leading to the possible usage of higher learning rates.
 
 
 

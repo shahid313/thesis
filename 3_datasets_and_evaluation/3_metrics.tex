@@ -1,5 +1,151 @@
 \section{Evaluation Metrics}
 
+6.5.2 Evaluation Measures
+Evaluation is done by comparing the system output with the reference annotations
+available for the test data. Metrics used in detection and classification of sound
+scenes and sound events include accuracy, precision, recall, F-score, receiver
+operating characteristic (ROC) curve, area under the curve (AUC), acoustic event
+error rate (AEER), or simply error rate (ER). There is no consensus over which
+metric is universally good for measuring performance of sound event detection, as
+they each reflect different perspectives on the ability of the system.
+6.5.2.1 Intermediate Statistics
+Many performance measures rely on trials, the notion of atomic opportunities for
+the system to be correct or make a mistake, and the metrics are calculated based on
+counts of the correct predictions and different types of errors made by the system.
+These counts are referred to as intermediate statistics and are defined depending on
+the evaluation procedure. Given class c they are defined as follows:
+– True positive: A correct prediction, meaning that the system output and the
+reference both indicate class c present or active.
+– True negative: The system output and the reference both indicate class c not
+present or inactive.
+– False positive or insertion: The system output indicates class c present or active,
+while the reference indicates class c not present or inactive.
+– False negative or deletion: The system output indicates class c is not present or
+inactive, while the reference indicates class c present or active.
+A false positive can appear at the same time as a false negative, when the system
+output indicates class c while the reference indicates class g. In this situation, some
+metrics consider that the system makes a single error—a substitution—instead of
+two separate errors. More details on how substitutions are defined for specific cases
+are presented with the description of the metrics that use them.
+The intermediate statistics are calculated based on the trial-wise comparison
+between the system output and the available reference for the test data [47].
+Individual trials can be formed by specific items identified in the annotations, or
+simply from fixed length intervals. The fixed length intervals can be any small
+temporal unit, such as a frame of 20–100 ms, similar to the typical audio analysis
+frame [39, 53], or a longer interval such as 1 s [24]. In item-level comparisons
+the item can be an entire audio clip from start to end, or a sound event instance.
+Corresponding metrics are referred to as segment-based metrics and item-based or
+event-based [32] metrics in the case of sound events.
+Acoustic scene classification is usually a single-label multiclass problem, and
+the resulting intermediate metrics reflect whether the single true class is correctly
+recognized for each example. In this task there is no role for substitutions, and each
+erroneous output is counted; there is no distinction between false positives and false
+negatives. In scene segmentation the intermediate statistics can be counted in short
+time intervals or based on segmentation boundaries.
+In sound event detection, the choice of measurement determines the interpretation of the result: With a segment-based metric, the performance shows how
+well the system correctly detects the temporal regions where a sound event is
+active; with an event-based metric, the performance shows how well the system
+is able to detect event instances with correct onset and offset. If we consider the
+scenario of polyphonic sound event detection, the segment-based metric essentially
+splits the duration of the test audio into fixed length segments that have multiple
+associated labels, reflecting the sound events active anywhere in the given segment.
+In this respect, evaluation verifies if the system output and reference coincide in the
+assigned labels, and the length of the segment determines the temporal resolution of
+the evaluation. Event-based metrics compare event instances one to one. Since the
+time extents of the events detected by the system may not exactly match the ground
+truth, a common approach is to allow a time misalignment threshold, either as a fixed
+value (e.g., 100 ms) or as a fixed proportion of the total event duration (e.g., 50%)
+[53]. Time thresholds can be applied to onset times only, or to both onset and offset
+times. True negatives (i.e., correctly recording that no event occurred at a given
+time) do not occur in this kind of evaluation, as no instance-based true negatives
+can be counted. Figure 6.6 illustrates the comparison between a system output
+and the reference in segment-based and event-based evaluations, for obtaining the
+intermediate statistics.
+6.5.2.2 Metrics
+Measures of performance are calculated based on accumulated values of the intermediate statistics. We denote by TP, TN, FP, and FN the sums of the true positives,
+true negatives, false positives, and false negatives accumulated throughout the test
+data. With same convention, we will use S for the total number of substitutions, I
+for insertions, and D for deletions.
+Considering a simple binary classification, where we compare the reference and
+the system output for class c, we can construct the contingency table, or confusion
+matrix presented in Fig. 6.7. Based on the total counts of the intermediate statistics,
+many different measures can be derived, of which the most commonly used are
+recall (R, also known as true positive rate (TPR) or sensitivity), precision (P), false
+positive rate (FPR), specificity, and accuracy (ACC). These measures are presented
+and defined in Fig. 6.7.
+When dealing with a multiclass problem, accumulation of intermediate statistics
+can be performed either globally or separately for each class [49], resulting in
+overall metrics calculated accordingly as instance-based or class-based. Highly
+unbalanced classes or individual class performance can result in very different
+overall performance when calculated with the two methods. In instance-based
+averaging, also called micro-averaging, intermediate statistics are accumulated over
+the entire data. Overall performance is calculated based on these, resulting in metrics
+with values that are most strongly affected by the performance on the most common
+classes in the considered problem. In class-based averaging (the results of which
+are also known as balanced metrics), also called macro-averaging, intermediate
+statistics are accumulated separately for each category (scene or event class), and
+used to calculate class-wise metrics. Overall performance is then calculated as the
+average of class-wise performance, resulting in values that emphasize the system
+behavior on the smaller classes in the considered problem. A hybrid app
+calculate class-based metrics, then to use nonuniform weighting to combine them to
+create an average that reflects some relative importance of the different classes that
+may be different from their frequency of occurrence in the test data.
+Accuracy Accuracy measures how often the classifier makes the correct decision,
+as the ratio of correct system outputs to total number of outputs. As shown in
+Fig. 6.7, accuracy is calculated as:
+ACC D
+TP C TN
+TP C TN C FP C FN
+(6.1)
+Accuracy has the advantage of offering a simple measure of the ability of the system
+to take the correct decision; it is the most-used metric in sound scene and sound
+event classification, being straightforward to calculate and easy to understand. It
+has, however, a critical disadvantage of being influenced by the class balance: for
+rare classes (i.e., where TP C FN is small), a system can have a high proportion
+of true negatives even if it makes no correct predictions, leading to a paradoxically
+high accuracy value. Accuracy does not provide any information about the error
+types (i.e., the balance of FP and FN); yet, in many cases these different types of
+error have very different implications.
+Precision, Recall, and F-Score Precision, recall, and F-score were introduced in
+[42] in the context of information retrieval, but have found their way into measuring
+performance in other applications. Precision and recall are also defined in Fig. 6
+1
+P D
+TP
+TP C FP
+; R D
+TP
+TP C FN
+(6.2)
+and based on them, balanced F-score is calculated as their harmonic mean:
+F D
+2
+1=P C 1=R D
+2PR
+P C R
+(6.3)
+Precision and recall are the preferred metrics in information retrieval, but are used
+also in classification under the names positive prediction value and sensitivity. In
+detection theory terms, recall is equal to true positive rate, but precision has no
+simple equivalent.
+F-score has the advantage of being a familiar and well understood metric. Its
+main drawback is that its value is strongly influenced by the choice of averaging
+and the data balance between classes: in instance-based averaging the performance
+on common classes dominates, while in class-based averaging (balanced metrics) it
+is necessary to at least ensure presence of all classes in all folds in the test data, to
+avoid cases when recall is undefined (when TP C FN D 0); estimates of metrics on
+classes with very few examples are also intrinsically noisy. Any dataset of real-world
+recordings will most likely have unbalanced event classes; therefore, the experiment
+setup must be built with the choice of metric in mind.
+Average Precision Because precision and recall rely on hard decisions made for
+each trial, they typically depend on a threshold applied to some underlying decision
+variable, such as a distance from a decision boundary or the output of a neural
+network. Lowering the threshold will increase likelihood of accepting both positive
+and negative examples, improving recall but in many cases hurting precision. Fmeasure combines these values at a single threshold in an attempt to balance this
+tradeoff, but a fuller picture is provided by plotting precision as a function of
+recall over the full range of possible thresholds—the precision–recall (P-R) curve.
+Figure 6.8 shows an example of P-R curve for a binary classification problem.
+
 In this work we used the Error Rate (ER) as primary evaluation metric to ensure comparability with the reference systems. In particular, for the evaluations on the TUT-SED 2016 and 2017 datasets we consider a segment-based ER with a one-second segment length, while for the TUT-Rare 2017 the evaluation metric is event-based error rate calculated using onset-only condition with a collar of 500 ms. 
 In the segment-based ER the ground truth and system output are compared in a fixed time grid, thus sound events are marked as active or inactive in each segment. For the event-based ER the ground truth and system output are compared at event instance level.
 
