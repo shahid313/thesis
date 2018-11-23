@@ -1,0 +1,65 @@
+%% Creator: Inkscape 0.91_64bit, www.inkscape.org
+%% PDF/EPS/PS + LaTeX output extension by Johan Engelen, 2010
+%% Accompanies image file 'scheme_train_v2.pdf' (pdf, eps, ps)
+%%
+%% To include the image in your LaTeX document, write
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics{<filename>.pdf}
+%% To scale the image, write
+%%   \def\svgwidth{<desired width>}
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics[width=<desired width>]{<filename>.pdf}
+%%
+%% Images with a different path to the parent latex file can
+%% be accessed with the `import' package (which may need to be
+%% installed) using
+%%   \usepackage{import}
+%% in the preamble, and then including the image with
+%%   \import{<path to file>}{<filename>.pdf_tex}
+%% Alternatively, one can specify
+%%   \graphicspath{{<path to file>/}}
+%% 
+%% For more information, please see info/svg-inkscape on CTAN:
+%%   http://tug.ctan.org/tex-archive/info/svg-inkscape
+%%
+\begingroup%
+  \makeatletter%
+  \providecommand\color[2][]{%
+    \errmessage{(Inkscape) Color is used for the text in Inkscape, but the package 'color.sty' is not loaded}%
+    \renewcommand\color[2][]{}%
+  }%
+  \providecommand\transparent[1]{%
+    \errmessage{(Inkscape) Transparency is used (non-zero) for the text in Inkscape, but the package 'transparent.sty' is not loaded}%
+    \renewcommand\transparent[1]{}%
+  }%
+  \providecommand\rotatebox[2]{#2}%
+  \ifx\svgwidth\undefined%
+    \setlength{\unitlength}{291.64728394bp}%
+    \ifx\svgscale\undefined%
+      \relax%
+    \else%
+      \setlength{\unitlength}{\unitlength * \real{\svgscale}}%
+    \fi%
+  \else%
+    \setlength{\unitlength}{\svgwidth}%
+  \fi%
+  \global\let\svgwidth\undefined%
+  \global\let\svgscale\undefined%
+  \makeatother%
+  \begin{picture}(1,1.74637974)%
+    \put(0,0){\includegraphics[width=\unitlength,page=1]{img/scheme_train_v2.pdf}}%
+    \put(0.171,0.88){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{\footnotesize{UBM}}}}%
+    \put(0.115,0.78){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{\footnotesize{Training}}}}%
+    \put(0.65,1.24){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{\footnotesize{SCAT}}}}%
+    \put(0.56,1.15){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{\footnotesize{Extraction}}}}%
+    \put(0.59,1.60){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{\footnotesize{Training}}}}%
+    \put(0.545,1.50){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{\footnotesize{Corpus ($\mathcal{T}$)}}}}%
+    \put(0.65,0.5077975){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{\footnotesize{GMS}}}}%
+    \put(0.58,0.4077975){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{\footnotesize{Mapping}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=1]{img/scheme_train_v2.pdf}}%
+    \put(0.66,0.13586543){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{\footnotesize{DNN}}}}%
+     \put(0.598,0.04){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{\footnotesize{Training}}}}%
+  \end{picture}%
+\endgroup%

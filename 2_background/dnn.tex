@@ -134,9 +134,9 @@ The manner in which the neurons of a neural network are structured is intimately
 
 \begin{figure}[h]
 	\centering
-	\label{fig:ANN}
 	\includegraphics[width=0.9\textwidth]{img/mlp}
 	\caption{The MLP Neural Network.}
+	\label{fig:ANN}
 \end{figure}
 
 The Multi Layer Perceptron (MLP) or Multilayer Feedforward Network is characterized by the presence of one or more hidden layers, whose computation nodes are correspondingly called \textit{hidden neurons}.
@@ -167,9 +167,9 @@ where $P$ is the number of layers, and $Q_i$ denotes the number of units of laye
 \subsection{Convolutional Neural Networks (CNN)}
 \begin{figure}[h]
 	 \centering
-	 \label{fig:cnn}
 	 \includegraphics[width=0.9\columnwidth]{img/CNN}
 	 \caption{The Convolutional Neural Network.}
+	 \label{fig:cnn}
 	\end{figure}
 
 
@@ -241,6 +241,11 @@ In this way the system should be able to learn embedded features allowing classi
 \end{figure}
 
 
+\subsection{Generative Adversarial Networks (GAN)}
+\label{ssec:GAN}
+The Generative Adversarial Networks (GAN) were introduced by Ian Goodfellow et al. in 2014 \cite{goodfellow2014generative} with the aim to artificially generate photographs with many realistic characteristics, looking authentic to human observers. The architecture is composed of two networks: one generates candidates (generative), while the other network evaluates them (discriminative). Typically, the generative network learns to map from a latent space to a particular data distribution of interest, while the discriminative network classify the data produced by the generator between instances from the true data distribution and synthetic data. The generative network's training objective is to increase the error rate of the discriminative network (i.e., "fool" the discriminator network by producing novel synthesized instances that appear to have come from the true data distribution). The objective function of the discriminative is instead a more traditional binary classification cost function (i.e., binary cross-entropy). 
+
+
 
 \subsection{Recurrent Neural Networks (RNN)}
 
@@ -250,7 +255,7 @@ In addition to the memory blocks, the bidirectional RNNs~\cite{schuster1997bidir
 A bidirectional RNN can access context from both temporal directions, which makes it suitable i.e. for speech recognition, where whole utterances are decoded. This is achieved by processing the input data in both directions with two separate hidden layers.
 Both hidden layers are then fed to the output layer.
 
-\subsubsection{LSTM} Compared to a conventional RNN, in the LSTM RNN \cite{Hochreiter97-LST} the hidden units are replaced by so-called memory blocks.
+\subsubsection{Long Short Term Memory (LSTM)} Compared to a conventional RNN, in the LSTM RNN \cite{Hochreiter97-LST} the hidden units are replaced by so-called memory blocks.
 These memory blocks can store information in the `cell variable' $\boldsymbol{c}_t$.
 In this way, the network can exploit long-range temporal context.
 Each memory block consists of a memory cell and three gates: the input gate, output gate, and forget gate, as depicted in \figref{fig:lstm}.
@@ -285,7 +290,7 @@ Therefore, the activation vectors $\boldsymbol{i}_t$, $\boldsymbol{o}_t$, $\bold
 Furthermore, the weight matrices from the cells to the gates are diagonal, which means that each gate depends only on the cell within the same memory block.
 
 
-\subsubsection{GRU} Gated recurrent units (GRUs) are a gating mechanism in recurrent neural networks, introduced in 2014 \cite{chung2014empirical}. Their performance on polyphonic music modeling and speech signal modeling was found to be similar to that of LSTMs. However, GRUs have been shown to exhibit better performance on smaller datasets. 
+\subsubsection{Gated recurrent units (GRU)} Gated recurrent units (GRUs) are a gating mechanism in recurrent neural networks, introduced in 2014 \cite{chung2014empirical}. Their performance on polyphonic music modeling and speech signal modeling was found to be similar to that of LSTMs. However, GRUs have been shown to exhibit better performance on smaller datasets. 
 GRU layers control the information flow through a gated unit structure, which depends on the layer input, on the activation at the previous frame and on the reset gate.
 For frame $t$, the total activation of GRU layer is a linear interpolation of previous activation $h_{t-1}$ and the candidate activation $h_t$ as:
 \begin{equation}
@@ -300,7 +305,7 @@ Fast response to the changes in the input and the previous activation informatio
 	\centering
 	\includegraphics[width=0.6\textwidth]{img/GRU.png}
 	\caption[GRU]{The Gated Recurrent Unit, containing the input, output, and forget gates}
-	\label{fig:lstm}
+	\label{fig:GRU}
 \end{figure}
 
 
@@ -454,9 +459,9 @@ In order to obtain more robust models, different techniques have been proposed t
 
 \subsection{Dropout}
 
-Dropout is a regularization technique for reducing overfitting in neural networks by preventing complex co-adaptations on training data. It is a very efficient way of performing model averaging with neural networks. The term ``dropout'' refers to the operation of randomly cutting off units during the training of a neural network.
+Dropout is a regularization technique for reducing overfitting in neural networks by preventing complex co-adaptations on training data. It is a very efficient way of performing model averaging with neural networks. The term ``dropout'' refers to the operation of randomly exclude units during the training of a neural network.
 
-Pratically, during a training iteration, a percentage (drop-rate) of units for each layer where the the dropout is employed not are not updated. They are selected randomly at each new step, therefore it is like we were training a network with a different layout. This allows to prevent overfitting on the training data, making  the single units more robust to the conditions changing.
+Practically, during a training iteration, a percentage (drop-rate) of units for each layer where the the dropout is employed are not updated. They are selected randomly at each new step, therefore it is like we were training a network with a different layout. This allows to prevent overfitting on the training data, making  the single units more robust to the conditions changing.
  
 \subsection{Batch Normalization}
 Batch Normalization is a technique which consists to add a normalization “layer” between each layers, in order to reduce the problem of internal covariate shift. In the case that the input distribution of a learning system, such as a neural network, changes, one speaks of a so-called covariate shift. If this change happens on the input of internal nodes of (deep) neural networks, it is called an internal covariate shift
