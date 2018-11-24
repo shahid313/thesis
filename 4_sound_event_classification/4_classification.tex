@@ -1,9 +1,9 @@
 \chapter{Sound Event Classification}
 
-The task of sound event classification consists of categorize an audio recording into one of a set of predefined categories, by associating a textual descriptor. In this chapter two works belonging to this ``sub-category'' are shown. They are respectively: Snore Sounds Excitation Localization, which has been performed by using \textit{Scattering Transform} and Deep Neural Networks and Road Surface Roughness Classification from Acoustic Signals by means of Convolutional Neural Networks.
+The task of sound event classification consists of categorize an audio recording into one of a set of predefined categories, by associating a textual descriptor. In this chapter three works belonging to this ``sub-category'' are shown. They are respectively: Snore Sounds Excitation Localization, which has been performed by using \textit{Scattering Transform} and Deep Neural Networks; Road Surface Roughness Classification from Acoustic Signals, which has been performed by means of Convolutional Neural Networks; Bird Audio Detection, which - despite of its name - consists in determining a binary decision for the presence/absence of bird sounds on audio files recorded in very different conditions and it has been performed by using CapsNets.
 
 \section{Snore Sounds Excitation Localization}
-
+\label{sec:snoring_classification}
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.6\linewidth]{img/vote.pdf}
@@ -11,17 +11,21 @@ The task of sound event classification consists of categorize an audio recording
 	\label{fig:vote}
 \end{figure}
 
+People spend almost a third of their life sleeping, thus the sleep quality is very important to people's health. Most of us  have experienced trouble sleeping just sometimes, while for some people sleep problems occur regularly; in former cases a sleep disorder is diagnosed. Among these, one of the most common sleep disorder \cite{sleep-disorders} is the chronic snoring.
+ 
 Snoring is defined as the emission, during the sleep, of a sound more or less annoying associated to the respiratory activity. This sound is caused by the vibration of soft tissue in the upper airways. It is confirmed that almost a half of the adult population snores occasionally, while approximately 30\% of the overall population suffers from chronic snoring almost every night \cite{young1997nasal}.
-For this category of people, called habitual snorer, this disease can affect not only the sleep quality of the bed partner \cite{blumen2012snoring}, but it can also be associated with Obstructive Sleep Apnea (OSA), a chronic disease that can severely affect health \cite{strollo1996obstructive}. 
-In fact, OSA  is an independent risk factor for cardiovascular diseases, stroke, hypertension, and myocardial infarction and in high-risk cases  a targeted medical intervention is necessary. Numerous surgical methods have been proposed to cure snoring, but many of them do not solve completely the issue if the origin of the vibration is not precisely located.
+Sound snoring can have a negative impact on normal physical, mental, social and emotional functioning of the person suffering from it and their bed partner \cite{blumen2012snoring}. In addition, it can be associated with Obstructive Sleep Apnea (OSA), a chronic disease that can severely affect health \cite{strollo1996obstructive}. 
+OSA is characterised by posterior pharyngeal occlusion for at least ten seconds with apnea/hypopnea and attendant arterial oxyhemoglobin desaturation. If left untreated, this life-threatening sleep disorder may induce high blood pressure, coronary heart disease, pulmonary heart failure and even nocturnal death \cite{banno2007sleep}. In addition, OSA is indicated between the main causes of significant morbidity among children \cite{lumeng2008epidemiology}. Numerous surgical methods have been proposed to cure snoring, but many of them do not solve completely the issue if the origin of the vibration is not precisely located.
 Although the exact mechanism of snoring sound generation is highly influenced by the individual anatomy, the typical areas from which the snore noise is produced have been located in the soft palate, the uvula, the palatine tonsils, the base of the tongue, and the epiglottis.
 Drug induced sleep endoscopy (DISE) is a standard examination technique used to identify the location and form of vibrations and obstructions \cite{el2003predictive}. During a DISE procedure, a flexible nasopharyngoscope is introduced into the upper airways while the patient is in a state of artificial sleep. Vibration mechanisms and locations can be observed while video and audio signals are recorded. This procedure has several disadvantages: it is time consuming, the patient is put under strain, and it has to be performed during drug-induced sleep. 
-Snoring carries information to the site and degree of obstruction of the upper airway \cite{pevernagie2010acoustics}, thus acoustic analysis of snoring sound could be an alternate, less-invasive method to identify the kind of snoring pathology \cite{schmitt2016bag}. It can be performed during natural sleep, avoiding the possibility to induce different muscle relaxation patterns which is a cause for possible diagnosis errors in drug-induced sleep.
+Recent studies have found that acoustic signal carries important information about the snore source and obstruction site in the upper airway of OSA patients \cite{pevernagie2010acoustics}, thus acoustic analysis of snoring sound could be an alternate, less-invasive method to identify the kind of snoring pathology \cite{schmitt2016bag}. This significant discovery has motivated several researchers to develop acoustic-based approaches that could provide inexpensive, convenient and non-invasive monitoring and screening apparatuses to be combined with traditional diagnostic tools. In addition,
+it can be performed during natural sleep, avoiding the possibility to induce different muscle relaxation patterns which is a cause for possible diagnosis errors in drug-induced sleep.
 
 \subsubsection{Related Works}
-Several works have been presented in the recent years on multi-feature acoustic analysis methods with the aim to classify and segment snore/non-snore sleep sounds.
-In \cite{cavusoglu2007efficient} the method is based on the characterization of spectral energy distribution of snoring signals and a two-dimensional projection via principal component analysis (PCA). In \cite{shokrollahi2016snoring} tracheal respiratory signals are recorded and snore segments are detected by extracting 10 temporal and spectral features and an Artificial Neural Network (ANN). In \cite{wang2016automatic} the automatic sound segmentation into snoring/breathing/noise episodes is performed using an adaptive effective-value threshold method for noise reduction, feature extraction of both linear and nonlinear descriptors and a Support Vector Machine (SVM) classifier.
 
+Several works have been presented in the recent years on multi-feature acoustic analysis methods with the aim to classify and segment snore/non-snore sleep sounds.
+In \cite{cavusoglu2007efficient}  consists of the identification and segmentation process by using energy and Zero Crossing Rate (ZCR), which were used to determine the boundaries of sound segments. Episodes have been efficiently represented into two-dimensional spectral features by using principal component analysis, and classified as snores or non-snores with Robust Linear Regression (RLR). The system was tested by using the manual annotations of an Ear-Nose-Troth (ENT) specialist as a reference. The accuracy for simple snorers was found to be 97.3\% when the system was trained using only simple snorers' data. It drops to 90.2\% when the training data contain both simple snorers’ and OSA patients' data. In the case of snore episode detection with OSA patients, the accuracy is 86.8\%. 
+In \cite{shokrollahi2016snoring} tracheal respiratory signals are recorded and snore segments are detected by extracting 10 temporal and spectral features and an Artificial Neural Network (ANN). In \cite{wang2016automatic} the automatic sound segmentation into snoring/breathing/noise episodes is performed using an adaptive effective-value threshold method for noise reduction, feature extraction of both linear and nonlinear descriptors and a Support Vector Machine (SVM) classifier.
 
 Specifically regarding the determination of the vibration or occlusion mechanisms, the use of different acoustic feature sets has been proposed in \cite{janott2014akustical}, while in \cite{qian2015automatic} a k-nearest neighbor (k-NN) classifier is fed with different acoustic features. A performance comparison of different feature sets in combination with frequently-used classifier model is shown in \cite{qian2016classification}. 
 Recently some works have been presented in occasion of the \textit{Snoring} task of the Interspeech 2017 Computational Paralinguistics Challenge (ComParE) \cite{ComParE2017}. The task consisted in identification of the snore type among four classes based on the widely used Velum-Oropharyngeal-Tongue-Epiglottis (VOTE) scheme, distinguishing four structures that can be involved in upper airway narrowing and obstruction. In  \cite{amiriparian2017snore, freitag2017end} the authors exploit deep convolutional neural networks pre-trained on image datasets for feature extraction from Short Time Fourier Transform (STFT) representation of the snore sounds. Then, the outputs of the bottom layers are used to feed a SVM model which provides the snore sound classification.
@@ -58,20 +62,20 @@ In the classification phase (\figref{sfig:testing}), given a snore sound $\mathb
 
 
 
-\begin{figure}[h]
-	\centering
-	\begin{subfigure}[b]{0.3\columnwidth}
-		\def\svgwidth{\columnwidth}
-		\input{4_sound_event_classification/scheme_train_v2.pdf_tex}
-		\caption{Training.} \label{sfig:training}
-	\end{subfigure}
-	\begin{subfigure}[b]{0.3\columnwidth}
-		\def\svgwidth{\columnwidth}
-		\input{4_sound_event_classification/scheme_classify_v2.pdf_tex}
-		\caption{Classification.} \label{sfig:testing}
-	\end{subfigure}
-	\caption{Scheme of the proposed approach.}\label{fig:scheme}
-\end{figure}
+%\begin{figure}[h]
+%	\centering
+%	\begin{subfigure}[b]{0.3\columnwidth}
+%		\def\svgwidth{\columnwidth}
+%		\input{4_sound_event_classification/scheme_train_v2.pdf_tex}
+%		\caption{Training.} \label{sfig:training}
+%	\end{subfigure}
+%	\begin{subfigure}[b]{0.3\columnwidth}
+%		\def\svgwidth{\columnwidth}
+%		\input{4_sound_event_classification/scheme_classify_v2.pdf_tex}
+%		\caption{Classification.} \label{sfig:testing}
+%	\end{subfigure}
+%	\caption{Scheme of the proposed approach.}\label{fig:scheme}
+%\end{figure}
 
 
 \subsubsection{Deep Scattering Spectrum}
@@ -638,60 +642,47 @@ In the present work a data-driven approach for road surface roughness classifica
 Future works may extend the proposed algorithm to process multiple microphone signals, exploiting diversity, thus reducing the number of errors due to cars passing by and other unrelated sound sources. Driving speed, extracted from a GPS receiver or from the CAN bus, may help improve the classification performance. The most challenging objective, however, would be to infer the road roughness from internal microphones, as these are nowadays available in many vehicles for echo cancellation and noise suppression and are not subject to issues such as dirt, wet, cold, etc. The main issues with this approach, however, are the cockpit isolation from the outside and the interference of speech and music with the road surface noise. Voice activity detection (VAD) \cite{Ephraim:1984,ghosh2011robust} algorithms should be employed and extended to detect the presence of music provided by the car infotainment system. Existing works based on CNN architectures \cite{wirn2016-vad,ijcnn2016-vad} could be a starting point as they could be integrated easily with the current framework and extended.
 
 
-\subsection*{Acknowledgments}
-The authors would like to thank ASK industries S.P.A. for financial support and technical assistance.
-This work is supported by the Italian Ministry of Economic Development (MISE)'s fund for the sustainable growth (F.C.S.) under grant agreement (CUP) B48I15000130008, project VASM (“Vehicle Active Sound Management”).
-
-We gratefully acknowledge the support of NVIDIA Corporation with the donation of the GPU used for this research.
+%\subsection*{Acknowledgments}
+%The authors would like to thank ASK industries S.P.A. for financial support and technical assistance.
+%This work is supported by the Italian Ministry of Economic Development (MISE)'s fund for the sustainable growth (F.C.S.) under grant agreement (CUP) B48I15000130008, project VASM (“Vehicle Active Sound Management”).
+%
+%We gratefully acknowledge the support of NVIDIA Corporation with the donation of the GPU used for this research.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Bird Audio Detection}
-\section{Introduction}
-\label{sec:intro}
+
 
 Automatic wildlife monitoring is a key concern nowadays. Climatic changes, the effects of pollution and alteration of the ecosystems have to be closely controlled in order to be the litmus test for the future sustainable technological and political guidelines.
-
 In this context, bird audio analysis is an important task of the bioacoustics for wildlife and biodiversity monitoring, which can easily embrace the deep learning concept.
 In particular, detecting the presence of bird calls in audio recordings is a very common required first step for a framework that can perform different kind of  analysis (e.g. species classification, counting), and makes it possible to conduct work with large datasets (e.g. continuous 24h monitoring) by segmenting the data stream into regions of interests.
-
-To encourage the research in automating this task, in 2016 Stowell et al. \cite{stowell2016bird} organized a first edition Bird Audio Detection (BAD) challenge. It has been appreciated to such an extent that a new round has been included in one of the tasks of the 2018 IEEE AASP Challenge on Detection and Classification of Acoustic Scenes and Events (DCASE). In fact, Task 3 consists  in determining a binary decision for the presence/absence of bird sounds on audio files recorded in very different conditions, comprehending dataset balancing, birds species, background sounds and recordings equipment.
-Specifically, participants are asked to build algorithms that predict whether a given 10-second recording contains any type of bird vocalization, regardless of the species. 
-
+To encourage the research in automating this task, in 2016 Stowell et al. \cite{stowell2016bird} organized a first edition Bird Audio Detection (BAD) challenge. It has been appreciated to such an extent that a new round has been included in one of the tasks of the 2018 IEEE AASP Challenge on Detection and Classification of Acoustic Scenes and Events (DCASE). In fact, Task 3 consists in determining a binary decision for the presence/absence of bird sounds on audio files recorded in very different conditions, comprehending dataset balancing, birds species, background sounds and recordings equipment.
+Specifically, participants are asked to build algorithms that predict whether a given 10-second recording contains any type of bird vocalization, regardless of the species. Thus, differently from the official name of the task, we can consider it as a \textit{classification} problem.
 The organizers invite to explore approaches that can either inherently generalize across different conditions (including conditions not seen in the training data), or which can self-adapt to new datasets. The deep neural network based approach we propose has the aim to counteract the generalization problem by means of an innovative learning procedure named ``capsule routing'' which has shown promising performances since it has been presented \cite{sabour2017dynamic} and also in pioneering employments in audio tasks \cite{iqbal2018capsule}.
 
 
-
 \subsection{Related Works}
-\label{ssec:related}
-
 
 In very recent years, a strong growth of deep learning algorithms devoted to the acoustic monitoring has been observed. In particular, works such as \cite{mcloughlin2015low, piczak2015environmental, salamon2017deep} represent milestones, involving Convolutional Neural Networks (CNN) for audio signals detection and classification.
 These deep neural architectures, combined with the increased availability of datasets and computational resources, have allowed large performance improvements, outperforming in most of the cases the human accuracy \cite{sailor2017unsupervised}. This has also motivated researchers to employ such architecture, eventually combined with recurrent units \cite{cakir2017convolutional}, in almost all of the tasks proposed in the recent editions of research challenges such as the DCASE \cite{DCASE2017challenge}. These algorithms often result among the strongest-performing systems \cite{limrare, valenti2017convolutional}.
-
 Similar results came from the first edition Bird Audio Detection (BAD2017) challenge, which was held in 2016-2017. In this case different novel algorithms have been proposed to create robust and scalable systems able to automate the annotation process of audio sequences containing free-field recordings. The work of Grill and Schl\"{u}ter \cite{grill2017two} should be also mentioned, which obtained the highest score and which is based on CNNs trained on Mel-scaled log-magnitude spectrograms. The outcomes of the BAD2017 are reported in \cite{stowell2018automatic}.
 
-A team at Google Brain recently has presented a new computational unit \cite{sabour2017dynamic} called ``CapsNet'' with the intent to overcome two known limitations of the CNNs: the excessive information loss caused by the pooling and other down-scaling operations and the inability to infer part-whole relationships between the elements which the deep neural network (DNN) has to detect. In fact, the layers of a standard CNN are good at detecting space-invariant features which characterize an image (or a spectrogram in the case of audio spectrograms), but are less effective at exploring the spatial relationships among features (perspective, size, orientation). Capsule routing has the aim to learn global coherence implicitly, thereby improving generalization performance. In the BAD application, it means that the DNN is driven to learn a general concept of the entities of ``bird song'' and ``background sounds'' without requiring extensive data augmentation or dedicated domain adaptation procedures, thus motivating the use of Capsules for the Task 3 of the DCASE 2018. % Challenge. 
+A team at Google Brain recently has presented a new computational unit \cite{sabour2017dynamic} called ``CapsNet'' with the intent to overcome two known limitations of the CNNs: the excessive information loss caused by the pooling and other down-scaling operations and the inability to infer part-whole relationships between the elements which the deep neural network (DNN) has to detect. In fact, the layers of a standard CNN are good at detecting space-invariant features which characterize an image (or a spectrogram in the case of audio spectrograms), but are less effective at exploring the spatial relationships among features (perspective, size, orientation). Capsule routing has the aim to learn global coherence implicitly, thereby improving generalization performance. In the BAD application, it means that the DNN is driven to learn a general concept of the entities of ``bird song'' and ``background sounds'' without requiring extensive data augmentation or dedicated domain adaptation procedures, thus motivating the use of Capsules for this task. 
 
-\section{Proposed Method}
-\label{sec:proposed-meth}
-
+\subsection{Proposed Method}
 The proposed system is a fully data-driven approach based on the CapsNet deep neural architecture presented by Sabour et al. \cite{sabour2017dynamic}.
 The novel computational structure of the Capsules, combined to the routing mechanism allows to be invariant to intra-class affine transformations and to identify part-whole relationships between data features.
-
 The whole system is composed of a feature extraction stage and a detection stage. The feature extraction stage transforms time-varying audio signal into acoustic spectral features, then the second stage takes the feature vector as input and maps them to a binary estimate of bird song presence.
 This latter stage is where we introduce the Capsule neural network architecture.
 The network parameters are obtained by supervised learning using annotations of bird song activity as one hot target vector.
 
-\subsection{Feature Extraction}
+\subsubsection{Feature Extraction}
 
-The feature extraction stage operates on mono audio signals sampled at 44.1 kHz. For our purpose, we exploit \textit{LogMels} as acoustic spectral representation, following results obtained in various audio tagging and sound
-event detection tasks. Firstly, the audio signals are down-sampled to 16 kHz, because the most relevant frequency bands related to bird songs are in the range from 2 kHz to 8 kHz \cite{payne2010handbook}. Then, \textit{LogMel} coefficients are obtained by filtering the magnitude spectrum of the STFT with a filter-bank composed of 40 filters evenly spaced in the mel frequency scale. The logarithm of the energy of each band is computed to match the human perception of loudness. In the STFT computation, the used frame size is equal to 40 ms and the frame step is equal to 20 ms. 
+The feature extraction stage operates on mono audio signals sampled at 44.1 kHz. For our purpose, we exploit \textit{LogMels} as acoustic spectral representation, following results obtained in various audio tagging and sound event detection tasks. Firstly, the audio signals are down-sampled to 16 kHz, because the most relevant frequency bands related to bird songs are in the range from 2 kHz to 8 kHz \cite{payne2010handbook}. Then, \textit{LogMel} coefficients are obtained by filtering the magnitude spectrum of the STFT with a filter-bank composed of 40 filters evenly spaced in the mel frequency scale. The logarithm of the energy of each band is computed to match the human perception of loudness. In the STFT computation, the used frame size is equal to 40 ms and the frame step is equal to 20 ms. 
 All of the datasets contain 10-second-long WAV files, thus the resulting feature matrix $\mathbf{x} \in \mathbb{R}^{D_1\times D_2}$ has a shape $501\times40$.
 The range of feature values is then normalized according to the mean and the standard deviation computed on the training sets of the neural networks.
 
-
-\subsection{CapNet for Bird Audio Detection}
+\subsubsection{CapNet for Bird Audio Detection}
 The architecture of the neural network is shown in Fig. \ref{fig:flowchart}. The first stages of the model are traditional CNN blocks which act as feature extractors on the input \textit{LogMel} coefficients.
 After each block, max-pooling is used to halve the dimensions. The feature maps obtained by the CNN layers are then fed to the Primary Capsule Layer that represents the lowest level of multi-dimensional entities. Basically it is a convolutional layer whose output is reshaped and squashed using \eqref{eq:squashing}. The final layer, is a capsule layer and it is composed of two densely connected capsule units.
 Since the previous layer is also a capsule layer, the dynamic routing algorithm is used to compute the output. The model predictions are obtained computing the the Euclidean length of each
@@ -699,24 +690,24 @@ output capsule, which represent the probabilities that an input feature vector $
 
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[width=\columnwidth]{imgs/flowchart}
+	\includegraphics[width=0.6\columnwidth]{img/capsule_for_bad}
 	\label{fig:flowchart}
-	\caption{Flow chart of the proposed neural network architecture.}
+	\caption[CapsNet for Bird Audio Detection]{Flow chart of the proposed algorithm employing CapsNets for Bird Audio Detection.}
 \end{figure}
 
-\section{Experimental Set-Up}
+\subsection{Experimental Set-Up}
 \label{sec:experiment}
 
-The network hyperparameters optimization was obtained by means of a \textit{random search} strategy  \cite{bergstra2012random}.  The number and the shape of convolutional layers, the non-linear activation function, the regularizers in addition to the capsules dimensions and the maximum number of routing iterations have been varied for a total of 100 configurations. Details of searched hyperparameters and their ranges are reported in Table \ref{tbl:hyper-params-mlp}.
+The network hyperparameters optimization was obtained by means of a \textit{random search} strategy  \cite{bergstra2012random}.  The number and the shape of convolutional layers, the non-linear activation function, the regularizers in addition to the capsules dimensions and the maximum number of routing iterations have been varied for a total of 100 configurations. Details of searched hyperparameters and their ranges are reported in Table \ref{tbl:hyper-params-capsule}.
 The neural networks training was accomplished by the AdaDelta stochastic gradient-based optimisation algorithm \cite{zeiler2012adadelta} for a maximum of 100 epochs and batch size equal to 20 on the margin loss function. The optimizer hyperparameters were set according to \cite{zeiler2012adadelta} (i.e., initial learning rate $lr=1.0$, $\rho=0.95$, $\epsilon=10^{-6}$). It was chosen because it is well-suited for dealing with sparse data and its robustness to different choices of model hyperparameters. Furthermore no manual tuning of learning rate is required.
 
 An early stopping strategy was employed in order to avoid overfitting. Thus if the validation score does not increase for 20 consecutive epochs, the training is stopped and the last saved model is selected as the final model. In addition, dropout and L2 (with $\lambda=0.01$) have been used as weights regularization techniques \cite{srivastava2014dropout}. 
 The algorithm has been implemented in the Python language using Keras \cite{chollet2015keras} and Tensorflow \cite{tensorflow2015-whitepaper} as deep learning libraries.
 
 
-\subsection{Dataset}
+\subsubsection{Dataset}
 \label{ssec:dataset}
-According to the DCASE 2018 guidelines, the performance of the proposed algorithm has been assessed firstly by using the development dataset for training and validation of the system. Then, a blind test on the provided evaluation dataset was performed with the models which achieved the highest performance and submitted to the organizers of the challenge. The complete dataset is composed of recordings belonging to five different collections. Further details are reported below: %Further details are reported in Table \ref{tab:dataset}.
+According to the DCASE 2018 guidelines, the performance of the proposed algorithm has been assessed firstly by using the development dataset for training and validation of the system. Then, a blind test on the provided evaluation dataset was performed with the models which achieved the highest performance and submitted to the organizers of the challenge. The complete dataset is composed of recordings belonging to five different collections.  
 
 \begin{itemize}
 	\item ``freefield1010'': a collection of 7690 excerpts from field recordings around the world;
@@ -725,48 +716,50 @@ According to the DCASE 2018 guidelines, the performance of the proposed algorith
 	\item ``Chernobyl'': dataset collected from unattended remote monitoring equipment in the Chernobyl Exclusion Zone (CEZ). A totoal of 6620 audio files cover a range of birds and includes weather, large mammal and insect noise sampled across various CEZ environments, including abandoned village, grassland and forest areas;
 	\item ``PolandNFC'': 4000 recordings obtained from a project of monitoring of autumn nocturnal bird migration. They were collected every night, from September to November 2016 on the Baltic Sea coast, Poland, using Song Meter SM2 units with microphones mounted on 3–5 m poles.
 \end{itemize}
-
-%\begin{table}[t]
-%	\centering
-%	\begin{tabular}{|c|c|c|}
-%		\hline
-%		\ \textbf{Collection} \rule{0pt}{10pt} & \textbf{N. of samples}  & \textbf{Balance} \\
-%		\hline
-%		\hline	
-%		\multicolumn{3}{|c|}{\textbf{Development Dataset}  \rule{0pt}{10pt}} \\ 
-%		\hline
-%		``warblrb10k'' & 8000 & 0.75 \\
-%		\hline
-%		``BirdVox-DCASE-20k'' & 20000 & 0.5 \\
-%		\hline
-%		``freefield1010'' & 7690 & 0.25 \\
-%		\hline
-%		
-%		Total 	& 35690	& 0.5 \\
-%		
-%		\hline
-%		\hline
-%		
-%		\multicolumn{3}{|c|}{\textbf{Evaluation Dataset}  \rule{0pt}{10pt}} \\ 
-%		\hline
-%		``warblrb10k\_test'' & 2000 & - \\
-%		\hline
-%		``Chernobyl'' & 6620 & - \\
-%		\hline
-%		``PolandNFC'' & 4000 & - \\
-%		\hline
-%		Total 	& 12620 & - \\
-%		\hline
-%	\end{tabular}
-%	\caption{Details of the dataset we used for the algorithm development. The table shows the number of audio files and the ratio between positive/negative samples (if available) of each used data collection.}
-%	\label{tab:dataset} 
-%\end{table}
-
+Further details are reported in Table \ref{tab:dataset}.
 The organizers recommended a 3-way cross-validation (CV) for the algorithms development, thus in each fold we used two sets for training and the other one as validation set in order to have scores comparable with the others challenge participant.
 
-\begin{table*}[h!]
+\begin{table}[t]
+	\centering
+	\begin{tabular}{|c|c|c|}
+		\hline
+		\ \textbf{Collection} \rule{0pt}{10pt} & \textbf{N. of samples}  & \textbf{Balance} \\
+		\hline
+		\hline	
+		\multicolumn{3}{|c|}{\textbf{Development Dataset}  \rule{0pt}{10pt}} \\ 
+		\hline
+		``warblrb10k'' & 8000 & 0.75 \\
+		\hline
+		``BirdVox-DCASE-20k'' & 20000 & 0.5 \\
+		\hline
+		``freefield1010'' & 7690 & 0.25 \\
+		\hline
+		
+		Total 	& 35690	& 0.5 \\
+		
+		\hline
+		\hline
+		
+		\multicolumn{3}{|c|}{\textbf{Evaluation Dataset}  \rule{0pt}{10pt}} \\ 
+		\hline
+		``warblrb10k\_test'' & 2000 & - \\
+		\hline
+		``Chernobyl'' & 6620 & - \\
+		\hline
+		``PolandNFC'' & 4000 & - \\
+		\hline
+		Total 	& 12620 & - \\
+		\hline
+	\end{tabular}
+	\caption[Bird Audio Detection - DCASE 2018 dataset]{Details of the dataset we used for the algorithm development. The table shows the number of audio files and the ratio between positive/negative samples (if available) of each used data collection.}
+	\label{tab:dataset} 
+\end{table}
+
+
+\begin{table*}[h]
 	\centering
 	\small
+	\resizebox{\textwidth}{!}{
 	\begin{tabular} {|c | c | c| c | c | c |}
 		\hline
 		Parameter & Range & Distribution & CapsNet1 & CapsNet 2 & CapsNet3\\  
@@ -803,38 +796,38 @@ The organizers recommended a 3-way cross-validation (CV) for the algorithms deve
 		Batch Normalization  & [yes - no]	& random choice & yes &  yes  &  yes  \\
 		\hline
 		\hline
-		Trainable Params & - & - & 113K & 282K & 424K \\
+		Trainable Params & - & - & 113k & 282k & 424k \\
 		\hline
 	\end{tabular}
-	\caption{Hyper-parameters optimized in the random-search phase and the resulting best performing models.}
-	\label{tbl:hyper-params-mlp}
+	}
+	\caption[CapsNet for Bird Audio Detection - Experiments]{Hyper-parameters optimized in the random-search phase and the resulting best performing models.}
+	\label{tbl:hyper-params-capsule}
 \end{table*}
 
 
 
-\subsection{Baseline}
+\subsubsection{Baseline}
 The baseline system is an adapted version of the method winner of the BAD2017 \cite{grill2017two}. The peculiarity of this algorithm is its double training procedure. In a first run, the network is trained on the whole training data. Binary predictions are obtained for the testing data. The more confident predictions (the ones closer to 0 or 1) are then added to the training data as so-called ``pseudo-labeled'' samples. Thus, a second training run is performed on this extended training set and the final predictions are yielded.
 
 
-
-\subsection{Metric}
+\subsubsection{Metric}
 The performance metric of the DCASE 2018 on this task is the ``Area Under the ROC Curve'' (AUC). More precisely, it is a stratified AUC: the score is computed separately for each fold of the evaluation set, then the partial scores are averaged. This procedure allows to adapt the ``detection threshold'' to each dataset conditions, then the performance across datasets are combined in an explicit weighted fashion, thus the final score is not merely influenced by the number of files in each subset.
 
 
-\section{Results}
+\subsection{Results}
 \label{sec:results}
-\subsection{Results on Development dataset}
+\subsubsection{Results on Development dataset}
 Results reported in Table \ref{tab:results} show both the best performance we obtained on the single CV fold, and the best averaged AUC. We obtain a harmonic mean for AUC equal to 83.72 for a single configuration, whilst if we consider the mean of the best performing models on the single folds we achieve an AUC equal to 85.08.
 
-%We performed the hyperparameter selection of the models with the CV procedure as described above. 
-\subsection{Preview Score on Evaluation dataset}
-We considered as candidates for the test on the evaluation procedure \cite{dcase2018web} both the best performing setups on the single CV folds (submission label \textbf{Vesperini\_UnivPM\_task3\_1}), and the setups with the best averaged AUC (submission label \textbf{Vesperini\_UnivPM\_task3\_2}). For the latter, we trained a new model with the same hyperparameters on the whole development dataset before performing the predictions on the evaluation dataset.
+
+%\subsubsection{Preview Score on Evaluation dataset}
+%We considered as candidates for the test on the evaluation procedure \cite{dcase2018web} both the best performing setups on the single CV folds (submission label \textbf{Vesperini\_UnivPM\_task3\_1}), and the setups with the best averaged AUC (submission label \textbf{Vesperini\_UnivPM\_task3\_2}). For the latter, we trained a new model with the same hyperparameters on the whole development dataset before performing the predictions on the evaluation dataset.
+%
+%
+%The DCASE 2018 featured a submission site where contestants could upload their predictions and compute a ``preview score'' for a subset of around 1000 files from the test set. With an ensemble of the single fold best models trained during the CV procedure we obtain an AUC score equal to 84.43, while for the model with the best averaged AUC we obtain an AUC score equal to 81.43.
 
 
-The DCASE 2018 featured a submission site where contestants could upload their predictions and compute a ``preview score'' for a subset of around 1000 files from the test set. With an ensemble of the single fold best models trained during the CV procedure we obtain an AUC score equal to 84.43, while for the model with the best averaged AUC we obtain an AUC score equal to 81.43.
-
-
-\begin{table}[b]
+\begin{table}[t]
 	\centering
 	\begin{tabular}{|l|c|c|c|c|c|}
 		\hline
@@ -848,19 +841,15 @@ The DCASE 2018 featured a submission site where contestants could upload their p
 		Ensemble &	-	 & 		-	&		-			&		\textbf{85.08}  & \textbf{84.43} \\
 		\hline		
 	\end{tabular}
-	\caption{Results on Development dataset in terms of AUC (\%).}
+	\caption[CapsNet for Bird Audio Detection - Results]{Results on Development dataset in terms of AUC (\%).}
 	\label{tab:results}
 \end{table}
 
 
-\section{Conclusion and Outlook}
+\subsection{Conclusion and Outlook}
 \label{sec:conclusion}
 
-In this paper, we have presented an algorithm for bird audio detection based on the CapsNet architecture. We feed a deep neural network which uses the dynamic routing procedure during the training with the \textit{LogMel} extracted from the audio signals in order to obtain predictions on unseen data recorded in various conditions possibly also very different from the training set. 
+In this work, we have presented an algorithm for bird audio detection based on the CapsNet architecture. We feed a deep neural network which uses the dynamic routing procedure during the training with the \textit{LogMel} extracted from the audio signals in order to obtain predictions on unseen data recorded in various conditions possibly also very different from the training set. 
 To assess the performance of the algorithm we conducted experiments on the development dataset from the DCASE 2018, obtaining an AUC score equal to 85.08 with respect to an AUC equal to 83.00 of the baseline system.
 For future work, variants \cite{hinton2018matrix} or strategy to customize the dynamic routing can be considered.
 
-\section{ACKNOWLEDGMENT}
-\label{sec:ack}
-
-We acknowledge the CINECA award under the ISCRA initiative, for the availability of high performance computing resources and support.

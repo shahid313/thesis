@@ -290,7 +290,9 @@ Therefore, the activation vectors $\boldsymbol{i}_t$, $\boldsymbol{o}_t$, $\bold
 Furthermore, the weight matrices from the cells to the gates are diagonal, which means that each gate depends only on the cell within the same memory block.
 
 
-\subsubsection{Gated recurrent units (GRU)} Gated recurrent units (GRUs) are a gating mechanism in recurrent neural networks, introduced in 2014 \cite{chung2014empirical}. Their performance on polyphonic music modeling and speech signal modeling was found to be similar to that of LSTMs. However, GRUs have been shown to exhibit better performance on smaller datasets. 
+\subsubsection{Gated recurrent units (GRU)}
+\label{sssec:GRU}
+Gated recurrent units (GRUs) are a gating mechanism in recurrent neural networks, introduced in 2014 \cite{chung2014empirical}. Their performance on polyphonic music modeling and speech signal modeling was found to be similar to that of LSTMs. However, GRUs have been shown to exhibit better performance on smaller datasets. 
 GRU layers control the information flow through a gated unit structure, which depends on the layer input, on the activation at the previous frame and on the reset gate.
 For frame $t$, the total activation of GRU layer is a linear interpolation of previous activation $h_{t-1}$ and the candidate activation $h_t$ as:
 \begin{equation}
@@ -459,12 +461,12 @@ In order to obtain more robust models, different techniques have been proposed t
 
 \subsection{Dropout}
 
-Dropout is a regularization technique for reducing overfitting in neural networks by preventing complex co-adaptations on training data. It is a very efficient way of performing model averaging with neural networks. The term ``dropout'' refers to the operation of randomly exclude units during the training of a neural network.
+Dropout \cite{srivastava2014dropout} is a regularization technique for reducing overfitting in neural networks by preventing complex co-adaptations on training data. It is a very efficient way of performing model averaging with neural networks. The term ``dropout'' refers to the operation of randomly exclude units during the training of a neural network.
 
 Practically, during a training iteration, a percentage (drop-rate) of units for each layer where the the dropout is employed are not updated. They are selected randomly at each new step, therefore it is like we were training a network with a different layout. This allows to prevent overfitting on the training data, making  the single units more robust to the conditions changing.
  
 \subsection{Batch Normalization}
-Batch Normalization is a technique which consists to add a normalization “layer” between each layers, in order to reduce the problem of internal covariate shift. In the case that the input distribution of a learning system, such as a neural network, changes, one speaks of a so-called covariate shift. If this change happens on the input of internal nodes of (deep) neural networks, it is called an internal covariate shift
+Batch Normalization \cite{ioffe2015batch} is a technique which consists to add a normalization “layer” between each layers, in order to reduce the problem of internal covariate shift. In the case that the input distribution of a learning system, such as a neural network, changes, one speaks of a so-called covariate shift. If this change happens on the input of internal nodes of (deep) neural networks, it is called an internal covariate shift
 
 An important thing to note is that normalization has to be done separately for each dimension (input neuron), over the ‘mini-batches’, and not altogether with all dimensions. Hence the name ‘batch’ normalization.
 Due to this normalization “layers” between each fully connected layers, the range of input distribution of each layer stays the same, no matter the changes in the previous layer. 

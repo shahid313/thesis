@@ -1,0 +1,70 @@
+\documentclass[margin=0.5mm]{standalone}
+%\documentclass[]{article}
+\usepackage{lmodern}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{pgfplots}
+\usepackage{pgfplotstable}
+
+\pgfplotsset{width=\textwidth}
+
+
+\definecolor{rred}{RGB}{64,48,117}
+\definecolor{ccian}{RGB}{170,151,57}
+\definecolor{bblue}{RGB}{61,86,225}
+\definecolor{mygreen}{RGB}{44,162,95}
+
+\pgfplotstableread[col sep=comma]{
+Name,CNN,CRNN,
+
+casoUno, 85.44, 94.92,
+casoDue, 74.09, 81.97,
+casoTre, 71.16, 72.42,
+casoQuattro, 74.26, 82.05,
+}\datatableTabClear
+\begin{document}
+
+\begin{tikzpicture}
+    \begin{axis}[
+	    xbar=2pt,% space of 0pt between adjacent bars
+	    xmin=60,
+	    xmax=102.5,
+	    bar width=0.8cm,
+	    width=12cm,
+	    height=12cm,
+	    xlabel={Average Precision (AP)},		
+            %xbar,
+            %xmin=0,
+            nodes near coords={\pgfmathprintnumber\pgfplotspointmeta\%},
+            nodes near coords align={horizontal},
+			%every node near coord/.append style={font=\boldmath},
+            enlarge y limits=0.2,
+            xmajorgrids,
+            xticklabel={\pgfmathparse{\tick}\pgfmathprintnumber{\pgfmathresult}\%},
+            xtick={60,70,...,100},
+            ytick=data,
+            yticklabels={
+                {Event Addition},
+                {SMOTE},
+                {Maj. Undersample},
+                {Original Data}
+            },
+            yticklabel style={font=\normalsize,xshift=0.5ex,align=right},
+            legend entries={CNN, CRNN},
+            legend image code/.code={%
+            	\draw[#1] (0cm,0cm) rectangle (0.6cm,0.1cm);
+            },
+            legend style={
+            	%at={(0.5,-0.2)},
+            	anchor=south east,
+            	legend columns=-1,
+            	/tikz/every even column/.append style={column sep=1cm}
+            }, reverse legend
+            ]
+			
+            \addplot [fill=mygreen] table [x=CNN,y expr=\coordindex] {\datatableTabClear};
+            \addplot [fill=bblue] table [x=CRNN,y expr=\coordindex] {\datatableTabClear};
+    \end{axis}
+\end{tikzpicture}
+
+\end{document}
