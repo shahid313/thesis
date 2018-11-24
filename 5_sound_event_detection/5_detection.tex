@@ -237,12 +237,14 @@ A chunk size of 20 corresponds to 0.4 seconds of audio, i.e. half the minimum po
 For each audio sequence, we perform a classification on contiguous blocks of frames detected as event by the ED stage 1. Among contiguous frame chunks classified as ``event'' by the CNN, the first frame with highest network output is indicated as event onset.
 
 
-\subsection{Experimental Set-Up}
+\subsection{Experimental Setup}
 
 According to the DCASE 2017 guidelines, the performance of the proposed algorithm has been assessed by using the development dataset for training and validation of the system. Furthermore, a blind test on the provided evaluation dataset has been performed.
 The performance metric of the DCASE 2017 challenge is the event-based error rate (ER) calculated using onset-only condition with a collar of 500 ms. The algorithm has been implemented in the Python language using Keras \cite{chollet2015keras} as deep learning library. All the experiments were performed on a computer equipped with a 6-core Intel i7, 32\,GB of RAM and two Nvidia Titan X graphic cards.
 
 \subsubsection{Dataset}
+\label{sec:dcase-rare-2017-dataset}
+
 The DCASE2017 challenge dataset \cite{DCASE2017challenge} has been used to develop and evaluate the algorithm.  The dataset consists of 30-second long sequences of background acoustic scenes recorded in different public or domestic spaces (park, home, street, cafe, train etc.) \cite{mesaros2016tut}, some of which have been added with isolated recordings from at most one of the three different target sound event classes: baby crying, glass breaking and gun shot. 
 The presence probability of a sound event in each mixed sequence of the original Development set was 0.5, thus we kept only sequences containing a sound event of the original training set and we generated additional mixtures assigned to the training and the validation sets.
 For the development set a total number of sequences respectively equal to 2750 for training, 300 for validation and 1496 for test have been employed.

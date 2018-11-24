@@ -1,0 +1,15 @@
+Process started: bibtex "PhDthesis_VES".aux
+
+This is BibTeX, Version 0.99d (TeX Live 2019/dev/Debian)
+The top-level auxiliary file: PhDthesis_VES.aux
+The style file: IEEEbib.bst
+Database file #1: IEEEabrv.bib
+Database file #2: refs.bib
+Warning--empty booktitle in vesperini2018capsule
+Warning--empty publisher in vesperini2018capsule
+Warning--empty booktitle in vesperinihierarchic
+Warning--empty publisher in vesperinihierarchic
+Warning--empty year in crocco2014surveillance
+Warning--empty journal in hershey2016cnn
+Warning--empty booktitle in adavanne2016sound
+(There were 7 warnings)
