@@ -17,6 +17,8 @@
 \usepackage{tabularx}
 
 \usepackage{tikz}
+\usepackage[outline]{contour}
+\contourlength{1.2pt}
 \usetikzlibrary{shapes,arrows}
 
 \usepackage{tkz-kiviat,numprint}
@@ -26,6 +28,8 @@
 
 \usetikzlibrary{shadows,arrows,fit,shapes,positioning,calc,backgrounds,spy,decorations.markings}
 \usetikzlibrary{backgrounds}
+\usetikzlibrary{matrix,chains,decorations.pathreplacing,arrows}
+
 
 \pgfdeclarelayer{background}
 \pgfdeclarelayer{foreground}
@@ -120,13 +124,13 @@ double distance=1.4pt, shorten >= 5.5pt, preaction = {decorate}, postaction = {d
 
 \maketitle
 
-%\begin{thesisacknowledge}
-%\lipsum[1-2]
-%\end{thesisacknowledge}
+\begin{thesisacknowledge}
+\lipsum[1-2]
+\end{thesisacknowledge}
 
-%\begin{thesisacknowledge}[italian]
-%\lipsum[1-2]
-%\end{thesisacknowledge}
+\begin{thesisacknowledge}[italian]
+\lipsum[1-2]
+\end{thesisacknowledge}
 
 \begin{thesisabstract}
 \lipsum[1-3]
@@ -157,6 +161,7 @@ double distance=1.4pt, shorten >= 5.5pt, preaction = {decorate}, postaction = {d
 \graphicspath{{6_polyphonic_sound_event_detection/}}
 \input{6_polyphonic_sound_event_detection/6_polyphonic_sed}
 
+\graphicspath{{7_other_contributions/}}
 \input{7_other_contributions/other}
 
 

@@ -1,0 +1,58 @@
+% This file was created by matlab2tikz.
+%
+%The latest updates can be retrieved from
+%  http://www.mathworks.com/matlabcentral/fileexchange/22022-matlab2tikz-matlab2tikz
+%where you can also make suggestions and rate matlab2tikz.
+%
+
+
+\begin{tikzpicture}
+
+\begin{axis}[%
+width=0.85\columnwidth,
+height=4cm,
+at={(1.424in,0.703in)},
+scale only axis,
+point meta min=-156.535576728001,
+point meta max=-22.4028070325664,
+axis on top,
+xmin=0.008,
+xmax=29.992,
+ytick={0,1,...,8},
+x label style={at={(axis description cs:0.50,-0.06)},anchor=north},
+y label style={at={(axis description cs:0.0,0.4)},anchor=south},
+xlabel style={font=\color{white!15!black}},
+xlabel={Time (s)},
+ymin=-0.015625,
+ymax=8.015625,
+ylabel style={font=\color{white!15!black}},
+ylabel={Frequency (kHz)},
+axis background/.style={fill=white},
+colormap/jet
+%colorbar,
+%colorbar style={ylabel style={font=\color{white!15!black}}, ylabel={Power/frequency (dB/Hz)}}
+]
+\addplot [forget plot] graphics [xmin=0.008, xmax=29.992, ymin=-0.015625, ymax=8.015625] {img/spectrogram-1_highlight.png};
+%\draw[black,line width=2pt] (axis cs:4.7,4) ellipse (12 and 400);
+
+%\draw[line width=1.2pt](axis cs:3.65,8) rectangle (axis cs:5.7,0);
+
+%\node [draw, ellipse, thick, red, minimum width=14, minimum height=200, label=above:Novelty] at (axis cs:4.7,4) {};
+\node[text=white] at (axis cs:4.7,4)[rotate=90] {\contour{white}{Novelty}};
+
+%\draw[black,line width=2pt] (axis cs:18.5,4) ellipse (12 and 400);
+%\draw[line width=1.2pt](axis cs:17.5,8) rectangle (axis cs:19.55,0);
+\node[text=white] at (axis cs:11.6,4)[rotate=90] {\contour{white}{Novelty}};
+
+%\draw[black,line width=2pt] (axis cs:25,0.5) ellipse (50 and 40);
+%\draw[line width=1.2pt](axis cs:20,5) rectangle (axis cs:29.95,0);
+
+%\fill[black, opacity=0.4](axis cs:20,5) rectangle (axis cs:29.95,0);
+%\fill[white, opacity=0.5](axis cs:22,3) rectangle (axis cs:28.00,1);
+
+\node[text=white] at (axis cs:25,4) {\contour{white}{Normal}};
+
+
+
+\end{axis}
+\end{tikzpicture}%

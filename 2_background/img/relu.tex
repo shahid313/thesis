@@ -1,0 +1,13 @@
+\begin{tikzpicture}[]
+\begin{axis}[
+	domain=-3:5,
+	axis lines=center,
+	axis on top=true,
+	ylabel=$y$,
+	xlabel=$x$,
+	]
+	\addplot+[mark=none,black,domain=-3:0] {0};
+	\addplot+[mark=none,black,domain=0:4] {x};
+	\node [right] at (axis cs: 1,0.7) {$y = x$};
+\end{axis}
+\end{tikzpicture}

@@ -70,7 +70,7 @@ where $T$ is the total number of segments $t_1$.
 \subsection{Detection Metrics}
 Precision and recall rely on hard decisions made for each trial, they typically depend on a threshold applied to some underlying decision variable, i.e., the output of the neural network. 
 Lowering the threshold will increase likelihood of accepting both positive and negative examples, improving recall but in many cases hurting precision. Although F-score combines these values at a single threshold in an attempt to balance this
-tradeoff, a more complete analysis can be provided by plotting a function proportional to the metric over the full range of possible thresholds. Some examples are, the precision-recall (P-R) curve and the receiver operating characteristic (ROC) curve. The latter plots true positive rate (TPR = $TP/TP+FN$) as a function of the false
+tradeoff, a more complete analysis can be provided by plotting a function proportional to the metric over the full range of possible thresholds. Some examples are, the precision-recall (P-R) curve (showed in \figref{fig:roc}) and the receiver operating characteristic (ROC) curve. The latter plots true positive rate (TPR = $TP/TP+FN$) as a function of the false
 positive rate (FPR = 1 - Recall) as the decision threshold is
 varied. 
 
@@ -88,6 +88,13 @@ where $R_n$ and $P_n$ are the Recall and Precision for threshold $n$ respectivel
 \end{equation}
 Both AUC and AP vary between 0 and 1, with an uninformative classifier yielding 0.5, while the ideal system yelds 1.
 
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.5\linewidth]{img/precision_recall_curve.png}
+	\caption[P-R Curve]{Example of 2-class Precision-Recall curve. Relative AP is equal to 0.9341.}	
+	\label{fig:roc}
+\end{figure}
 
 \subsection{Final Remarks}
 Estimates of metrics on classes with very few examples are also intrinsically noisy. Any dataset of real-world

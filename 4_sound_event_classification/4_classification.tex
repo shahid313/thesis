@@ -62,20 +62,20 @@ In the classification phase (\figref{sfig:testing}), given a snore sound $\mathb
 
 
 
-%\begin{figure}[h]
-%	\centering
-%	\begin{subfigure}[b]{0.3\columnwidth}
-%		\def\svgwidth{\columnwidth}
-%		\input{4_sound_event_classification/scheme_train_v2.pdf_tex}
-%		\caption{Training.} \label{sfig:training}
-%	\end{subfigure}
-%	\begin{subfigure}[b]{0.3\columnwidth}
-%		\def\svgwidth{\columnwidth}
-%		\input{4_sound_event_classification/scheme_classify_v2.pdf_tex}
-%		\caption{Classification.} \label{sfig:testing}
-%	\end{subfigure}
-%	\caption{Scheme of the proposed approach.}\label{fig:scheme}
-%\end{figure}
+\begin{figure}[h]
+	\centering
+	\begin{subfigure}[b]{0.3\columnwidth}
+		\def\svgwidth{\columnwidth}
+		\input{4_sound_event_classification/scheme_train_v2.pdf_tex}
+		\caption{Training.} \label{sfig:training}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.3\columnwidth}
+		\def\svgwidth{\columnwidth}
+		\input{4_sound_event_classification/scheme_classify_v2.pdf_tex}
+		\caption{Classification.} \label{sfig:testing}
+	\end{subfigure}
+	\caption{Scheme of the proposed approach.}\label{fig:scheme}
+\end{figure}
 
 
 \subsubsection{Deep Scattering Spectrum}
@@ -461,7 +461,6 @@ The tyre-road noise, results from the sum of several acoustic phenomena that con
 	\label{fig:noise-spec}
 \end{figure} 
 
-
 Noise spectra have been measured on a large number of tyres (about 50) \cite{sandberg2003multi} in a cooperation project between the Technical University of Gdansk (TUG) in Poland and the Swedish National Road and Transport Research Institute (VTI). Despite a wide range of tyre types, the spectral shapes are very similar and the sound concentrates around a peak at 800-1000 Hz. 
 Several studies \cite{freitas2009traffic} carried out in roads with different types of surface and age have usually shown that dense asphalt concrete and stone mastic asphalt are the ones that generate more noise contrasting with double and single porous asphalt. Porous pavements are constructed by reducing the amount of small aggregate used in the pavement
 such that the pavement cannot be tightly compacted. In general, porous pavement reduces tyre/pavement interaction noise above 1000 Hz. Porosity reduces the strength of the air pumping source mechanism by preventing air compression and reduces the enhancement potential of the horn effect as shown in \figref{fig:noise-spec}. 
@@ -562,7 +561,7 @@ The result of the recording sessions is a 50-minutes-long dataset (41 minutes fo
 	\label{fig:car-Squadriga}
 \end{figure}
 
-The spectrograms from two audio samples belonging to the smooth and rough classes are shown in Figure \ref{fig:road_spectrograms}.
+The spectrograms from two audio samples belonging to the smooth and rough classes are shown in \figref{fig:road_spectrograms}, respective asphalt photographs are shown in \figref{fig:road}
 
 \begin{figure}[ht]
 	\centering
@@ -577,6 +576,23 @@ The spectrograms from two audio samples belonging to the smooth and rough classe
 	\end{subfigure}
 	\caption[Road noise spectrograms]{Spectrograms from 10 second samples of (a) smooth urban road, (b) rough highway asphalt.}
 \label{fig:road_spectrograms}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\begin{subfigure}[b]{0.48\textwidth}
+		\centering
+		\includegraphics[width=0.45\columnwidth, angle = 270]{img/Smooth.jpg}
+		\subcaption{Smooth road.}
+	\end{subfigure}
+	\hfill 
+	\begin{subfigure}[b]{0.48\textwidth}
+		\centering   
+		\includegraphics[width=0.45\columnwidth, angle = 270]{img/Rough.jpg} 
+		\subcaption{Smooth road.}
+	\end{subfigure} 
+	\caption[Road samples]{Samples of (a) smooth urban road, (b) rough highway asphalt.}
+	\label{fig:road}
 \end{figure}
 
 
@@ -634,6 +650,19 @@ Regarding the fully-connected layers, the best results have been achieved using 
 
 
 \subsection{Evaluation with Siamese Neural Networks}  
+
+\begin{figure}
+	\centering
+	\begin{subfigure}[b]{0.48\textwidth}
+		\centering
+		\includegraphics[width=\columnwidth]{img/siamese}
+	\end{subfigure} 	
+	\begin{subfigure}[b]{0.48\textwidth}
+		\centering   
+		\includegraphics[width=\columnwidth]{img/siamese_output}
+	\end{subfigure} 
+	\caption{Siamese architecture (left) and its output (right).}
+\end{figure}
 
 \subsection{Conclusions} 
 

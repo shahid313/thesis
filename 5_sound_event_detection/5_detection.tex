@@ -1,8 +1,8 @@
 \chapter{Sound Event Detection}
 
-The task of sound event detection (SED) is defined as the task of analysing a continuous audio stream in order to extract a description of the sound events occurring in it. This description is commonly expressed as a label that marks the start, the ending, and the nature of the occurred sound (e.g., children crying, cutlery, glass jingling). In this chapter two related works are shown, which are respectively: Snoring Sounds Detection by means of Convolutional Recurrent Neural Networks (CRNN) and acoustic data augmentation; and Rare Sound Detection, consisting in detection of three sound categories (i.e., gunshot, babycry and glassbreak) from a highly imbalanced dataset. The latter has been performed by means of a hierarchical framework of ConvNets.
+The task of sound event detection (SED) is defined as the task of analysing a continuous audio stream in order to extract a description of the sound events occurring in it. This description is commonly expressed as a label that marks the start, the ending, and the nature of the occurred sound (e.g., children crying, cutlery, glass jingling). In this chapter three related works are shown, which are respectively: Overnight Snore Sounds Detection by means of Convolutional Recurrent Neural Networks (CRNN) and acoustic data augmentation; Convolutional Neural Networks with 3-D Kernels for Voice Activity Detection in a Multiroom Environment; and Rare Sound Detection, consisting in detection of three sound categories (i.e., gunshot, babycry and glassbreak) from a highly imbalanced dataset. The latter has been performed by means of a hierarchical framework of ConvNets.
 
-\section{Snoring Sounds Detection}
+\section{Overnight Snore Sounds Detection}
 
 As described in \secref{sec:snoring_classification}, one of the most common sleep disorder is the chronic snoring. In the occasion of the Interspeech 2017 ComParE challenge \cite{ComParE2017} and subsequent investigations, different approaches based on Deep Neural Networks (DNNs) have been presented \cite{amiriparian2017snore}, \cite{freitag2017end}, \cite{vesperini2018snore} with the aim to classify isolated snore sound events among the four classes based of the VOTE scheme.
 
@@ -371,5 +371,191 @@ In this paper, a framework that makes use of hierarchical CNN classifiers fed wi
 The multi-scaled approach inherent to the two different CNN architectures results to be effective. 
 
 For future work, strategies to customize the loss function embedding the evaluation metric into the training procedure can be considered. Specifically, this task is particularly affected by the dataset unbalancing: to counteract this problem an alternative to the data augmentation is to design tailored loss functions which enhance the detection of the rare events. 
-
+\newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section[CNN with 3-D Kernels for VAD in a Multiroom Environment]{Convolutional Neural Networks with 3-D Kernels for Voice Activity Detection in a Multiroom Environment}
+
+
+The Voice Activity Detection (VAD) element is considered fundamental in systems for automatic-assisted home environments, since the speech signal exhaustively characterizes the human activity. In a multi-room domestic environment, Automatic Speech Recognition (ASR) engines can use the information of both the speech segments time boundaries and the room in which the speaker is located in order to improve the  word recognition performance.
+In this context, the recent success encountered by deep learning motivated the investigation of completely data-driven approaches \cite{ijcnn-vad,ijcnn2016-vad}, specially when is useful to exploit the information contained in multiple audio signals. In this work we focus on the use of three-dimensional kernels for Convolutional Neural Networks (CNN), taking advantage of an arrangement of the input data to the network rarely used in the audio field.
+Thus, due to speech signal degradation caused by background noise and reverberation, a multiple sensor (i.e., microphone arrays) deployment is necessary, leading to a rapid increase of data to process.
+
+A multi-room domestic scenario requires the room localization and the time detection of speech events. For this purpose we propose the investigation of a 3-D Convolutional neural network (CNN-mVAD) for multichannel audio processing. 
+A similar architecture employed in image classification was presented in \cite{krizhevsky2012imagenet} with remarkable performance.
+Our interest goes to the exploitation of the peculiarities of this technology compared to a typical neural network architecture, the Multi Layer Perceptron (MLP-mVAD). This paper contribution is on the choice of a CNN with 3-D kernels. They lead to the possibility of jointly processing simultaneous information from different audio channels, similarly to what occurs in image processing with RGB channels. In addition, CNNs are able to exploit the temporal evolution of the audio signal, and this is an useful feature for the VAD purpose \cite{zhang_2016_vad}.
+ 
+The state-of-the-art VADs require many processing-stages to obtain the final decision, including the computation of typical characteristics of the acoustic wave or signal statistical descriptors \cite{giannoulis2014athena}. In recent times, promising VAD approaches take advantage of deep neural networks. A speech/non-speech model based on a Multi-Layer Perceptron (MLP) neural network is proposed in \cite{abadl2f}, while in \cite{morales2014distant} multiple features are feed to a Deep Belief Neural Network (DBN) to segment the signal in multichannel utterances. CNNs have been recently employed in VAD tasks \cite{mcloughlin2015low,6854054} with encouraging results. In \cite{Price2016}, the authors use a CNN to relabel training examples for a feedforward neural network, obtaining relative reductions in equal error rate of up to 11.5\%.
+
+
+\subsection{Proposed Approach}
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\textwidth]{img/flowchart_VAD}
+	\caption[Multiroom VAD with 3-D CNNs]{Block diagram of the proposed Neural Network Multi-Room VAD in a 2 rooms application. 
+		Several microphones can be exploited for each room, consisting in the multi-channel approach. Analysed classifiers are MLP and CNN.}
+	\label{fig:VAD}
+\end{figure}
+
+The algorithm proposed in this work is suitable for speech detection in a $n$ room context. 
+In \figref{fig:VAD} the block diagram of the NN-mVAD is depicted. 
+Initially, features are extracted from the input audio signals. 
+Successively, the Neural Network adopts a multi-class strategy in order to perform the classification task. In particular, the NN has an output layer of $K=2^{n}$ units,
+where e.g., $n=2$ due to the chosen rooms in our case of study. This leads to 4 output classes, one for each condition of speech/non-speech in the 2 considered rooms. Due to softmax behaviour, the 4 classes mean the joint probability of the 4 different events.
+Marginalization is then applied, obtaining separated probabilities for each room. Finally, the outputs are processed by a threshold block and a hangover scheme, with the focus on handling isolated speech detections.
+
+\subsubsection{Feature Extraction}
+\label{ssec:feat_desc}
+For our purpose, we exploit \textit{LogMel} as feature set.
+The feature extraction stage operates on signals sampled at 16\,kHz. The used frame size is equal to 25\,ms and the frame step is equal to 10\,ms. LogMel features are extracted from the spectrogram of an excerpt of the signal, where 40 mel-band filters are applied, taking the logarithm of the power spectrum for each band. The range of feature values is then standardized to have zero mean and unitary standard deviation.
+
+Due to multi-channel approach, features are structured in a specific order.
+For the MLP case, features of the different microphones and rooms are concatenated for each frame, resulting in a vector. For the CNN case a temporal context is exploited \cite{6854054}. In particular, considered the current feature vector $\mathbf{x}[t]$ at the frame index $t$ and a context size equal to $C$, the feature vector $\mathbf{x}[t]$ is concatenated with the previous and successive feature vectors $\{\mathbf{x}[t - c],\ldots,\mathbf{x}[t-1],\mathbf{x}[t+1],\ldots,\mathbf{x}[t + c]\}$, with $c = 1, \dots, \frac{(C-1)}{2}$. This procedure leads to a 2-D feature matrix for each microphone. Finally, the 2-D matrices are stacked together, resulting in a 3-D matrix, where the dimensions correspond to the length of the feature set, the context and the number of selected microphones. 
+
+
+\subsubsection{Convolutional Neural Network.}
+\begin{figure}
+	\centering
+	\includegraphics[width=0.6\textwidth]{img/3DCNN}
+	\caption[CNNs with 3D kernels]{Convolution process for a 3-D kernel (red) over a 3-D input matrix (light blue). The result is a 2-D matrix (blue).}
+	\label{fig:3DCNN}
+\end{figure}
+
+In this work, Convolutional Neural Network is compared to a Multi Layer Perceptron. 
+A particular attention goes to the 3-D convolutional kernel. It processes a 3-D input matrix, as depicted in \figref{fig:3DCNN}.
+Convolution is performed along $x$ and $y$ axis. In $z$ axis, the input matrix and the kernel have both the same number of layers. As result, for each $z$ layer, a 2-D convolution is evaluated, leading to a number of \textit{feature maps} equal to the number of layers. Finally, a 2-D output matrix is obtained by summing the feature maps in the $z$ axis. 
+As conclusion, for our case, the 3-D convolution process is suitable only for the first convolution layer of the CNN, successively, a 2-D convolution is performed in the following layers.
+Since we focus on audio application, it is interesting to analyse a signal excerpt which is extended in time. Thus, we make use of \textit{strides} combined with frame context. In particular, this operation does not merge adjacent frames in order to obtain the input matrix, but it selects frames with a jump equal to the stride value. 
+
+\subsubsection{Marginalization}
+The joint probabilities of the two rooms are marginalized by summing the conditional probabilities related to a specific room:
+\begin{align}
+P(S_1=1) &= P(S_1=1, S_2=0) + P(S_1=1, S_2=1), \\
+P(S_2=1) &= P(S_1=0, S_2=1) + P(S_1=1, S_2=1).
+\end{align}
+
+denoting with $S_i=1$ the presence of speech in the room $i$ and with $S_i=0$ its absence.
+A threshold is then applied to the marginalization probabilities, leading to a binary signal. A smoothing step handles errors produced by the classifiers.
+
+\subsubsection{Decision and Hangover}
+
+We exploit a \emph{hangover} technique, which relies on a counter. In particular, for two consecutive speech frames  the counter is set to a predefined value. On the contrary, for each non-speech frame, the counter decreases by 1. If the counter is negative, the actual frame is classified as non-speech. The value of the counter is set to $\eta=8$.
+
+\subsection{DIRHA Dataset}
+
+\begin{figure}[h]
+ \centering
+ \includegraphics[width=0.8\textwidth]{img/plan}
+ \caption{Layout of the apartment used as experimental set-up.}
+ \label{fig:plan}
+\end{figure}
+
+The dataset we used for our experiments was provided by the DIRHA project \cite{cristoforetti2014dirha}, it contains signals recorded in an apartment equipped with 40 microphones installed on the walls and the ceiling of each room\footnote{\url{http://dirha.fbk.eu/simcorpora}}.
+The whole dataset is composed of two subsets called \emph{Real} and \emph{Simulated}, but we used only the latter since it contains more data, it is characterised by higher noise source rate and a wide variety of background noises. 
+The Simulated dataset counts 80 scenes 60 seconds long consisting in localized acoustic and speech events in Italian language ($23.6\%$ of the total time), on which different real background noise with random dynamics are superimposed. 
+It is artificially built: the signals are convolved with some available measured room impulse responses, simulating the acoustic wave propagation from the sound source to each single microphone. 
+
+\subsection{Experiments}
+
+The analysis of proposed mVADs relies on a two-stage strategy: a network size selection and a microphone combination selection.
+The experiments are conducted by means of the $k$-fold cross-validation technique to reduce the performance variance. In this case we choose $k=10$, a validation set is also employed during the training, thus, 64-8-8 scenes respectively compose the training, validation and test sets. 
+The performance has been evaluated using the false alarm rate (FA), the deletion rate (Del) and the overall speech activity detection (SAD) defined as follows:
+\begin{equation}
+\text{Del} = \frac{N_{del}}{N_{sp}},  \quad  \text{FA} = \frac{N_{fa}}{N_{nsp}}, \quad \text{SAD} = \frac{N_{fa} + \beta N_{del}}{N_{nsp} + \beta N_{sp}},
+\end{equation}
+where $N_{del}$, $N_{fa}$, $N_{sp}$ and $N_{nsp}$ are the total number of deletions, false alarms, speech and non-speech frames, respectively. The term $\beta = N_{nsp}/N_{sp}$ acts as regulator term for the class unbalancing. Two different GPU-based toolkits have been employed for the experiments: a custom version of GPUMLib \cite{gpumlib} for MLP-mVAD and \emph{Keras} (\textit{Theano-based})\footnote{\url{http://keras.io/}} for CNN-mVAD. The MLP networks were trained with a fixed momentum of 0.9, learning rate equal to 0.01 and a Gaussian distribution with zero mean and standard deviation of 0.1 for weight initialization. For the CNN networks we used a fixed learning rate of $2.5\cdot10^{-3}$ and a random weight initialization.
+
+\begin{table}[h]
+	\centering
+	\resizebox{\textwidth}{!}{
+	\begin{tabular}{|c|c|c|c|c|c|c|}
+		\hline
+		\multicolumn{7}{|c|}{CNN}\\
+		\hline
+		\hline \multicolumn{2}{|c|}{} &  \multicolumn{2}{|c|}{{\multirow{1}{*}{1R 1MxR}} } & {\multirow{2}{*}{2R 1MxR}} & {\multirow{2}{*}{2R 2MxR}} & {\multirow{2}{*}{2R 3MxR}}\\
+		\multicolumn{2}{|c|}{} & \multicolumn{1}{c}{Kitchen} &\multicolumn{1}{c|}{Living Room} & & &\\
+		% {\multirow{1}{*}{Kitchen} } & {\multirow{1}{*}{Living Room} } \\
+		\hline
+		{\multirow{1}{*}{Input}}& {Strides} & 8 & 10 & 8 & 8 & 8\\
+		{\multirow{1}{*}{Params}}& {Context} & 17 & 23 & 25 & 23 & 23\\
+		\hline
+		{\multirow{1}{*}{First}}& {N Kern} & 16 & 16 & 32 & 128 & 256\\
+		{\multirow{1}{*}{Convolutional}}& {Size} & $6\times6$ & $6\times6$ & $4\times4$ & $4\times4$ & $4\times4$\\
+		{\multirow{1}{*}{Layer}}& {Pooling} & $2\times2$ & $2\times2$ & $2\times2$ & - & -\\
+		\hline
+		{\multirow{1}{*}{Second}}& {N Kern} & 24 & 16 & 64 & 64 & 32\\
+		{\multirow{1}{*}{Convolutional}}& {Size} & $4\times4$ & $4\times4$ & $3\times3$ & $3\times3$ & $3\times3$\\
+		{\multirow{1}{*}{Layer}}& {Pooling} & - & - & - & - & -\\
+		\hline
+		{\multirow{1}{*}{Third}}& {N Kern} & 24 & 16 & 128 & 32 & 32\\
+		{\multirow{1}{*}{Convolutional}}& {Size} & $3\times3$ & $3\times3$ & $3\times3$ & $3\times3$ & $3\times3$\\
+		{\multirow{1}{*}{Layer}}& {Pooling} & - & - & - & - & -\\
+		\hline
+		{\multirow{1}{*}{Fully Connected}}& {Num. of} & 100 & 100 & 500 & 250 & 500\\
+		{\multirow{1}{*}{Layers}}& {Units} & 20 & 20 & 100 & 100 & 100\\
+		\hline
+		\multicolumn{2}{|c|}{SAD Min (\%)} & 9.0 & 10.7 & 9.3 & 8.1 & 7.0\\
+		\hline	
+		\hline
+		\multicolumn{7}{|c|}{MLP}\\
+		\hline
+		\hline
+		{\multirow{1}{*}{Fully Connected}}& {Num. of} & 10 & 15 & 10 & 8 & 8\\
+		{\multirow{1}{*}{Layers}}& {Units} & - & - & - & - & -\\
+		\hline
+		\multicolumn{2}{|c|}{SAD Min (\%)} & 11.8 & 13.3  & 11.7 & 8.8 & 7.4 \\
+		\hline
+	\end{tabular}
+	}
+	\caption{Network topology parameter for CNN- and MLP-mVAD.}
+	\label{tab:CNNs}
+\end{table}
+
+
+\subsection{Results}
+In this section, the obtained results in terms of SAD are discussed and compared for the two different architectures of neural network. The analysis of proposed mVADs relies on a multi-stage strategy, where the best network size and microphone channel combination are searched. The steps are the following:
+\begin{enumerate}
+	\item one network per room, one microphone per room;
+	\item one network per two room: one, two and three microphone per room.
+\end{enumerate}
+
+Regarding network size selection, MLP-mVAD network topologies are explored by means of 1 or 2 hidden layers with respectively $4,8,10,15,20,25,40$ units per layer and all their combinations. 
+For CNN-mVAD, due their greater number of hyperparameters and increased training time, a comprehensive grid search was not reasonable, thus we adopted a progressive strategy, based on intermediate results.
+
+Concerning audio channels selection, we initially selected a subset of 9 microphones: 4 in the kitchen (i.e., K2L, K1R, K3C, KA5) and 5 in the living room (i.e., L1C, L2R, L3L, L4R, LA4).
+In the experiments with one microphone per room, we evaluated the performance for all of them, successively, in the following stages we analyse only combinations obtained with the best performing ones.
+
+\subsubsection{One network per room, one microphone per room (1R 1MxR). }
+In this step we evaluated the performance considering two different VADs, one for the kitchen and one for the living room. In the network size selection, the best MLP-VAD resulted to have one layer with 10 units and 8 units respectively for the kitchen and the living room. In the second stage, the best performing microphone for the kitchen was the KA5, while for the living room the LA4: both of them are placed at the center of the room ceiling and the averaged SAD was equal to 12.5\%.
+The two networks exploited for the CNN-VAD are reported in \tableref{tab:CNNs}. As for MLP-VAD, best microphones are KA5 and LA4, with an average 9.9\% SAD.
+
+\subsubsection{One network per two rooms, one microphone per room (2R 1MxR).}
+From this step we started to evaluate the performance of properly mVAD, using both in training and in test audio channels coming from the two rooms. First of all we used only one channel per room: the best MLP-mVAD has one layer with 15 units and the audio captured by the pair KA5, LA4 (confirming the result of the previous step), leading to a SAD equal to 11.7\%. 
+For the CNN-mVAD, SAD equal to 9.3\% is again obtained with the pair of microphones KA5 and LA4. CNN topology is reported in \tableref{tab:CNNs}.
+
+
+\subsubsection{One network per two rooms, two microphones per room (2R 2MxR).}
+We progressively introduced one more audio channel per room, primarily by repeating the network topology selection. Compared to the previous step, the best configuration for MLP-mVAD has only one hidden layer with 8 neurons. In the microphone selection, on the basis of the above analysis %(experiments?)
+we evaluate the 12 combinations of double pairs of channels, achieving with the couple KA5, K1R (from the kitchen) and LA4, L2R (from the living room) an absolute improvement of $-2.9\%$ of SAD in respect to the case with one microphone per room.
+Settings of the CNN-mVAD are shown in \tableref{tab:CNNs}. Again, best microphones are the same of the MLP-VAD: KA5, K1R, LA4, L2R. The resulting SAD is 8.1\%.
+
+\subsubsection{One network per two rooms, three microphones per room (2R 3MxR).}
+In the last step experiments we evaluate the performance of mVADs that process three audio channels per room. For the MLP-mVAD the network topology remains the same as in the case with two microphones per room and the best result (SAD $=7.4\%$) is obtained with the combination K1R, K2L, KA5, L1C, L2R, LA4. 
+The CNN-mVAD achieves 7.0\% SAD with topology shown in \tableref{tab:CNNs}, selected microphones are: K1R, K3C, KA5, L2R, L4R, LA4.
+\vspace{-0.3cm}
+
+\begin{figure}[t]
+	\centering
+	\includegraphics[width=0.7\textwidth]{img/pgfsources/graph1/graph1}
+	\caption[Multiroom VAD - Results]{Box-plot of the resulting SADs for the microphone selection experiments in the different steps. Evident is the improvement given by increasing the microphone number, and, for the CNN-mVAD, the related statistical robustness.}
+	\label{fig:variance}
+\end{figure}
+
+
+\subsection{Conclusion}
+
+A neural network approach for voice activity detection in a domestic environment is presented in this work, paying specific attention to a smart use of the input features. In particular, a multi-channel strategy is implemented, consisting in the usage of multiple microphones as input of the algorithm. Two networks are investigated, which are MLP and CNN. The latter was recently exploited for audio task, with remarkable results. Moreover, due to the suitable CNN structure for multi-channel investigation, we make use of 3-D convolutional kernel, whose dimensions correspond to frequency, time and used microphones. In detail, LogMel features are chosen to represent the frequency domain, in order to convolve the CNN kernel with correlated inputs. Time is explored by means of a temporal context plus strides, allowing the CNN  to process an excerpt of the signal with duration about 2\,s. Multi-channel features are stacked together, leading to a 3-D input matrix.
+
+The optimization strategy consists in two steps, a network size selection and a microphone selection. Four different studies are conducted, which are a two network approach for single room VAD with only one microphone, and a unique network for the two rooms VAD, featuring  one, two and three microphones. The latter achieves the best performance in terms of SAD, leading to 7.4\% for MLP and 7.0\% for CNN. A remarkable aspect of the CNN mVAD is the robustness to the microphone choice, with lower mean and standard deviation. The independence from the audio source positioning is an interesting applicative result. On the contrary, due to the dimension of the CNN, simulation time is considerably longer compared to MLP.
+
+Future works will be oriented to the employment of raw audio data as input for the CNN, in order to exploit the network feature extraction capability.
