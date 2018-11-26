@@ -432,7 +432,7 @@ A deeper focus will be given also to the temporal evolution of the signal by mea
 
 
 
-
+\newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Road Surface Roughness Classification}
 	
@@ -481,15 +481,40 @@ These works motivate us to investigate deep learning approaches for the road sur
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=1.0\linewidth]{img/flowchart_1.pdf}
-	\caption{Algorithm Block Diagram}
+	\includegraphics[width=1.0\linewidth]{img/flowchart_orizzontale}
+	\caption[Road Surface Roughness Classification]{Road Surface Roughness Classification - Algorithm Block Diagram}
 	\label{fig:algoritmo-orizzontale}
 \end{figure}
 
 
-For the road surface classification task we propose an approach based on feature extraction, preprocessing and a classification stage based on a convolutional neural network (CNN) \cite{lecun1995convolutional}. The proposed algorithm is depicted in~\figref{fig:algoritmo-orizzontale}. The preprocessing stage works with short audio chunks to detect abrupt changes in the road surface conditions. We use Auditory Spectral Features, that are calculated in the first stage and then arranged in subsequent and non-overlapping chunks of temporal extension equal to one second in the feature extraction stage. The Neural Network stage deals with the classification and processes one block at a time.
+For the road surface classification task we propose an approach based on convolutional neural networks (CNN) \cite{lecun1995convolutional}. The proposed algorithm is depicted in~\figref{fig:algoritmo-orizzontale}. The preprocessing stage works with short audio chunks to detect abrupt changes in the road surface conditions. We use Auditory Spectral Features, that are calculated in the first stage and then arranged in subsequent and non-overlapping chunks of temporal extension equal to one second in the feature extraction stage. 
 
-\textbf{NDFAB: aggiungere Siamesi}
+We compared two variants of the algorithm: in the first one, after a supervised training the CNN stage deals with the classification and processes one block at a time; in the second one, we used a Siamese architecture which was trained to produce a measure of ``distance'' between \textit{smooth} and \textit{rough} samples. In the evaluation phase, we can exploit the pair of inputs to be supplied to the Siamese in order to consider the temporal correlation between adjacent chunks.
+
+We performed experiments also to explore the possibility to realize a \textit{transfer learning} with respect to the tyre types. In detail, we collected the dataset travelling the same road with two sets of tyres, namely \textit{Winter} and \textit{Summer} tyres. Then, we evaluated the performance of the proposed algorithm both using the same tyre set, both training with a set and testing on the other.
+
+\subsubsection{Siamese Neural Networks}
+
+\begin{figure}[h]
+	\centering
+	\begin{subfigure}[b]{0.48\textwidth}
+		\centering
+		\includegraphics[width=\columnwidth]{img/siamese}
+	\end{subfigure} 	
+	\begin{subfigure}[b]{0.48\textwidth}
+		\centering   
+		\includegraphics[width=\columnwidth]{img/siamese_predict}
+	\end{subfigure} 
+	\caption[Siamese architecture]{Siamese architecture (left) and its prediction procedure (right).}
+	\label{fig:siamese_road}
+\end{figure}
+
+This architecture is designed to accept a pair of audio chunks as inputs which are processed by two CNNs with binded weights. In training phase, the whole network learns to maps these inputs into two different representation vectors, then as output returns the Euclidean distance between them. For further details please refer to (cf. \secref{ssec:siamese}).
+
+In this work, we introduce a custom prediction procedure for the Siamese architecture. The idea is shown \figref{fig:siamese_road}: a window composed of $n$ chunks is fixed; in the first case the chunk $\mathbf{X}[n+1]$ is passed iteratively as input to the network together with each of the previous chunks $\mathbf{X}[0,\dots,n]$. A distance will be associated to each pair, which is the output of the network; then an average is computed between the $n$ obtained distances. 
+The same is done with the chunk $\mathbf{X}[n+2]$  and the previous $n$, and so on until the end of test set. In this way every chunk from the $n^{th}$ to the last will be associated to a distance. Analyzing the signal obtained from this procedure we are able to distinguish between \textit{smooth} and \textit{rough} condition. Specifically, the signal obtained from the distances averaging is firstly processed by means of a low-pass filter, then is compared to an adaptive threshold.
+
+
 
 \subsubsection{Auditory Spectral Features}
 
@@ -507,13 +532,6 @@ D_{30}(n,m)  = M_{log}^{30}(n,m)-M_{log}^{30}(n-1,m),
 for a total of 52 coefficients for frame. The final feature vector is expanded by including the frame energy and its derivative ending up in a total number of 54 coefficients. %The block diagram of the extraction procedure is depicted in \figref{fig:ASF}. 
 The features are extracted with an open-source audio analysis toolkit openSMILE v2.3.0 \cite{Eyben13-RDI} ensuring reproducibility.
 
-%\begin{figure}[h]
-%	\centering
-%	\includegraphics[width=0.5\linewidth]{img/ASF.pdf}
-%	\caption{Block diagram of ASF extraction procedure}
-%	\label{fig:ASF}
-%\end{figure}
-
 In order to feed the CNN, audio chunks of 1\,s are obtained from 98 feature vectors, resulting in 2D arrays of 54-by-98 values.
 
 \subsection{Dataset}
@@ -522,7 +540,7 @@ The dataset built for this work is done with a multi-channel microphone arrangem
 
 \begin{figure}[ht]
 	\centering
-	\includegraphics[width=0.6\linewidth]{img/car-mic}
+	\includegraphics[width=0.4\linewidth]{img/car-mic}
 	\caption[Car equipment for dataset recording.]{Positioning of the microphones in the car used to record the dataset, top view (a) and bottom view (b). The microphones are placed in the engine compartment (E), close to the front-left, rear-left and rear-right tyres (FL, RL, RR), and inside the car close to the driver or in the back seat (ID, IB). The last two microphones are \textit{PCB Piezotronics} model 378C20 type microphones, while all the others are IP55 \textit{PCB Piezotronics} model 130A24 microphones. The microphones are omnidirectional, however the arrows in (b) show how the capsule was positioned to minimize wind effect. The rear microphones are protected in the wheelhouse.}
 	\label{fig:car-mic}
 \end{figure}
@@ -546,13 +564,7 @@ The dataset built for this work is done with a multi-channel microphone arrangem
 
 
 The car employed to build the dataset is Mercedes A Class from 2014. In addition to the audio signals, the GPS signal has been recorded to track down the car speed and position at any given time. A mobile multi-channel front end, \textit{HEAD Acoustics SQuadriga II}, has been employed as acquisition device, being able to monitor and record 8 contemporary channels at different sample rates, and to store GPS antenna and CAN bus signals as depicted in \figref{fig:car-Squadriga}.
-All audio signals are sampled at 44100\,Hz, 24-bits. The external microphones used -26 dBV as input range while the interior microphones had -16 dBV as input range.
-To facilitate the labelling operations, a camcorder \textit{BC Master DC10}\footnote{\url{http://www.bc-master.com/product/car-dash-camera-dc10}} was installed on the dashboard of the car. In addition to the video, it provides the speed information obtained through its own GPS antenna and it records the cockpit audio, useful for taking vocal notes while driving.
-
-The data recorded with the \textit{HEAD Acoustics SQuadriga II} have been exported by means of the software \textit{HEAD Acoustics ArtemiS SUITE} in the uncompressed WAV audio format with a 32-bit float representation.
-
-All recordings were taken in dry conditions in the urban and suburban areas of Ancona (Italy) with variable speed, traffic conditions and pavement roughness. Only roads that had been recently asphalted were considered and multiple takes at different speed for each road have been performed. The dataset is not perfectly balanced and is characterized by 41\% of rough road samples and 59\% of smooth road samples. For this reason a balanced version of the dataset, i.e. with equal number of smooth and rough samples, has been created by pruning excess samples for the most populated class. 
-The result of the recording sessions is a 50-minutes-long dataset (41 minutes for the balanced version), with 6 audio channels and a speed channel. Labels for the roads have been annotated manually.
+All audio signals are sampled at 44100\,Hz, 24-bits. The external microphones used -26 dBV as input range while the interior microphones had -16 dBV as input range. To facilitate the labelling operations, a camcorder \textit{BC MasterDC10}\footnote{\url{http://www.bc-master.com/product/car-dash-camera-dc10}} was installed on the dashboard of the car. In addition to the video, it provides the speed information obtained through its own GPS antenna and it records the cockpit audio, useful for taking vocal notes while driving. The data recorded with the \textit{HEAD Acoustics SQuadriga II} have been exported by means of the software \textit{HEAD Acoustics ArtemiS SUITE} in the uncompressed WAV audio format with a 32-bit float representation.The result of the recording sessions is approximately 100-minutes-long multichannel recordings (6 audio channels and a speed channel) for both the tyre sets. Labels for the roads roughness have been annotated manually. 
 
 \begin{figure}[h]
 	\centering
@@ -561,7 +573,11 @@ The result of the recording sessions is a 50-minutes-long dataset (41 minutes fo
 	\label{fig:car-Squadriga}
 \end{figure}
 
-The spectrograms from two audio samples belonging to the smooth and rough classes are shown in \figref{fig:road_spectrograms}, respective asphalt photographs are shown in \figref{fig:road}
+All recordings were taken in dry conditions in the urban and suburban areas of Ancona (Italy) with variable speed, traffic conditions and pavement roughness. Only roads that had been recently asphalted were considered and multiple takes at different speed for each road have been performed. As aforementioned, the same roads have been travelled in close days with two sets of tyres.
+
+In this work, we considered a subset of the entire dataset, the set ``Winter 09-05-2018'' and the set ``Summer 11-05-2018'', respectively composed of approximately 45 minutes of recordings.
+The two set are not perfectly equal and balanced, although the difference are minimal. The ``Winter 09-05-2018'' characterized by 51\% of rough and 49\% of smooth road samples, while the ``Summer 11-05-2018'' has respectively 56\% rough and 44\% smooth road samples. 
+The spectrograms from two audio samples belonging to the smooth and rough classes are shown in \figref{fig:road_spectrograms}, respective asphalt photographs are shown in \figref{fig:road}.
 
 \begin{figure}[ht]
 	\centering
@@ -596,87 +612,84 @@ The spectrograms from two audio samples belonging to the smooth and rough classe
 \end{figure}
 
 
-\subsection{Evaluation with CNNs}  
+\subsection{Experiments}  
 
-\begin{table*}[htbp]
+Evaluations are reported after a random search of the CNN hyperparameters with different inputs and with both the tyre sets. In \tableref{tbl:config_names} are reported the ranges of the explored hyper-parameters. A 5-fold cross-validation procedure has been performed. The F1-score has been calculated for each combination of training/testing set and then averaged to obtain the unweighted average metrics. The cross-validation has been performed disposing 64\% of the dataset to training, 16\% to validation and 20\% to test. After initial tests, the rear-right microphone has been selected being the one with the lowest engine noise content.
+The CNN has been trained using the Adadelta optimization algorithm and binary cross-entropy as a cost function for 1000 epochs, with an early-stopping strategy on the validation set score. The network layouts were the same both for the ``traditional'' CNN, both for the ``basic'' network composing the twin architecture in the Siamese approach. In the latter case, the training loss function is the \textit{contrastive loss}, while 1780 and 1916 chunk pairs composed the training sets respectively of the ``Winter'' and the ``Summer'' scenarios.
+
+ 
+\begin{table}[htbp]
 	\footnotesize
 	\centering
-	\resizebox{\textwidth}{!}{  
-	\begin{tabular}{c|c|c|c|c|c}
-		Configuration  & Filters        & Kernel Size                            & Strides                              & Max Pooling   & Fully Connected Layers Size      \\
-		\hline
-		1  & [20, 20]     & $[3\times5], [1\times2]$           & $[3\times3], [1\times2]$          & y, y    & [200, 100] \\
-		2  & [15, 20]     & $[3\times5], [1\times2]$           & $[3\times3], [1\times2]$          & y, y    & [200, 100] \\
-		3  & [30, 20]     & $[3\times5], [1\times2]$           & $[3\times3], [1\times2]$          & y, y    & [200, 100] \\
-		4  & [15, 20, 30] & $[3\times5], [2\times2], [1\times4]$ & $[3\times5], [2\times2], [1\times4]$ & n, y, n & [300, 100] \\
-		5  & [20, 20, 30] & $[1\times7], [9\times1], [3\times7]$ & $[1\times7], [1\times9], [2\times2]$ & n, n, n & [300, 100] \\
-		6  & [20, 20, 30] & $[1\times7], [9\times1], [3\times7]$ & $[1\times7], [1\times9], [2\times2]$ & n, n, n & [600, 200] \\
-		7  & [20, 20, 30] & $[1\times7], [9\times1], [3\times7]$ & $[1\times7], [1\times9], [2\times2]$ & n, n, n & [600, 100] \\
-		8  & [54, 54, 30] & $[1\times7], [9\times1], [3\times7]$ & $[1\times7], [1\times9], [2\times2]$ & n, n, n & [200, 100] \\
-		9  & [15, 20, 30] & $[3\times3], [2\times2], [1\times4]$ & $[3\times1], [2\times2], [1\times4]$ & n, y, n & [200, 100] \\
-		10 & [20, 20, 30] & $[3\times3], [2\times2], [1\times4]$ & $[3\times1], [2\times2], [1\times4]$ & n, y, n & [200, 100] \\
-		11 & [20, 20, 30] & $[3\times3], [2\times2], [1\times4]$ & $[3\times1], [2\times2], [1\times4]$ & n, y, n & [300, 100] \\
-		12 & [30, 20, 30] & $[3\times3], [2\times2], [1\times4]$ & $[3\times1], [2\times2], [1\times4]$ & n, y, n & [200, 100]
-	\end{tabular}
-	}
-	\caption[Road Surface Roughness Classification - Experiments]{(Best) tested configurations for CNNs. The kernel size and the stride are expressed as $[time\times\,features]$.}
+		\centering
+		\begin{tabular} {|c | c | c|}
+			\hline
+			Parameter & Range & Distribution\\  
+			\hline
+			\hline
+			CNN layers Nr.  & [1 - 4]& uniform \\
+			\hline
+			CNN kernels Nr. & [4 - 64]& log-uniform \\
+			\hline
+			CNN kernels dim. & [3$\times$3 - 6$\times$6]& uniform \\
+			\hline
+			Pooling dim. & [1$\times$1 - 2$\times$5] & uniform 	\\
+			\hline
+			CNN activation & [tanh - relu] & random choice \\
+			\hline
+			CNN dropout  & [0 - 0.5]	& uniform  \\
+			\hline                                     
+			MLP layers Nr.  & [1 - 3]& uniform \\
+			\hline                                     
+			MLP layers dim. & [20 - 256]& log-unifom \\
+			\hline                                     
+			Activation & [$tanh$ - ReLU] & uniform\\
+			\hline
+
+		\end{tabular}		
+	\caption[Road Surface Roughness Classification - Experiments]{Ranges of CNN layout parameters tested in the random-search phase. The kernel size and the stride are expressed as $[time\times\,features]$.}
 	\label{tbl:config_names}
-\end{table*}
+\end{table}
+
+\tableref{tab:road_results} shows that the Siamese architecture outperforms in all the conditions the traditional CNN approach. In particular, although there is a greater relative worsening of the Siamese approach when we apply the \textit{trainsfer learning} in the ``Winter'' scenario, however the absolute performance are significantly better compared to the basic CNN. As shown in \figref{fig:siamese_output}, the combination of Siamese networks and its dedicated post-processing procedure yield very reliable predictions on the experimental dataset.
 
 
-Evaluations are reported after a random search of the CNN hyperparameters with different inputs and with both the balanced and unbalanced training sets. A 5-fold cross-validation procedure has been performed. The metrics have been calculated for each combination of training/testing set and then averaged to obtain the unweighted average metrics. The cross-validation has been performed disposing 64\% of the dataset to training, 16\% to validation and 20\% to test. The balanced dataset always performs worse than the unbalanced dataset, suggesting that the pruned information were important for the training stage. After initial tests, the rear-right microphone has been selected being the one with the lowest engine noise content.
-
-
-In \tableref{tbl:config_names} are reported some of the best configurations tested while in \ref{tbl:cross-valid-res} are shown the best five results obtained. Best performance overall is achieved in the case of the unbalanced dataset with configuration 10, yielding an unweighted average F-measure equal to 86.00\% and an Accuracy of 87.1\%. 
-This configuration is composed by three convolutional layers where the first two are square-shaped (2D), thus able to take into account both the temporal evolution and the frequency evolution of the features. The third filter is column-shaped (1D) and is able to take into account the temporal evolution only. Among the tested optimizers, Adam \cite{Kingma2015adam} provided the best results in most of the cases.
-
-Regarding the fully-connected layers, the best results have been achieved using two layers with a number of neurons in the first layer comparable to the number of elements of the feature map obtained from the last convolutional layer. The hyperparameter search showed that oversizing the number of layers or the number of filters/neurons per layer degrades the performance.
-
-\begin{table*}[htbp]
+\begin{table}[h]
 	\centering
-	\resizebox{\textwidth}{!}{ 
-		\begin{tabular}{c|cccccc}
-			Configuration & Batch Size & Accuracy (\%) & F-measure (\%) & Recall (\%) & Precision (\%) & Optimizer \\ \hline
-			10       & 5     & 87.10         & 86.00          & 93.08       & 79.92          & adam      \\
-			5        & 5     & 86.11         & 85.19          & 93.83       & 78.00          & adam      \\
-			2        & 5     & 86.18         & 85.19          & 93.38       & 78.31          & adam      \\
-			1        & 1     & 85.88         & 84.87          & 93.41       & 77.76          & adam      \\
-			7        & 5     & 85.28         & 83.85          & 89.04       & 79.24          & adam     
-		\end{tabular}
-	}
-	\caption[Road Surface Roughness Classification - Results]{Top 5 configurations sorted by performance obtained in cross-validation analysis with unbalanced training classes. The configuration numbers are the same reported in Table \ref{tbl:config_names}.}
-	\label{tbl:cross-valid-res}
-\end{table*}
+	\begin{tabular}{@{}ll|ll@{}}
+		\toprule
+		TRAINING          & TESTING           & CNN   & Siamese        \\ \midrule
+		Winter 09-05-2018 & Winter 09-05-2018 & 85.65 & \textbf{98.14} \\
+		Winter 09-05-2018 & Summer 11-05-2018 & 83.93 & \textbf{95.08} \\ \midrule
+		Summer 11-05-2018 & Summer 11-05-2018 & 80.65 & \textbf{93.88} \\
+		Summer 11-05-2018 & Winter 09-05-2018 & 76.17 & \textbf{93.37} \\ \bottomrule
+	\end{tabular}
+	\caption[Acoustic road roughness classification - Results]{Results in terms of F-measure (\%) for the considered architectures.}
+	\label{tab:road_results}
+\end{table}
 
 
-\subsection{Evaluation with Siamese Neural Networks}  
 
 \begin{figure}
 	\centering
-	\begin{subfigure}[b]{0.48\textwidth}
-		\centering
-		\includegraphics[width=\columnwidth]{img/siamese}
-	\end{subfigure} 	
-	\begin{subfigure}[b]{0.48\textwidth}
-		\centering   
-		\includegraphics[width=\columnwidth]{img/siamese_output}
-	\end{subfigure} 
-	\caption{Siamese architecture (left) and its output (right).}
+	\includegraphics[width=0.7\columnwidth]{img/siamese_output}
+	\caption{Siamese Nets output}
+	\label{fig:siamese_output}
 \end{figure}
 
 \subsection{Conclusions} 
 
-In the present work a data-driven approach for road surface roughness classification is discussed, following seminal works proposed in the last years. The approach is based on a machine listening approach, where the tyre-road noise is analyzed and classified by means of deep neural networks. With respect to previous works a less computational-intensive neural network architecture has been chosen which also allows for on-line processing. A dataset has been created from a real-world scenario by fitting a car microphones and a GPS receiver and driving the car on different roads with varying speed, gathering a multi-channel dataset of 50 minutes. The CNN has been trained and a hyperparameter search has been done, yielding an F-measure of 86.00\% and an Accuracy of 87.1\% after a 5-fold cross-validation. These results are motivating, however there is headroom for improvement. Specifically, the average precision is lower than the average recall (79.92\% and 93.08\%, respectively), suggesting that some strategy to reduce the number of false positives is required. Unfortunately, given the very different size and complexity of the dataset, results are not comparable with previous works at the moment.
+In the present work a data-driven approach for road surface roughness classification is discussed, following seminal works proposed in the last years. The approach is based on a machine listening approach, where the tyre-road noise is analyzed and classified by means of deep neural networks. With respect to previous works a less computational-intensive neural network architecture has been chosen which also allows for on-line processing. A dataset has been created from a real-world scenario by fitting a car microphones and a GPS receiver and driving the car on different roads with varying speed, gathering a multi-channel dataset. 
+
+%The CNN has been trained and a hyperparameter search has been done, yielding an F-measure of 86.00\% and an Accuracy of 87.1\% after a 5-fold cross-validation. These results are motivating, however there is headroom for improvement. Specifically, the average precision is lower than the average recall (79.92\% and 93.08\%, respectively), suggesting that some strategy to reduce the number of false positives is required. Unfortunately, given the very different size and complexity of the dataset, results are not comparable with previous works at the moment.
+
+Experimental results show motivating yielding an F-measure largely above 90\% after a 5-fold cross-validation with the Siamese architecture. In particular, the results of such approach outperform the traditional CNN also when the models are tested on data collected with a different tyre set. This confirms the generalization properties of the method, which allows it to distinguish the acoustical characteristics belonging to the target classes independently from the training set.
+
 
 Future works may extend the proposed algorithm to process multiple microphone signals, exploiting diversity, thus reducing the number of errors due to cars passing by and other unrelated sound sources. Driving speed, extracted from a GPS receiver or from the CAN bus, may help improve the classification performance. The most challenging objective, however, would be to infer the road roughness from internal microphones, as these are nowadays available in many vehicles for echo cancellation and noise suppression and are not subject to issues such as dirt, wet, cold, etc. The main issues with this approach, however, are the cockpit isolation from the outside and the interference of speech and music with the road surface noise. Voice activity detection (VAD) \cite{Ephraim:1984,ghosh2011robust} algorithms should be employed and extended to detect the presence of music provided by the car infotainment system. Existing works based on CNN architectures \cite{wirn2016-vad,ijcnn2016-vad} could be a starting point as they could be integrated easily with the current framework and extended.
 
 
-%\subsection*{Acknowledgments}
-%The authors would like to thank ASK industries S.P.A. for financial support and technical assistance.
-%This work is supported by the Italian Ministry of Economic Development (MISE)'s fund for the sustainable growth (F.C.S.) under grant agreement (CUP) B48I15000130008, project VASM (“Vehicle Active Sound Management”).
-%
-%We gratefully acknowledge the support of NVIDIA Corporation with the donation of the GPU used for this research.
-
+\newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Bird Audio Detection}
@@ -711,8 +724,8 @@ The feature extraction stage operates on mono audio signals sampled at 44.1 kHz.
 All of the datasets contain 10-second-long WAV files, thus the resulting feature matrix $\mathbf{x} \in \mathbb{R}^{D_1\times D_2}$ has a shape $501\times40$.
 The range of feature values is then normalized according to the mean and the standard deviation computed on the training sets of the neural networks.
 
-\subsubsection{CapNet for Bird Audio Detection}
-The architecture of the neural network is shown in Fig. \ref{fig:flowchart}. The first stages of the model are traditional CNN blocks which act as feature extractors on the input \textit{LogMel} coefficients.
+\subsubsection{CapsNet for Bird Audio Detection}
+The architecture of the neural network is shown in Fig. \ref{fig:flowchart_capsule_bad}. The first stages of the model are traditional CNN blocks which act as feature extractors on the input \textit{LogMel} coefficients.
 After each block, max-pooling is used to halve the dimensions. The feature maps obtained by the CNN layers are then fed to the Primary Capsule Layer that represents the lowest level of multi-dimensional entities. Basically it is a convolutional layer whose output is reshaped and squashed using \eqref{eq:squashing}. The final layer, is a capsule layer and it is composed of two densely connected capsule units.
 Since the previous layer is also a capsule layer, the dynamic routing algorithm is used to compute the output. The model predictions are obtained computing the the Euclidean length of each
 output capsule, which represent the probabilities that an input feature vector $\mathbf{x}$ belongs to the background or the bird audio class, thus we consider only the latter as system output prediction.
@@ -720,8 +733,8 @@ output capsule, which represent the probabilities that an input feature vector $
 \begin{figure}[htbp]
 	\centering
 	\includegraphics[width=0.6\columnwidth]{img/capsule_for_bad}
-	\label{fig:flowchart}
 	\caption[CapsNet for Bird Audio Detection]{Flow chart of the proposed algorithm employing CapsNets for Bird Audio Detection.}
+	\label{fig:flowchart_capsule_bad}
 \end{figure}
 
 \subsection{Experimental Set-Up}
@@ -844,30 +857,24 @@ The performance metric of the DCASE 2018 on this task is the ``Area Under the RO
 
 
 \subsection{Results}
-\label{sec:results}
-\subsubsection{Results on Development dataset}
 Results reported in Table \ref{tab:results} show both the best performance we obtained on the single CV fold, and the best averaged AUC. We obtain a harmonic mean for AUC equal to 83.72 for a single configuration, whilst if we consider the mean of the best performing models on the single folds we achieve an AUC equal to 85.08.
 
-
-%\subsubsection{Preview Score on Evaluation dataset}
-%We considered as candidates for the test on the evaluation procedure \cite{dcase2018web} both the best performing setups on the single CV folds (submission label \textbf{Vesperini\_UnivPM\_task3\_1}), and the setups with the best averaged AUC (submission label \textbf{Vesperini\_UnivPM\_task3\_2}). For the latter, we trained a new model with the same hyperparameters on the whole development dataset before performing the predictions on the evaluation dataset.
-%
-%
-%The DCASE 2018 featured a submission site where contestants could upload their predictions and compute a ``preview score'' for a subset of around 1000 files from the test set. With an ensemble of the single fold best models trained during the CV procedure we obtain an AUC score equal to 84.43, while for the model with the best averaged AUC we obtain an AUC score equal to 81.43.
-
+We considered as candidates for the test on the evaluation procedure \cite{dcase2018web} both the best performing setups on the single CV folds, and the setups with the best averaged AUC. For the latter, we trained a new model with the same hyperparameters on the whole development dataset before performing the predictions on the evaluation dataset. With an ensemble of the single fold best models trained during the CV procedure we obtain an AUC score equal to 78.80, while for the model with the best averaged AUC we obtain an AUC score equal to 75.40.
+ 
+Although the system obtained only the 12th place in the final ranking, the performance on challenge data were respectable considering the novelty of the approach. This allowed us to earn the judges award for the most innovative method at the DCASE 2018 Workshop.
 
 \begin{table}[t]
 	\centering
 	\begin{tabular}{|l|c|c|c|c|c|}
 		\hline
-		Conf ID & Fold 1 & Fold 2	& Fold 3 & Avg & Preview Score \\
+		Conf ID & Fold 1 & Fold 2	& Fold 3 & Avg & Evaluation \\
 		\hline
-		Baseline &	-	&	-		&	-	& 83.00 &  89.18		\\
+		Baseline &	79.90	&	88.20		&	88.20	& 85.40 &  88.50		\\
 		\hline
 		CapNet1	&  \textbf{88.22} & 72.78	& 74.16	& 78.39 & -	\\
 		CapNet2	&  81.77 &  \textbf{80.90} 	& 85.52	& 82.73	& 	- \\
-		CapNet3	&  86.59 & 78.46	&  \textbf{86.11}	&  83.72 				& 81.83  \\
-		Ensemble &	-	 & 		-	&		-			&		\textbf{85.08}  & \textbf{84.43} \\
+		CapNet3	&  86.59 & 78.46	&  \textbf{86.11}	&  83.72 				& 75.40   \\
+		Ensemble &	-	 & 		-	&		-			&		\textbf{85.08}  & \textbf{78.80} \\
 		\hline		
 	\end{tabular}
 	\caption[CapsNet for Bird Audio Detection - Results]{Results on Development dataset in terms of AUC (\%).}
@@ -878,7 +885,6 @@ Results reported in Table \ref{tab:results} show both the best performance we ob
 \subsection{Conclusion and Outlook}
 \label{sec:conclusion}
 
-In this work, we have presented an algorithm for bird audio detection based on the CapsNet architecture. We feed a deep neural network which uses the dynamic routing procedure during the training with the \textit{LogMel} extracted from the audio signals in order to obtain predictions on unseen data recorded in various conditions possibly also very different from the training set. 
-To assess the performance of the algorithm we conducted experiments on the development dataset from the DCASE 2018, obtaining an AUC score equal to 85.08 with respect to an AUC equal to 83.00 of the baseline system.
+In this work, we have presented an algorithm for bird audio detection based on the CapsNet architecture. We feed a deep neural network which uses the dynamic routing procedure during the training with the \textit{LogMel} extracted from the audio signals in order to obtain predictions on unseen data recorded in various conditions possibly also very different from the training set.  
 For future work, variants \cite{hinton2018matrix} or strategy to customize the dynamic routing can be considered.
 

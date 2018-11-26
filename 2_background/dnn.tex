@@ -247,7 +247,7 @@ The total number of operations per layer can be calculated by multiplying the ex
 
 
 \subsection{Siamese Neural Networks}
-
+\label{ssec:siamese}
 The Siamese Neural Network is an architecture able to learn a latent representation of a given input. In particular, a SNN is composed of two twin networks with binded weights. A pair of inputs is provided to the system, one to each twin network. Downstream, the network maps these inputs into two different representation vectors. Then, a certain type of distance between those two representations is computed. The euclidean distance is typically used. 
 
 Consider $X_1$, $X_2$ as a pair of two input samples and $Y(X_1, X_2)$ as the label assigned to this pair, we assign $Y = 0$ (positive example) if the inputs $X_1$ and $X_2$ are from the same distribution, $Y = 1$ (negative example) otherwise. The euclidean distance between the mapping $S_e(X_1)$ and $S_e(X_2)$ performed by the network is defined as:

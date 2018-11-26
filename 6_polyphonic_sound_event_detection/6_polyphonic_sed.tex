@@ -89,10 +89,7 @@ Scores used to evaluate all systems are the well known F1 and error rate (ER) sc
 \subsection{Results}
 \subsubsection{Experimental setup}
 
-Concerning the network training, we initialize all weights according to a normal distribution with zero mean and 0.1 variance. We then train the networks following the adam~\cite{kingma2014adam} method for stochastic optimization, for which we keep the default hyper-parameter configuration.
-
-In order to prevent overfitting, for each fold we check the network performance on the respective fold's test set after each training epoch. If no improvement on this set is encountered for 60 consecutive epochs, the training is forced to an early stop. By doing so we are able to fine-tune the network hyper-parameters and obtain the architectures proposed in Section~\ref{sec:prop_meth}. 
-
+Concerning the network training, we initialize all weights according to a normal distribution with zero mean and 0.1 variance. We then train the networks following the adam~\cite{kingma2014adam} method for stochastic optimization, for which we keep the default hyper-parameter configuration. In order to prevent overfitting, for each fold we check the network performance on the respective fold's test set after each training epoch. If no improvement on this set is encountered for 60 consecutive epochs, the training is forced to an early stop.
 After this phase we perform experiments on the evaluation data, for which we use the whole development training and test sets as training and validation data respectively. Then, at test time, we evaluate the system on the secret challenge data.
 
 \subsubsection{Development results}
@@ -368,7 +365,7 @@ The model predictions are obtained by computing the Euclidean norm of the output
 \begin{figure}[htbp]
 	\centering
 	\includegraphics[width=\columnwidth]{img/flow_chart_2}
-	\caption{Flow chart of the Capsule neural network architecture used for polyphonic sound event detection.}
+	\caption[Polyphonic SED with CapsNets]{Flow chart of the Capsule neural network architecture used for polyphonic sound event detection.}
 	\label{fig:flowchart_capsulesed}
 \end{figure}
 
@@ -458,8 +455,6 @@ The algorithm has been implemented in the Python language using Keras \cite{chol
 
 \begin{table}[!t]
 	\centering
-	\caption{Hyperparameters optimized in the random-search phase and the resulting best performing models.}		
-	\label{tbl:hyper-params-capsule}
 	\begin{tabular} { lc c}
 		\toprule
 		Parameter & Range & Distribution\\  
@@ -496,6 +491,8 @@ The algorithm has been implemented in the Python language using Keras \cite{chol
 		
 		\bottomrule
 	\end{tabular}
+	\caption[Polyphonic SED with CapsNets - Random Search]{Hyperparameters optimized in the random-search phase and the resulting best performing models.}		
+	\label{tbl:hyper-params-capsule}
 \end{table}
 
 For the CNN models, we performed a similar random hyperparameters search procedure for each dataset, considering only the first two blocks of the \tableref{tbl:hyper-params-capsule} and by replacing the capsule layers with feedforward layers with \textit{sigmoid} activation function. 
@@ -537,7 +534,7 @@ which means that a suitable hyperparameters search action (e.g., number of filte
 			\# Params                     & 267K                        & 343K                    & 252K                        & 709K                    & 223K                        & 342K                    \\ \bottomrule
 		\end{tabular}
 	}
-	\caption{Hyperparameters of the best performing models on the TUT-Polyphonic SED 2016 \& 2017 Evaluation datasets.}		
+	\caption[Polyphonic SED with CapsNets - Best models I]{Hyperparameters of the best performing models on the TUT-Polyphonic SED 2016 \& 2017 Evaluation datasets.}		
 	\label{tbl:params-dcase2016}
 \end{table*}
 
@@ -574,7 +571,7 @@ which means that a suitable hyperparameters search action (e.g., number of filte
 			SoA \cite{adavanne2017report}     & \multicolumn{4}{c|}{0.52}             				& \multicolumn{4}{c}{0.79}  \\ \bottomrule
 		\end{tabular}
 	}
-	\caption{Results of best performing models in terms of ER on the TUT-SED 2016 \& 2017 dataset.}		
+	\caption[Polyphonic SED with CapsNets - Results]{Results of best performing models in terms of ER on the TUT-SED 2016 \& 2017 dataset.}		
 	\label{tbl:results-dcase2016}
 \end{table*}
 
@@ -585,7 +582,7 @@ A comparative study on the neural network outputs, which are regarded as event a
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=0.5\columnwidth]{img/activations}
-	\caption{STFT Spectrogram of the input sequence (a), ground truth (b) and event activity probabilities for CapsNet (c) and CNN (d) from a sequence of test examples from TUT-SED 2016 dataset.}
+	\caption[Polyphonic SED - Network outputs I]{STFT Spectrogram of the input sequence (a), ground truth (b) and event activity probabilities for CapsNet (c) and CNN (d) from a sequence of test examples from TUT-SED 2016 dataset.}
 	\label{fig:activations}
 \end{figure}
 
@@ -624,7 +621,7 @@ The number of free parameters amounts to 223K for the best configuration shown i
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.5\columnwidth]{img/activations_17_v2}
-	\caption{STFT Spectrogram of the input sequence (a), ground truth (b) and event activity probabilities for CapsNet (c) and CNN (d) from a sequence of test examples from TUT-SED 2017 dataset.}
+	\caption[Polyphonic SED - Network outputs II]{STFT Spectrogram of the input sequence (a), ground truth (b) and event activity probabilities for CapsNet (c) and CNN (d) from a sequence of test examples from TUT-SED 2017 dataset.}
 	\label{fig:activations_17}
 \end{figure}
 
@@ -657,7 +654,7 @@ Finally, the CNN shows better generalization performance to the CapsNet, althoug
 			\# Params                     & 131K         & 84K            & 131K          & 84K            & 30K        & 211K            \\ \bottomrule
 		\end{tabular}
 	}
-	\caption{Hyperparameters of the best performing models on the TUT-Rare 2017 Monophonic SED Evaluation datasets.}		
+	\caption[Polyphonic SED with CapsNets - Best models II]{Hyperparameters of the best performing models on the TUT-Rare 2017 Monophonic SED Evaluation datasets.}		
 	\label{tbl:params-dcase2017-rare}
 \end{table*}
 
@@ -677,7 +674,7 @@ Finally, the CNN shows better generalization performance to the CapsNet, althoug
 		SoA  \cite{limrare}    &\textbf{0.07}             & \multicolumn{1}{l|}{}     &\textbf{0.13}                 &         \\ \bottomrule
 	\end{tabular}
 	}
-	\caption{Results of best performing models in terms of ER on the TUT-RareSED 2017 dataset.}		
+	\caption[Polyphonic SED with CapsNets - Results II]{Results of best performing models in terms of ER on the TUT-RareSED 2017 dataset.}		
 	\label{tbl:results-dcase2017Rare}
 \end{table}
 
@@ -703,7 +700,7 @@ We observed that the original routing procedure implies the initialization of th
 		CapsNet      & 0.36 & \multicolumn{1}{l|}{}       & 0.61              &            \\
 		CapsNet - NR & 0.36 & \multicolumn{1}{l|}{-0.0\%} & \textbf{0.58}     & -4.9 \%    \\ \bottomrule
 	\end{tabular}
-	\caption{Results of test performed with our proposed variant of routing procedure.}		
+	\caption[Polyphonic SED with CapsNets - Alternative routing]{Results of test performed with our proposed variant of routing procedure.}		
 	\label{tbl:results-new-routing}
 \end{table}
 

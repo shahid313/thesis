@@ -344,7 +344,7 @@ Details of these architectures are reported in Table \ref{tab:CNN_details}.
 			MLP Layers size  & 32, 32                             & 128, 128                           & 32, 32                             \\ \hline
 			\# Parameters    & 18k                            & 185k                           & 17k                           \\ \hline
 		\end{tabular}
-	\caption[[Rare Sound Event Detection - ED Stage 1 Best models]{Details of models for CNN based ED stage 1 with the lowest ER on Development set. All of them use a combination of log mel energies and WC-LPE as input features.}
+	\caption[Rare Sound Event Detection - ED Stage 1 Best models]{Details of models for CNN based ED stage 1 with the lowest ER on Development set. All of them use a combination of log mel energies and WC-LPE as input features.}
 	\label{tab:CNN_details}
 \end{table}
 The experimental results show how this combination improves generalization properties of the algorithm. In fact, the MLP based stage 1 with only Logmel features obtains the best overall ER equal to 0.13 on the Development dataset, but the performance decreases significantly on the Evaluation set. In addition, the number of free parameters of the best performing MLP models was always an order of magnitude greater w.r.t. the CNN models. Regarding the stage 2, its beneficial effect is supported especially with the Evaluation dataset: in this case, the improvement in terms of ER given by the joint detection procedure is evident and it gives additional robustness to the system in terms of generalization.
