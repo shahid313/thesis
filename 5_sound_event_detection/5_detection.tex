@@ -1,9 +1,10 @@
 \chapter{Sound Event Detection}
+\label{ch:SED}
 
 The task of sound event detection (SED) is defined as the task of analysing a continuous audio stream in order to extract a description of the sound events occurring in it. This description is commonly expressed as a label that marks the start, the ending, and the nature of the occurred sound (e.g., children crying, cutlery, glass jingling). In this chapter three related works are shown, which are respectively: Overnight Snore Sounds Detection by means of Convolutional Recurrent Neural Networks (CRNN) and acoustic data augmentation; Convolutional Neural Networks with 3-D Kernels for Voice Activity Detection in a Multiroom Environment; and Rare Sound Detection, consisting in detection of three sound categories (i.e., gunshot, babycry and glassbreak) from a highly imbalanced dataset. The latter has been performed by means of a hierarchical framework of ConvNets.
 
 \section{Overnight Snore Sounds Detection}
-
+\label{sec:snoring_detection}
 As described in \secref{sec:snoring_classification}, one of the most common sleep disorder is the chronic snoring. In the occasion of the Interspeech 2017 ComParE challenge \cite{ComParE2017} and subsequent investigations, different approaches based on Deep Neural Networks (DNNs) have been presented \cite{amiriparian2017snore}, \cite{freitag2017end}, \cite{vesperini2018snore} with the aim to classify isolated snore sound events among the four classes based of the VOTE scheme.
 
 In this work, we propose the application of Convolutional Recurrent Neural Networks (CRNNs) to detect snoring episodes from overnight recordings acquired in real life conditions. The method is a two step process: the acoustic spectral features extraction and the CRNN combined with Gated Recurrent Units (GRU) processing. The algorithm is evaluated by using the Average Precision (AP) score.
@@ -17,14 +18,14 @@ The two step of the proposed approach are detailed in this section, starting fro
 \begin{figure}[t]
 	\centering
 	\includegraphics[width=0.9\columnwidth]{img/snore_detection_4.pdf}
-	\caption[Proposed approach for Snoring Detection]{The proposed approach scheme for Snoring Detection.}
+	\caption[Snoring Detection with CRNNs]{The proposed approach scheme for Snoring Detection.}
 	\label{fig:overall}
 \end{figure}
 
 \subsubsection{Features Extraction}
 The feature extraction stage operates on stereo audio signals sampled at 44.1 kHz. 
 Following the results obtained in recent works related to sound event detection \cite{DCASE2017Workshop}, we use the log Mel energy coefficients (Logmel) as an efficient representation of the audio signal. The stereo signal is firstly down-mixed to mono by averaging the two channels. 
-The resulting audio signal is split into 30\,ms frames and a frame step of 10\,ms, then the Logmel coefficients are obtained by filtering the power spectrogram of the frame by means of a mel filter-bank, then applying a logarithmic  transformation to each sub-band energy in order to match the human perception of loudness. We used a filter bank with 40 mel scaled channels, obtaining 40 coefficients/frame. 
+The resulting audio signal is split into 30\,ms frames and a frame step of 10\,ms to compute the STFT spectrogram. We used a filter bank with 40 mel scaled channels, obtaining 40 coefficients/frame. 
 
 \subsubsection{Convolutional Recurrent Neural Networks}
 
@@ -59,7 +60,7 @@ Background sounds include traffic noise, breathing and speech signals, house and
 \begin{figure}[t]
 	\centering
 	\includegraphics[width=0.6\columnwidth]{img/room.pdf}
-	\caption{Plant of the recording room.} 
+	\caption[Recording Room]{Plant of the recording room.} 
 	\label{fig:room}
 \end{figure}
 
@@ -160,7 +161,7 @@ Specifically, in the real-life applications, the precise annotation of existing 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Rare Sound Event Detection}
-
+\label{sec:rare_sed}
 The ``Detection of rare sound events'' task of the 2017 Detection and Classification of Acoustic Scenes and Events (DCASE) challenge \cite{DCASE2017Workshop} consisted in determining the presence and the precise onset time of three types of sounds, ``baby cry'', ``glass break'' and ``gun shot'' in artificially generated audio sequences. 
 The task takes into account real-world issues that introduce additional complexity to the problem, such as the acoustic variability of the sounds belonging to each event class, the presence of environmental noise and its variability, etc. The rules of the challenge allow to know \textit{a priori} the event typology possibly present in the audio sequence under examination, thus it is possible to have a separate binary classifier for each class.
 
@@ -183,7 +184,7 @@ Then, a refinement of the previous decision stage is performed by a 2D CNN which
 \begin{figure}[t]
 	\centering
 	\includegraphics[width=0.9\columnwidth]{img/approccio_finale_1.png}
-	\caption[Proposed approach for Rare Sound Event Detection]{Flow chart of the proposed method for rare sound event detection. Each event class implements such a scheme. In the first column are shown the spectrograms of the input signal and of the detected events. In the second column the network outputs at each stage of the algorithm.}
+	\caption[Proposed Approach for Rare Sound Event Detection]{Flow chart of the proposed method for rare sound event detection. Each event class implements such a scheme. In the first column are shown the spectrograms of the input signal and of the detected events. In the second column the network outputs at each stage of the algorithm.}
 	\label{fig:flow-chart-rare-sed}
 \end{figure}
 
@@ -191,7 +192,7 @@ Then, a refinement of the previous decision stage is performed by a 2D CNN which
 The feature extraction stage operates on mono audio signals sampled at 44.1 kHz. 
 Following the results obtained at the DCASE2017 challenge by \cite{cakirconvolutional}, we use the log mel energy coefficients (Logmel) as an efficient representation of the audio signal. In addition, we explored the combination of the Logmel with features based on wavelet coefficients and forward prediction errors (WC-LPE) \cite{marchi2014multi}. A brief description of the features extraction procedures is given below.
 \paragraph{Logmel coefficients}
-The audio signal is split into frames of 40\,ms and a frame step of 20\,ms, then the Logmel coefficients are obtained by filtering the power spectrogram of the frame by means of a mel filter-bank, then applying a logarithmic  transformation to each sub-band energy in order to match the human perception of loudness. We used a filter bank with 40 mel scaled channels, obtaining 40 coefficients/frame. 
+The audio signal is split into frames of 40\,ms and a frame step of 20\,ms, then the Logmel coefficients are obtained by filtering the power spectrogram of the frame as described in \secref{ssec:ac_features}. In this work, we used a filter bank with 40 mel scaled channels, obtaining 40 coefficients/frame. 
 
 \paragraph{WC-LPE Feature}
 The Wavelet Coefficient (WC) and Linear Prediction Error (LPE) feature set relies on non-stationary signal components and it has been successfully exploited for musical note onset detection \cite{marchi2014multi}. WC-LPE extraction is done by first processing the input signal with a Discrete Wavelet Transform (DWT) dyadic tree. Then, each DWT sub-band is filtered by a linear prediction error filter (LPEF), obtaining Forward Prediction Errors (FPE). All LPEF outputs and DWT sub-bands are resampled to an intermediate sampling rate and rectified. The feature set is, finally, created from the DWT sub-bands, their first order time derivatives, the FPE and their first order time derivatives.
@@ -407,7 +408,7 @@ Marginalization is then applied, obtaining separated probabilities for each room
 \subsubsection{Feature Extraction}
 \label{ssec:feat_desc}
 For our purpose, we exploit \textit{LogMel} as feature set.
-The feature extraction stage operates on signals sampled at 16\,kHz. The used frame size is equal to 25\,ms and the frame step is equal to 10\,ms. LogMel features are extracted from the spectrogram of an excerpt of the signal, where 40 mel-band filters are applied, taking the logarithm of the power spectrum for each band. The range of feature values is then standardized to have zero mean and unitary standard deviation.
+The feature extraction stage operates on signals sampled at 16\,kHz. The used frame size is equal to 25\,ms and the frame step is equal to 10\,ms. 40 LogMel coefficients are extracted as described in \secref{ssec:ac_features}. The range of feature values is then standardized to have zero mean and unitary standard deviation.
 
 Due to multi-channel approach, features are structured in a specific order.
 For the MLP case, features of the different microphones and rooms are concatenated for each frame, resulting in a vector. For the CNN case a temporal context is exploited \cite{6854054}. In particular, considered the current feature vector $\mathbf{x}[t]$ at the frame index $t$ and a context size equal to $C$, the feature vector $\mathbf{x}[t]$ is concatenated with the previous and successive feature vectors $\{\mathbf{x}[t - c],\ldots,\mathbf{x}[t-1],\mathbf{x}[t+1],\ldots,\mathbf{x}[t + c]\}$, with $c = 1, \dots, \frac{(C-1)}{2}$. This procedure leads to a 2-D feature matrix for each microphone. Finally, the 2-D matrices are stacked together, resulting in a 3-D matrix, where the dimensions correspond to the length of the feature set, the context and the number of selected microphones. 
@@ -446,7 +447,7 @@ We exploit a \emph{hangover} technique, which relies on a counter. In particular
 \begin{figure}[h]
  \centering
  \includegraphics[width=0.8\textwidth]{img/plan}
- \caption{Layout of the apartment used as experimental set-up.}
+ \caption[DIRHA Apartment]{Layout of the apartment used as experimental set-up.}
  \label{fig:plan}
 \end{figure}
 
@@ -507,7 +508,7 @@ where $N_{del}$, $N_{fa}$, $N_{sp}$ and $N_{nsp}$ are the total number of deleti
 		\hline
 	\end{tabular}
 	}
-	\caption{Network topology parameter for CNN- and MLP-mVAD.}
+	\caption[Multiroom VAD - Network Layouts]{Network topology parameter for CNN- and MLP-mVAD.}
 	\label{tab:CNNs}
 \end{table}
 

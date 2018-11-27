@@ -6,7 +6,7 @@
 		\def\svgwidth{0.5\columnwidth}
 		\input{7_other_contributions/img/spectrogram.tex}
 	\end{subfigure}	
-	\caption[Acoustic novelty detection]{Spectrogram of an audio signal with novel and normal data.}
+	\caption[Acoustic Novelty Detection]{Spectrogram of an audio signal with novel and normal data.}
 \end{figure}
 Novelty detection is the task of recognising events the differ from a model of normality. This paper proposes an acoustic novelty detector based on neural networks trained with an adversarial training strategy. The proposed approach is composed of a feature extraction stage that calculates Log-Mel spectral features from the input signal. Then, an autoencoder network, trained on a corpus of ``normal'' acoustic signals, is employed to detect whether a segment contains an abnormal event or not. A novelty is detected if the Euclidean distance between the input and the output of the autoencoder exceeds a certain threshold. The innovative contribution of the proposed approach resides in the training procedure of the autoencoder network: instead of using the conventional training procedure that minimises only the Minimum Mean Squared Error loss function, here we adopt an adversarial strategy, where a discriminator network is trained to distinguish between the output of the autoencoder and data sampled from the training corpus. The autoencoder, then, is trained also by using the binary cross-entropy loss calculated at the output of the discriminator network.  
 
@@ -39,7 +39,7 @@ where $e(i)$ is reconstruction error of feature vector $i$ in the signal, $N$ is
 		
 		\caption{Novelty detection phase.}\label{fig:our_detect}
 	\end{subfigure}
-	\caption[Acoustic novelty detection with GANs]{The proposed approach for novelty detection with adversarial autoencoders. For the sake of simplicity, the feature extraction stage is not shown.}\label{fig:approach}
+	\caption[Acoustic Novelty Detection with GANs]{The proposed approach for novelty detection with adversarial autoencoders. For the sake of simplicity, the feature extraction stage is not shown.}\label{fig:approach}
 \end{figure}
 
 \newpage
@@ -55,7 +55,7 @@ Our Siamese network has been trained on a corpus of labelled object fall events 
 \begin{figure}
 	\centering
 	\includegraphics[width=0.7\linewidth]{img/Siamese_approach}
-	\caption[Siamese Nets for human-fall detection]{Proposed approach for Human-Fall Detection.}
+	\caption[Siamese Nets for Human-Fall Detection]{Proposed approach for Human-Fall Detection.}
 	\label{proposed_approach}
 \end{figure}
 
@@ -65,7 +65,7 @@ The results obtained for each method are reported in \figref{fig:results_f1}. Th
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.65\linewidth]{img/results_f1}
-	\caption[Siamese Nets for human-fall detection - Results]{$F_1 -Measure$, precision and recall: the metrics are referred to the human fall class}
+	\caption[Siamese Nets for Human-Fall Detection - Results]{$F_1 -Measure$, precision and recall: the metrics are referred to the human fall class}
 	\label{fig:results_f1}
 \end{figure}
 
@@ -145,6 +145,6 @@ The outcomes from these trainings can be divided in several classes: speech-like
 	\end{subfigure}
 	
 	
-	\caption[SampleRNN - Raw audio generation]{Spectrograms of several classes of outputs from sampleRNN: choir textures (a), speech-like babbling (b), rumble (c), whistle (d). The choir textures are obtained from the Chorales training set, while the others are from the Rima Glottidis training set. The main two tones in Figure (d) are a C5 and a F5.}
+	\caption[SampleRNN - Raw Audio Generation]{Spectrograms of several classes of outputs from sampleRNN: choir textures (a), speech-like babbling (b), rumble (c), whistle (d). The choir textures are obtained from the Chorales training set, while the others are from the Rima Glottidis training set. The main two tones in Figure (d) are a C5 and a F5.}
 	\label{fig:esempi}
 \end{figure}

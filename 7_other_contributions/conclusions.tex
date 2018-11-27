@@ -1,0 +1,33 @@
+\chapter{Conclusions}
+
+In this dissertation, Deep Learning approaches for Sound Event Detection and Classification have been studied. 
+
+Deep Neural Networks (DNNs) have been largely investigated
+and exploited in this work, driven by the promising results achieved from these architecture for the computational analysis of sound scenes and events in the recent years. This task is characterized by many issues, especially when the systems are developed for real-life environments (i.e., when some assumptions made for controlled laboratory conditions are not valid anymore). Among these issues there are: unbalanced datasets available to train models; different acquisition setups (microphones, environment, ...); acoustic disturbance, such as background noise, reverberation and cross-talk; polyphony, i.e., the simultaneous occurrence of target sound events.
+Indeed, the choice of DNNs models for this aim
+is motivated by their proved generalization capability, which is commonly weak in
+classical classification algorithms based on support vector machines or statistical modelling.
+
+The first three chapters of this thesis aim to give an overview of the main
+motivations behind this work, and to describe in general the elements which compose the design process of a system. Indeed, \secref{ch:intro} gives an introduction of the computational methods for the analysis of sound events applications and recent results in DNN-based approaches are vastly discussed. After that, in \secref{ch:backg} a theoretical description of the principal DNN architectures is given. In \secref{ch:datasets} a brief description of typical dataset characteristics (acquisition, labelling and augmentation) is provided, in combination with standard procedures to evaluate the systems outputs.
+
+Within all the tasks explored by the scientific community, this work has been focused on a subset of problems. They can be grouped into three main categories: the sound event detection (cf. \secref{ch:SED}), the sound event classification (cf. \secref{ch:SEC}) and the polyphonic sound event detection (cf. \secref{ch:polySED}), which can be seen as a combination of the previous ones.
+They have been faced by means of Deep Learning approaches and in all cases the proposed algorithms have been compared to the most recent state of the art benchmarks. In particular, most of the time systems have been designed in the occasion of international challenges \cite{mesaros2016tut,DCASE2017challenge,ComParE2017,dcase2018web}. This allowed access to datasets without the need to invest numerous resources for their collection, and to be able to compare systems proposed by the most competitive research teams on a common basis. When this was not possible, we proceeded to collect the data ourselves, following the best-practices described in \secref{ch:datasets}.
+
+The results of these studies confirm the effectiveness of the DNNs, in particular comparing the performance of novel architectures such as CapsNets in the case study of polyphonic sound event detection (cf. \secref{sec:capsule_for_sed}), or in the rather new field of road surface roughness classification (cf. \secref{sec:road_classification}), where the acoustic differences between samples belonging to the two target class are minimal.
+
+\section{Future Perspective}
+
+Future works will concern the testing of the proposed algorithms against new environments, along with ad hoc solutions for data augmentation, transfer learning or domain adaptation. 
+
+Furthermore, it could be interesting to combine some of the proposed algorithms, in order to obtain joint models gradually more similar the concept of ``Artificial Intelligence''. For example, this can be applied to the analysis of snore signals: the detection (cf. \secref{sec:snoring_detection}) and the classification (cf. \secref{sec:snoring_classification}) system described in this dissertation can be combined into a unique model used in an unobtrusive diagnosis procedure. 
+
+On the other hand, end-to-end approaches can be evaluated for particular context where traditional sound representations (such as mel-scaled spectrograms) may not be the best choices, and it could be more convenient to design a DNN networks able to automatically learn the best representation of the directly from the raw signal. Detection of specific sound events (cf \secref{sec:rare_sed}), or bioacoustic monitoring (cf. \secref{sec:bad}) could be addressed with this technique.
+In addition, in this case the same feature extraction
+procedure performed by the network could be suitable for other audio-related
+case studies.
+
+Last but not least, the next step for sound event analysis systems is to even out the performance gap between the fully supervised and the training \textit{weakly} labelled data, i.e, labels that merely indicate
+whether a particular sound event is present within a recording, without specifying
+additional details, such as the precise location of the event or even the number of
+times it occurs. 

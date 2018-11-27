@@ -1,4 +1,5 @@
 \chapter{Sound Event Classification}
+\label{ch:SEC}
 
 The task of sound event classification consists of categorize an audio recording into one of a set of predefined categories, by associating a textual descriptor. In this chapter three works belonging to this ``sub-category'' are shown. They are respectively: Snore Sounds Excitation Localization, which has been performed by using \textit{Scattering Transform} and Deep Neural Networks; Road Surface Roughness Classification from Acoustic Signals, which has been performed by means of Convolutional Neural Networks; Bird Audio Detection, which - despite of its name - consists in determining a binary decision for the presence/absence of bird sounds on audio files recorded in very different conditions and it has been performed by using CapsNets.
 
@@ -7,7 +8,7 @@ The task of sound event classification consists of categorize an audio recording
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.6\linewidth]{img/vote.pdf}
-	\caption[VOTE locations]{Corresponding positions of the VOTE classification in the upper airway. Picture courtesy of \cite{janott2014akustical}.} 
+	\caption[VOTE Locations]{Corresponding positions of the VOTE classification in the upper airway. Picture courtesy of \cite{janott2014akustical}.} 
 	\label{fig:vote}
 \end{figure}
 
@@ -46,7 +47,7 @@ An alternative approach used weighted kernel classifiers \cite{kaya2017introduci
 
 
 
-\subsection{Proposed approach}
+\subsection{Proposed Approach}
 In this work we propose a snore classification algorithm based on Deep Scattering Spectrum (SCAT) \cite{anden2014deep}  and Multi-layer Perceptron (MLP) neural networks. 
 The specific characteristic of the snore sounds and the references reported above demonstrate that typical techniques for speech analysis are required for an accurate classification, in particular feature vectors with high dimensionality. 
 In fact, the snore sound carries salient informations at different time scales, thus in this case it is necessary to capture patterns up to 500 ms. The SCAT provides an efficient representation of an audio signal based on the scattering transform. In particular, it extends the traditional Mel-Frequency Cepstral Coefficients (MFCCs) representation  \cite{Davis80-COP}  with second-order scattering coefficients which characterize transient phenomena such as attacks and amplitude modulation.
@@ -74,7 +75,7 @@ In the classification phase (\figref{sfig:testing}), given a snore sound $\mathb
 		\input{4_sound_event_classification/scheme_classify_v2.pdf_tex}
 		\caption{Classification.} \label{sfig:testing}
 	\end{subfigure}
-	\caption{Scheme of the proposed approach.}\label{fig:scheme}
+	\caption[VOTE Localization Algorithm]{Scheme of the proposed approach.}\label{fig:scheme}
 \end{figure}
 
 
@@ -112,7 +113,7 @@ with $t$ representing the time index.
 		\includegraphics[width=0.9\textwidth]{img/scatter_filters_2.eps}
 		\caption{Second stage.}
 	\end{subfigure}
-	\caption{The Morlet wavelet filterbanks.}\label{fig:filters}
+	\caption{The Morlet Wavelet Filterbanks}\label{fig:filters}
 \end{figure}
 
 The mother wavelet $\psi$ may only be dilated up to the maximum scale $M-1$, resulting in 2 wavelets $\psi_{m_0}, \psi_{m_1}$. The parameter $M$ determines the maximum wavelet time support $a^M=T$,
@@ -126,7 +127,7 @@ For each audio frame, we obtain the SCAT representation $\mathbf{S}(x_{k,l}, M) 
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.55]{img/scat_spectr_1}
-	\caption[SCAT extraction tree]{The SCAT extraction tree. Picture courtesy of And\'{e}n et. al. }
+	\caption[SCAT Extraction Tree]{The SCAT extraction tree. Picture courtesy of And\'{e}n et. al. }
 \end{figure}
 
 
@@ -255,7 +256,7 @@ As shown in the waveforms and the related spectrograms in \figref{fig:vote_spect
 		\caption{}
 		\label{fig:E}
 	\end{subfigure}
-	\caption[Spectrograms of VOTE sounds]{Waveforms and spectrograms of VOTE events}{(a) V (velum); (b) O (oropharyngeal); (c) T (tongue base); (d) E (epiglottis).}
+	\caption[Spectrograms of VOTE Sounds]{Waveforms and spectrograms of VOTE events}{(a) V (velum); (b) O (oropharyngeal); (c) T (tongue base); (d) E (epiglottis).}
 	\label{fig:vote_spectrograms}
 \end{figure*}
 
@@ -425,7 +426,7 @@ Following the 4-class VOTE scheme, we obtained a UAR of 67.14\% on the \textit{d
 The performance upper limit obtained optimizing the models on the \textit{test} set is an UAR up to 74.19\%.
 The obtained results showed that the employment of the DNN based classifier in combination with SCAT is effective and a significant performance improvement with respect to other state-of-the-art approaches was registered. 
 Future work will evaluate strategies of data augmentation to counteract the unbalance of the dataset. In addition, the SCAT representation of the audio signals prompts the exploitation of the 2-D Convolutional neural network (CNN) to obtain a further latent representation by means of the processing taking place in its deep architecture.
-A deeper focus will be given also to the temporal evolution of the signal by means of recurrent structure, such as Long Short Term Memory (LSTM) Neural Networks \cite{graves2005framewise}. 
+A deeper focus could be given also to the temporal evolution of the signal by means of recurrent structure, such as Long Short Term Memory (LSTM) Neural Networks \cite{graves2005framewise}. 
 \newpage
 
 
@@ -435,15 +436,15 @@ A deeper focus will be given also to the temporal evolution of the signal by mea
 \newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Road Surface Roughness Classification}
-	
+\label{sec:road_classification}
 	\begin{figure}[h]
 		\centering
 		\includegraphics[width=\textwidth]{img/pompaevibrazionihorn.png}
 		\caption[Tyre-Road Noises]{The tyre-road noise generation. Left:  Air pumping at the entrance of the contact patch; Center: Vibration caused by tread/block pavement impact; Right: The horn effect created by the tyre and road.}
 		\label{fig:tyre-road-noise}
 	\end{figure}
-	
-The aim of this work is to develop an automatic system for the road roughness classification. As first step was conducted an accurate state of the art analysis.	
+
+This work has been realized in collaboration with the company ASK industries S.P.A., and its aim is to develop an automatic system for the road roughness classification. As first step was conducted an accurate state of the art analysis.	
 Vehicle noise emissions depend on multiple factors, including the power unit noise, aerodynamic noise and tyre-road noise \cite{hanson2004tire}. They are all dependent on speed but have different behaviors. The power unit noise, for instance, depends on the gear engaged and the number of revolutions per minute whereas the tyre-road noise is proportional to the logarithm of the vehicle speed. The balance between these two noise contributions depends, thus, on speed. 
 At low speeds the power unit noise dominates the roadside noise levels, while at high speeds the tyre/road is the predominant source of noise. In \cite{sandberg2001tyre} it is shown that  the tyre-road noise component becomes predominant with modern cars even at speeds above 30 km/h, regardless of the engaged gear. 
 
@@ -457,7 +458,7 @@ The tyre-road noise, results from the sum of several acoustic phenomena that con
 \begin{figure}[h]
 	\centering
 	\centerline{\includegraphics[width=0.45\textwidth]{img/tire.png}}
-	\caption[Third-octave band noise spectra]{Third-octave band spectra obtained in TUG/VTI project for 50 different car aftermarket tyres running on the TUG drum at 90 km/h.}
+	\caption[Third-Octave Band Noise Spectra]{Third-octave band spectra obtained in TUG/VTI project for 50 different car aftermarket tyres running on the TUG drum at 90 km/h.}
 	\label{fig:noise-spec}
 \end{figure} 
 
@@ -505,7 +506,7 @@ We performed experiments also to explore the possibility to realize a \textit{tr
 		\centering   
 		\includegraphics[width=\columnwidth]{img/siamese_predict}
 	\end{subfigure} 
-	\caption[Siamese architecture]{Siamese architecture (left) and its prediction procedure (right).}
+	\caption[Siamese Architecture]{Siamese architecture (left) and its prediction procedure (right).}
 	\label{fig:siamese_road}
 \end{figure}
 
@@ -541,7 +542,7 @@ The dataset built for this work is done with a multi-channel microphone arrangem
 \begin{figure}[ht]
 	\centering
 	\includegraphics[width=0.4\linewidth]{img/car-mic}
-	\caption[Car equipment for dataset recording.]{Positioning of the microphones in the car used to record the dataset, top view (a) and bottom view (b). The microphones are placed in the engine compartment (E), close to the front-left, rear-left and rear-right tyres (FL, RL, RR), and inside the car close to the driver or in the back seat (ID, IB). The last two microphones are \textit{PCB Piezotronics} model 378C20 type microphones, while all the others are IP55 \textit{PCB Piezotronics} model 130A24 microphones. The microphones are omnidirectional, however the arrows in (b) show how the capsule was positioned to minimize wind effect. The rear microphones are protected in the wheelhouse.}
+	\caption[Car Equipment for Dataset Recording]{Positioning of the microphones in the car used to record the dataset, top view (a) and bottom view (b). The microphones are placed in the engine compartment (E), close to the front-left, rear-left and rear-right tyres (FL, RL, RR), and inside the car close to the driver or in the back seat (ID, IB). The last two microphones are \textit{PCB Piezotronics} model 378C20 type microphones, while all the others are IP55 \textit{PCB Piezotronics} model 130A24 microphones. The microphones are omnidirectional, however the arrows in (b) show how the capsule was positioned to minimize wind effect. The rear microphones are protected in the wheelhouse.}
 	\label{fig:car-mic}
 \end{figure}
 
@@ -558,7 +559,7 @@ The dataset built for this work is done with a multi-channel microphone arrangem
 	\end{subfigure}
 	
 	
-	\caption[Microphones positioning]{Pictures of the \textit{PCB Piezotronics} model 130A24 microphones positioned near the rear right and front left tyres, according to "RR" and "FL" red circles in \figref{fig:car-mic}. The microphones are enclosed by a melamine resin foam with open cell network structure to reduce the wind noise.}
+	\caption[Microphones Positioning]{Pictures of the \textit{PCB Piezotronics} model 130A24 microphones positioned near the rear right and front left tyres, according to "RR" and "FL" red circles in \figref{fig:car-mic}. The microphones are enclosed by a melamine resin foam with open cell network structure to reduce the wind noise.}
 	\label{fig:car-rr-and-fl}
 \end{figure}
 
@@ -590,7 +591,7 @@ The spectrograms from two audio samples belonging to the smooth and rough classe
 		\includegraphics[width=\textwidth]{img/specgram_REC015}
 		\subcaption{Rough road.}
 	\end{subfigure}
-	\caption[Road noise spectrograms]{Spectrograms from 10 second samples of (a) smooth urban road, (b) rough highway asphalt.}
+	\caption[Road Noise Spectrograms]{Spectrograms from 10 second samples of (a) smooth urban road, (b) rough highway asphalt.}
 \label{fig:road_spectrograms}
 \end{figure}
 
@@ -607,7 +608,7 @@ The spectrograms from two audio samples belonging to the smooth and rough classe
 		\includegraphics[width=0.45\columnwidth, angle = 270]{img/Rough.jpg} 
 		\subcaption{Smooth road.}
 	\end{subfigure} 
-	\caption[Road samples]{Samples of (a) smooth urban road, (b) rough highway asphalt.}
+	\caption[Road Samples]{Samples of (a) smooth urban road, (b) rough highway asphalt.}
 	\label{fig:road}
 \end{figure}
 
@@ -651,7 +652,7 @@ The CNN has been trained using the Adadelta optimization algorithm and binary cr
 	\label{tbl:config_names}
 \end{table}
 
-\tableref{tab:road_results} shows that the Siamese architecture outperforms in all the conditions the traditional CNN approach. In particular, although there is a greater relative worsening of the Siamese approach when we apply the \textit{trainsfer learning} in the ``Winter'' scenario, however the absolute performance are significantly better compared to the basic CNN. As shown in \figref{fig:siamese_output}, the combination of Siamese networks and its dedicated post-processing procedure yield very reliable predictions on the experimental dataset.
+\tableref{tab:road_results} shows that the Siamese architecture outperforms in all the conditions the traditional CNN approach. In particular, although there is a relative worsening of the Siamese approach when we apply the \textit{trainsfer learning} in the ``Winter'' scenario, the absolute performance are significantly better compared to the basic CNN. As shown in \figref{fig:siamese_output}, the combination of Siamese networks and its dedicated post-processing procedure yield very reliable predictions on the experimental dataset.
 
 
 \begin{table}[h]
@@ -664,7 +665,7 @@ The CNN has been trained using the Adadelta optimization algorithm and binary cr
 		Summer 11-05-2018 & Summer 11-05-2018 & 80.65 & \textbf{93.88} \\
 		Summer 11-05-2018 & Winter 09-05-2018 & 76.17 & \textbf{93.37} \\ \bottomrule
 	\end{tabular}
-	\caption[Acoustic road roughness classification - Results]{Results in terms of F-measure (\%) for the considered architectures.}
+	\caption[Road Surface Roughness Classification - Results]{Results in terms of F-measure (\%) for the considered architectures.}
 	\label{tab:road_results}
 \end{table}
 
@@ -673,7 +674,7 @@ The CNN has been trained using the Adadelta optimization algorithm and binary cr
 \begin{figure}
 	\centering
 	\includegraphics[width=0.7\columnwidth]{img/siamese_output}
-	\caption{Siamese Nets output}
+	\caption[Siamese Nets Output]{Siamese networks output. On top figure, we show the rough signal (blue), the filtered signal (green), and the threshold for each frame (black). On bottom figure, the binarized predictions are compared to the ground truth.}
 	\label{fig:siamese_output}
 \end{figure}
 
@@ -688,12 +689,14 @@ Experimental results show motivating yielding an F-measure largely above 90\% af
 
 Future works may extend the proposed algorithm to process multiple microphone signals, exploiting diversity, thus reducing the number of errors due to cars passing by and other unrelated sound sources. Driving speed, extracted from a GPS receiver or from the CAN bus, may help improve the classification performance. The most challenging objective, however, would be to infer the road roughness from internal microphones, as these are nowadays available in many vehicles for echo cancellation and noise suppression and are not subject to issues such as dirt, wet, cold, etc. The main issues with this approach, however, are the cockpit isolation from the outside and the interference of speech and music with the road surface noise. Voice activity detection (VAD) \cite{Ephraim:1984,ghosh2011robust} algorithms should be employed and extended to detect the presence of music provided by the car infotainment system. Existing works based on CNN architectures \cite{wirn2016-vad,ijcnn2016-vad} could be a starting point as they could be integrated easily with the current framework and extended.
 
+We would like to thank ASK industries S.P.A. for financial support and technical assistance.
+
 
 \newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Bird Audio Detection}
-
+\label{sec:bad}
 
 Automatic wildlife monitoring is a key concern nowadays. Climatic changes, the effects of pollution and alteration of the ecosystems have to be closely controlled in order to be the litmus test for the future sustainable technological and political guidelines.
 In this context, bird audio analysis is an important task of the bioacoustics for wildlife and biodiversity monitoring, which can easily embrace the deep learning concept.
@@ -737,7 +740,7 @@ output capsule, which represent the probabilities that an input feature vector $
 	\label{fig:flowchart_capsule_bad}
 \end{figure}
 
-\subsection{Experimental Set-Up}
+\subsection{Experimental Setup}
 \label{sec:experiment}
 
 The network hyperparameters optimization was obtained by means of a \textit{random search} strategy  \cite{bergstra2012random}.  The number and the shape of convolutional layers, the non-linear activation function, the regularizers in addition to the capsules dimensions and the maximum number of routing iterations have been varied for a total of 100 configurations. Details of searched hyperparameters and their ranges are reported in Table \ref{tbl:hyper-params-capsule}.

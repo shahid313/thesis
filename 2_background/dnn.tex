@@ -7,8 +7,8 @@ The Artificial Neural Networks are mathematical models that represent the interc
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=0.65\linewidth]{img/Brain}
-\caption{The human brain.}
+\includegraphics[width=0.95\linewidth]{img/Brain}
+\caption[Human Brain]{The human brain.}
 \label{fig:brain}
 \end{figure}
 
@@ -18,8 +18,8 @@ The Biological neurons (\figref{fig:neuron}) are electro-chemical devices, opera
 
 \begin{figure}[t]
 \centering
-\caption{The neuron model.}
-\includegraphics[width=0.4\linewidth]{img/neuron_model}
+\caption[Neuron Model]{The neuron model.}
+\includegraphics[width=0.5\linewidth]{img/neuron_model}
 \label{fig:neuron}
 \end{figure}
 
@@ -28,7 +28,7 @@ The \textit{neuron} properties can be described in:
 \item \textit{local simplicity}: the neuron receives stimuli (excitation or inhibition) from dendrites and produces an impulse to the axon which is proportional to the weighted sum of the inputs;
 \item \textit{global complexity}: the human brain possess 
 $\mathcal{O}(10^{10})$ 
-neurons, with more than 10K connections each;
+neurons, with more than 10k connections each;
 \item \textit{learning}: even though the network topology is relatively fixed, the strength of connections (synaptic weights) can change when the network is exposed to external stimuli;
 \item \textit{distributed control}: no centralized control, each neuron reacts only to its own stimuli;
 \item \textit{tolerance to failures}: performance slowly decrease with the increase of failures.
@@ -44,6 +44,16 @@ In practical terms neural networks are non-linear structures of statistical data
 They can be used to simulate the complex relationships between inputs and outputs that other analytic functions fail to represent.
 An artificial neural network receives external signals on a layer of nodes (processing unit) input, each of which is connected with a number of internal nodes, organized in several levels. Each node processes the received signals performing a very simple task  and transmits the result to subsequent nodes. 
 
+\begin{figure}[h]
+	\centering
+	\resizebox{1.05\textwidth}{!}{
+	\input{2_background/img/neuron.tex}
+	}
+	\caption[Artificial Neuron Model]{The artificial neuron model.}
+	\label{fig:artificial_neuron}
+	\end{figure}
+
+
 The artificial neuron is an information-processing unit that is fundamental to the operation of a neural network. The model of a neuron is composed of three basic elements, as shown in (\figref{fig:artificial_neuron}) 
 
 \begin{itemize}
@@ -51,29 +61,12 @@ The artificial neuron is an information-processing unit that is fundamental to t
 \item an \textit{adder} for summing the input signals, weighted by the respective synaptic strengths of the neuron; the operations described here constitute a linear combiner;
 \item an \textit{activation function} for limiting the amplitude of the output of a neuron. Typically, the normalized amplitude range of the output of a neuron is written as the closed unit interval [0,1], or, alternatively, [-1,1].
 \end{itemize}
-
-
-%\begin{figure}[h]
-%\centering
-%\caption{The artificial neuron model.}
-%\includegraphics[width=0.8\linewidth]{img/NeuronModel.jpg}
-%\label{fig:artificial_neuron}
-%\end{figure}
-
-\begin{figure}[h]
-	\centering
-	\input{2_background/img/neuron.tex}
-	\caption{The artificial neuron model.}
-	\label{fig:artificial_neuron}
-\end{figure}
-
 %The mathematical description of neuron activity can be defined as:
 %\begin{eqnarray}
 %{ u }_{ k }=\sum _{ j=1 }^{ m }{ { w }_{ kj } } { x }_{ j }\\ 
 %{ y }_{ k }=\varphi \left( { u }_{ k }+b_{ k } \right)
 %\end{eqnarray}
 %where: ${ x }_{ 1 },{ x }_{ 2 },\cdots ,{ x }_{ m }$ are the input signals, ${ w }_{ k1 },{ w }_{ k2 },\cdots ,{ w }_{ km }$ are the respective synaptic weights of neuron $k$, $u_k$ is the linear combiner output due to the input signals, $b_k$ is the bias, $\varphi(\cdot)$ is the activation function and $y_k$ is the output signal of the neuron.
-
 The most typical non-linear function $\varphi(x)$ employed as activation functions are:
 \begin{itemize}
 \item the \textit{sigmoid function}: it is defined as a strictly increasing function that exhibits a graceful balance between linear and nonlinear behavior; an example of the sigmoid function is the \textit{logistic function} defined by:
@@ -81,11 +74,7 @@ The most typical non-linear function $\varphi(x)$ employed as activation functio
 \begin{equation}
 \varphi \left( v \right) =\frac { 1 }{ 1+exp\left( -av \right)  } 
 \end{equation}
-%\begin{figure}[h]
-%\centering
-%\includegraphics[width=0.4\textwidth]{img/sigmoid}
-%\caption{The sigmoid non-linear function.}
-%\end{figure}
+
 
 \item the \textit{ hyperbolic tangent } ($tanh$): it is simply a scaled and shifted version of the sigmoid function, defined as:
 
@@ -93,17 +82,12 @@ The most typical non-linear function $\varphi(x)$ employed as activation functio
 \varphi(x) = \frac{1-e^{-2x}}{1+e^{-2x}}
 \end{equation}
 
-%\begin{figure}[h]
-%\centering
-%\includegraphics[width=0.4\textwidth]{img/tanh}
-%\caption{The $tanh$ non-linear function.}
-%\end{figure}
 
 \begin{figure}[h]
 	\centering
 	\resizebox{0.4\textwidth}{!}{
 	\input{2_background/img/tanh.tex}}
-\caption{The $tanh$ non-linear function.}
+\caption[The $tanh$]{The $tanh$ non-linear function.}
 \end{figure}
 
 
@@ -120,7 +104,7 @@ The most typical non-linear function $\varphi(x)$ employed as activation functio
 	\centering
 	\resizebox{0.4\textwidth}{!}{
 	\input{2_background/img/relu.tex}}
-	\caption{The $ReLU$ non-linear function.}
+	\caption[The $ReLU$]{The $ReLU$ non-linear function.}
 \end{figure}
 
 \item the $softmax$: it is used on the last layer of a classifier setup: the outputs of the softmax layer represent the probabilities that a sample belongs to the different classes. Indeed, the sum of all the output is equal to $1$.
@@ -130,11 +114,11 @@ The most typical non-linear function $\varphi(x)$ employed as activation functio
 \end{itemize}
 
 % ****************************************************+
+\vspace{0.5cm}
 The link input-output, which is the transfer function of the network, is not programmed but is simply obtained by a learning process based on empirical data. At the beginning of the training procedure, the weights ${ w }_{ km }$ are randomly initialized, and they are adjusted as learning proceeds. 
 There are three major learning paradigms, each corresponding to a particular abstract learning task.
 They are supervised learning, unsupervised learning, and reinforcement learning. Usually a type of
 network architecture may be used in each of these tasks:
-
 \begin{itemize}
 	\item \textit{the Supervised Learning:} is used if is available a set of data for the training comprising typical examples of the inputs and their corresponding outputs: in this way the network can learn to infer the relation that binds them. Subsequently, the network is trained by means of an appropriate algorithm (typically, the backpropagation which is precisely a supervised learning algorithm), which uses such data for the purpose of modifying the weights and other parameters of the network to minimize the estimation error for the whole training. If the training is successful, the network learns to recognize the unknown relationship that binds the input variables to the output, and is therefore able to make predictions even where the output is not known a priori; in other words, the final objective supervised learning is the prediction of the output value for each valid value input, relying only on a limited number of examples of correspondence. To do this, the network must be finally provided with an adequate generalization ability, with reference to cases unknown to it. This will solve the problems of regression or classification;
 	
@@ -146,7 +130,7 @@ network architecture may be used in each of these tasks:
 \end{itemize}
 
 % *********************************************************+
-\section{Deep Neural Network architectures for Analysis of Sound Events}
+\section{Deep Neural Network Architectures for Analysis of Sound Events}
 
 The manner in which the neurons of a neural network are structured is intimately linked with the task they are designed for. Hereafter, a brief description of the neural network architectures employed in this work for the analysis of sound events is provided.
 
@@ -164,7 +148,7 @@ The manner in which the neurons of a neural network are structured is intimately
 	\centering
 	\resizebox{0.75\textwidth}{!}{
 	\input{2_background/img/neural_net.tex}}
-	\caption{The MLP Neural Network.}
+	\caption[MLP]{The MLP Neural Network.}
 	\label{fig:ANN}
 \end{figure}
 
@@ -196,8 +180,8 @@ where $P$ is the number of layers, and $Q_i$ denotes the number of units of laye
 \subsection{Convolutional Neural Networks (CNN)}
 \begin{figure}[h]
 	 \centering
-	 \includegraphics[width=0.9\columnwidth]{img/CNN}
-	 \caption{The Convolutional Neural Network.}
+	 \includegraphics[width=\columnwidth]{img/CNN}
+	 \caption[CNN]{The Convolutional Neural Network.}
 	 \label{fig:cnn}
 	\end{figure}
 
@@ -207,20 +191,19 @@ Convolution kernels process the input data matrix by dividing it in local \texti
 Thus, the whole input matrix is processed by repeated application of a function across its sub-regions, obtaining so-called \textit{feature maps}. Practically, this is implemented by a convolution of the input data with a linear filter, adding a bias term and then applying a non-linear function.
 The weights in each \textit{feature map} are \textit{shared}: all hidden neurons are aimed to detect exactly the same pattern just at different locations in the input image. The kernels are generally small compared to the input, allowing CNNs to process large inputs with few trainable parameters.
 
-%\begin{figure}[h]
-%	\centering
-%	\label{fig:convolution}
-%	\includegraphics[width=0.7\columnwidth]{img/convolution-calculate}
-%	\caption{The convolution operation.}
-%\end{figure}
-%
-%
-%	
-%\begin{figure}[h]
-%	\centering
-%	\includegraphics[width=0.6\columnwidth]{img/maxpool.jpeg}
-%	\caption{The max-pooling layer.}
-%\end{figure}
+\begin{figure}[h]
+	\centering
+	\begin{subfigure}[b]{0.4\columnwidth}
+		\includegraphics[width=\columnwidth]{img/convolution-calculate}
+		\caption{The convolution operation.}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.4\columnwidth}
+		\centering
+		\includegraphics[width=0.7\columnwidth]{img/maxpool.jpeg}
+		\caption{The max-pooling operation.}
+	\end{subfigure}
+	\label{fig:convolution}	
+\end{figure}
 
 
 CNN is a feed-forward neural network \cite{726791} usually composed of three types of layers: convolutional layers, pooling layers and layers of neurons, as shown in \figref{fig:cnn}. Pooling layer just reduces the dimension of the matrix by a rule: a submatrix of the input is selected, and the output is the maximum value of this submatrix.
@@ -264,7 +247,7 @@ Here the parameter $m > 0$ is the \textit{margin} that allows only negative exam
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=0.7\textwidth]{img/siamese_basic.png}
+	\includegraphics[width=0.8\textwidth]{img/siamese_basic.png}
 	\caption[Siamese DNN]{Siamese Neural Networks.}
 	\label{fig:siamese}
 \end{figure}
@@ -500,7 +483,7 @@ The SGD algorithm then follows the estimated gradient downhill:
 where $\epsilon$ is the learning rate.
 
 
-\section{Generalization techniques}
+\section{Generalization Techniques}
 
 In order to obtain more robust models, different techniques have been proposed to \textit{regularize} the weight update during the neural networks training. They have the aim to improve the generalization proprieties of the model, i.e., the ability to perform on newly unseen data as well as (in a reasonable manner) on the training set. A brief description of the most common techniques is given in the following paragraphs.
 
