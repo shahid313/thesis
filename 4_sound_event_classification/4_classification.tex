@@ -454,14 +454,12 @@ The tyre-road noise, results from the sum of several acoustic phenomena that con
 	\item \textit{Air Pumping}: within the contact patch, the passages and grooves in the tyre are compressed and distorted. The air entrained in this passages will be compressed and pumped in and out of the passages. This  rapid exit of air can lead to sound generation.
 	\item \textit{Horn Effect}: sound emitted from the tyre/road contact is reflected multiple times between the road surface and the tyre tread before it propagates further to the receiver. The tyre/road geometry has the shape of a horn. This horn shape causes a much larger radiation efficiency of the emitted tyre/road noise than in free field. This increased radiation efficiency is referred to as the horn effect. 
 \end{itemize}	
-
 \begin{figure}[h]
 	\centering
-	\centerline{\includegraphics[width=0.45\textwidth]{img/tire.png}}
-	\caption[Third-Octave Band Noise Spectra]{Third-octave band spectra obtained in TUG/VTI project for 50 different car aftermarket tyres running on the TUG drum at 90 km/h.}
+	\includegraphics[width=0.68\textwidth]{img/spectra.png}
+	\caption[Third-Octave Band Noise Spectra]{Third-octave band spectra of noise measured on a dense asphalt concrete surface and on a porous asphalt concrete surface. Speeds: 80-120 km/h for > 100cars, 70-90 km/h for > 50 trucks.}
 	\label{fig:noise-spec}
 \end{figure} 
-
 Noise spectra have been measured on a large number of tyres (about 50) \cite{sandberg2003multi} in a cooperation project between the Technical University of Gdansk (TUG) in Poland and the Swedish National Road and Transport Research Institute (VTI). Despite a wide range of tyre types, the spectral shapes are very similar and the sound concentrates around a peak at 800-1000 Hz. 
 Several studies \cite{freitas2009traffic} carried out in roads with different types of surface and age have usually shown that dense asphalt concrete and stone mastic asphalt are the ones that generate more noise contrasting with double and single porous asphalt. Porous pavements are constructed by reducing the amount of small aggregate used in the pavement
 such that the pavement cannot be tightly compacted. In general, porous pavement reduces tyre/pavement interaction noise above 1000 Hz. Porosity reduces the strength of the air pumping source mechanism by preventing air compression and reduces the enhancement potential of the horn effect as shown in \figref{fig:noise-spec}. 
@@ -498,11 +496,12 @@ We performed experiments also to explore the possibility to realize a \textit{tr
 
 \begin{figure}[h]
 	\centering
-	\begin{subfigure}[b]{0.48\textwidth}
+	\begin{subfigure}{0.48\textwidth}
 		\centering
-		\includegraphics[width=\columnwidth]{img/siamese}
-	\end{subfigure} 	
-	\begin{subfigure}[b]{0.48\textwidth}
+		\includegraphics[width=\columnwidth]{img/Siamese_road}
+	\end{subfigure} 
+	\hfill	
+	\begin{subfigure}{0.48\textwidth}
 		\centering   
 		\includegraphics[width=\columnwidth]{img/siamese_predict}
 	\end{subfigure} 
@@ -687,7 +686,7 @@ In the present work a data-driven approach for road surface roughness classifica
 Experimental results show motivating yielding an F-measure largely above 90\% after a 5-fold cross-validation with the Siamese architecture. In particular, the results of such approach outperform the traditional CNN also when the models are tested on data collected with a different tyre set. This confirms the generalization properties of the method, which allows it to distinguish the acoustical characteristics belonging to the target classes independently from the training set.
 
 
-Future works may extend the proposed algorithm to process multiple microphone signals, exploiting diversity, thus reducing the number of errors due to cars passing by and other unrelated sound sources. Driving speed, extracted from a GPS receiver or from the CAN bus, may help improve the classification performance. The most challenging objective, however, would be to infer the road roughness from internal microphones, as these are nowadays available in many vehicles for echo cancellation and noise suppression and are not subject to issues such as dirt, wet, cold, etc. The main issues with this approach, however, are the cockpit isolation from the outside and the interference of speech and music with the road surface noise. Voice activity detection (VAD) \cite{Ephraim:1984,ghosh2011robust} algorithms should be employed and extended to detect the presence of music provided by the car infotainment system. Existing works based on CNN architectures \cite{wirn2016-vad,ijcnn2016-vad} could be a starting point as they could be integrated easily with the current framework and extended.
+Future works may extend the proposed algorithm to process multiple microphone signals, exploiting diversity, thus reducing the number of errors due to cars passing by and other unrelated sound sources. Driving speed, extracted from a GPS receiver or from the CAN bus, may help improve the classification performance. The most challenging objective, however, would be to infer the road roughness from internal microphones, as these are nowadays available in many vehicles for echo cancellation and noise suppression and are not subject to issues such as dirt, wet, cold, etc. The main issues with this approach, however, are the cockpit isolation from the outside and the interference of speech and music with the road surface noise. Voice activity detection (VAD) \cite{Ephraim:1984,ghosh2011robust} algorithms should be employed and extended to detect the presence of music provided by the car infotainment system. Existing works based on CNN architectures \cite{vecchiotti2018convolutional,ijcnn2016-vad} could be a starting point as they could be integrated easily with the current framework and extended.
 
 We would like to thank ASK industries S.P.A. for financial support and technical assistance.
 
@@ -862,7 +861,7 @@ The performance metric of the DCASE 2018 on this task is the ``Area Under the RO
 \subsection{Results}
 Results reported in Table \ref{tab:results} show both the best performance we obtained on the single CV fold, and the best averaged AUC. We obtain a harmonic mean for AUC equal to 83.72 for a single configuration, whilst if we consider the mean of the best performing models on the single folds we achieve an AUC equal to 85.08.
 
-We considered as candidates for the test on the evaluation procedure \cite{dcase2018web} both the best performing setups on the single CV folds, and the setups with the best averaged AUC. For the latter, we trained a new model with the same hyperparameters on the whole development dataset before performing the predictions on the evaluation dataset. With an ensemble of the single fold best models trained during the CV procedure we obtain an AUC score equal to 78.80, while for the model with the best averaged AUC we obtain an AUC score equal to 75.40.
+We considered as candidates for the test on the evaluation procedure \cite{stowell2018automatic} both the best performing setups on the single CV folds, and the setups with the best averaged AUC. For the latter, we trained a new model with the same hyperparameters on the whole development dataset before performing the predictions on the evaluation dataset. With an ensemble of the single fold best models trained during the CV procedure we obtain an AUC score equal to 78.80, while for the model with the best averaged AUC we obtain an AUC score equal to 75.40.
  
 Although the system obtained only the 12th place in the final ranking, the performance on challenge data were respectable considering the novelty of the approach. This allowed us to earn the judges award for the most innovative method at the DCASE 2018 Workshop.
 
